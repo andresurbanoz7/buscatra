@@ -1,0 +1,5575 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Consulta de Datos del Trabajador</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: auto;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e9ecef;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    </style>
+<script>
+    // Declaración de los datos de los trabajadores
+    const workers = [
+         {
+  "ID": "15753731-8",
+  "Nombre": "Sara Torres Gonzalez",
+  "ajuste mensual": "$29000",
+  "porcentaje": "10%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "20656483-0",
+  "Nombre": "Solange Cuellar Villalon",
+  "ajuste mensual": "$29000",
+  "porcentaje": "10%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "19338345-9",
+  "Nombre": "Cristina Bernal Gaete",
+  "ajuste mensual": "$29000",
+  "porcentaje": "10%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "20182485-0",
+  "Nombre": "Catalina Quinio Palta",
+  "ajuste mensual": "$29000",
+  "porcentaje": "10%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "21610702-0",
+  "Nombre": "Krishna Vera Jaque",
+  "ajuste mensual": "$29000",
+  "porcentaje": "10%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "19151260-K",
+  "Nombre": "Anita Gonzalez Rodriguez",
+  "ajuste mensual": "$14500",
+  "porcentaje": "5,6%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "21108444-8",
+  "Nombre": "Camila Flores Navarro",
+  "ajuste mensual": "$28600",
+  "porcentaje": "10%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "18913080-5",
+  "Nombre": "Andres Marinello Rios",
+  "ajuste mensual": "$29000",
+  "porcentaje": "10%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "22133748-4",
+  "Nombre": "Benjamin Del Canto Monsalve",
+  "ajuste mensual": "$15000",
+  "porcentaje": "5,5%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "15974744-1",
+  "Nombre": "Judith Herrera Carrasco",
+  "ajuste mensual": "$29000",
+  "porcentaje": "10%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "22077594-1",
+  "Nombre": "Ulises Gonzalez Parra",
+  "ajuste mensual": "$14388",
+  "porcentaje": "5,66%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "27057920-5",
+  "Nombre": "Jean Hidalgo Gonzalez",
+  "ajuste mensual": "$14388",
+  "porcentaje": "5,66%",
+  "Bono": "$75000"
+ },
+ {
+  "ID": "20960427-2",
+  "Nombre": "Fabian Bussetti Campos",
+  "ajuste mensual": "$29000",
+  "porcentaje": "10%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "12456849-8",
+  "Nombre": "Yessica Rodriguez Orbegoso",
+  "ajuste mensual": "$29000",
+  "porcentaje": "10%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "21579972-7",
+  "Nombre": "Valeria Rodriguez Rodriguez",
+  "ajuste mensual": "$14388",
+  "porcentaje": "5,66%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "20151322-7",
+  "Nombre": "Brian Cortes Añez",
+  "ajuste mensual": "$29000",
+  "porcentaje": "10%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "15754558-2",
+  "Nombre": "Marcelo Meneses Donoso",
+  "ajuste mensual": "$29000",
+  "porcentaje": "10%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "18511662-K",
+  "Nombre": "Ivan Olivares Del Canto",
+  "ajuste mensual": "$28600",
+  "porcentaje": "10%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "19327891-4",
+  "Nombre": "Darlyn Olguin Acuña",
+  "ajuste mensual": "$29000",
+  "porcentaje": "10%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "21077416-5",
+  "Nombre": "Jose Vidal Ruiz",
+  "ajuste mensual": "$29000",
+  "porcentaje": "10%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "19754134-2",
+  "Nombre": "Brayan Aguilera Aguila",
+  "ajuste mensual": "$18345",
+  "porcentaje": "6,91%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "21597828-1",
+  "Nombre": "Moreno Martinez,Analia Charlot Levesly",
+  "ajuste mensual": "$18345",
+  "porcentaje": "6,91%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "21411203-5",
+  "Nombre": "Mailyn Jimenez Molina",
+  "ajuste mensual": "$18345",
+  "porcentaje": "6,91%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "10947083-K",
+  "Nombre": "Nancy Barrientos Ordenes",
+  "ajuste mensual": "$29000",
+  "porcentaje": "10%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "16485703-4",
+  "Nombre": "Karla Elgueta Marambio",
+  "ajuste mensual": "$29000",
+  "porcentaje": "10%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "20729402-0",
+  "Nombre": "Felipe Alvarez Morales",
+  "ajuste mensual": "$19832",
+  "porcentaje": "3,55%",
+  "Bono": "$75000"
+ },
+ {
+  "ID": "20826095-2",
+  "Nombre": "Moises Alvear Chirino",
+  "ajuste mensual": "$28000",
+  "porcentaje": "6%",
+  "Bono": "$75000"
+ },
+ {
+  "ID": "18842747-2",
+  "Nombre": "Jorge Vela Dabovich",
+  "ajuste mensual": "$29000",
+  "porcentaje": "10%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "13185929-5",
+  "Nombre": "Johana Leiton Roldan",
+  "ajuste mensual": "$29000",
+  "porcentaje": "10%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "16755794-5",
+  "Nombre": "Bernardita Lobos Torres",
+  "ajuste mensual": "$29000",
+  "porcentaje": "10%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "21591774-6",
+  "Nombre": "Isidora Alvarez Perez",
+  "ajuste mensual": "$28000",
+  "porcentaje": "10%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "21801276-0",
+  "Nombre": "Hans Caceres Guerra",
+  "ajuste mensual": "$14388",
+  "porcentaje": "5,66%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "20501647-3",
+  "Nombre": "Carolina Jaramillo Fitt",
+  "ajuste mensual": "$29000",
+  "porcentaje": "10%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "18188173-9",
+  "Nombre": "Claudio Gallardo Gonzalez",
+  "ajuste mensual": "$28000",
+  "porcentaje": "10%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "18999684-5",
+  "Nombre": "Camila Carvajal Ibacache",
+  "ajuste mensual": "$29000",
+  "porcentaje": "10%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "15076908-6",
+  "Nombre": "Agustin Vera Arellano",
+  "ajuste mensual": "$16000",
+  "porcentaje": "2,7%",
+  "Bono": "$75000"
+ },
+ {
+  "ID": "12850560-1",
+  "Nombre": "Juan Farias Alvarez",
+  "ajuste mensual": "$19832",
+  "porcentaje": "3,55%",
+  "Bono": "$75000"
+ },
+ {
+  "ID": "17473774-6",
+  "Nombre": "Karen Herrera Olmedo",
+  "ajuste mensual": "$14388",
+  "porcentaje": "5,66%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "20970073-5",
+  "Nombre": "Martina Catalan Mesina",
+  "ajuste mensual": "$18345",
+  "porcentaje": "6,91%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "21128835-3",
+  "Nombre": "Braulio Bustos Perez",
+  "ajuste mensual": "$28000",
+  "porcentaje": "10%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "21467988-4",
+  "Nombre": "Melani Montecinos Suazo",
+  "ajuste mensual": "$28000",
+  "porcentaje": "10%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "18746991-0",
+  "Nombre": "Katherine Carrasco Reyes",
+  "ajuste mensual": "$29000",
+  "porcentaje": "10%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "12450992-0",
+  "Nombre": "Jose Perez San Martin",
+  "ajuste mensual": "$29000",
+  "porcentaje": "10%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "20912473-4",
+  "Nombre": "Mishell Vera Calderon",
+  "ajuste mensual": "$18345",
+  "porcentaje": "6,91%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "20172368-K",
+  "Nombre": "Tiare Basaure Burgos",
+  "ajuste mensual": "$29000",
+  "porcentaje": "10%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "21444072-5",
+  "Nombre": "Constanza Peña Roman",
+  "ajuste mensual": "$29000",
+  "porcentaje": "10%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "21939416-0",
+  "Nombre": "Darling Moreno Miranda",
+  "ajuste mensual": "$18345",
+  "porcentaje": "6,91%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "12848416-7",
+  "Nombre": "Claudia Contreras Lazcano",
+  "ajuste mensual": "$29000",
+  "porcentaje": "10%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "19773072-2",
+  "Nombre": "Guerrero Inostroza,Tamara Antonia",
+  "ajuste mensual": "$14388",
+  "porcentaje": "5,66%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "15989910-1",
+  "Nombre": "Hugo Campos Gonzalez",
+  "ajuste mensual": "$19832",
+  "porcentaje": "3,55%",
+  "Bono": "$75000"
+ },
+ {
+  "ID": "13251438-0",
+  "Nombre": "Maria Diaz Aracena",
+  "ajuste mensual": "$14388",
+  "porcentaje": "5,66%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "20541478-9",
+  "Nombre": "Constanza Ovalle Berrios",
+  "ajuste mensual": "$29000",
+  "porcentaje": "10%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "21040947-5",
+  "Nombre": "Javier Zarate Velasco",
+  "ajuste mensual": "$28000",
+  "porcentaje": "9%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "21812748-7",
+  "Nombre": "Andres Alarcon Aguilera",
+  "ajuste mensual": "$28585",
+  "porcentaje": "10%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "21719758-9",
+  "Nombre": "Gonzalez Jerez,Alejandro Anibal Jesus",
+  "ajuste mensual": "$14388",
+  "porcentaje": "5,66%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "20910275-7",
+  "Nombre": "Vicente Contreras Mendez",
+  "ajuste mensual": "$14388",
+  "porcentaje": "5,66%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "11054103-1",
+  "Nombre": "Erika Orellana Soto",
+  "ajuste mensual": "$14388",
+  "porcentaje": "5,66%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "21575617-3",
+  "Nombre": "Miguel Olivares Huentro",
+  "ajuste mensual": "$14388",
+  "porcentaje": "5,66%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "14595447-9",
+  "Nombre": "Ingrid Faundes Gomez",
+  "ajuste mensual": "$18345",
+  "porcentaje": "6,91%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "21627757-0",
+  "Nombre": "Javier Beiza Castillo",
+  "ajuste mensual": "$29000",
+  "porcentaje": "10%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "17791861-K",
+  "Nombre": "Paula Silva Brito",
+  "ajuste mensual": "$29000",
+  "porcentaje": "10%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "17857796-4",
+  "Nombre": "Karina Ortiz Ortiz",
+  "ajuste mensual": "$22783",
+  "porcentaje": "8,53%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "22867028-6",
+  "Nombre": "Lady Garrido Piña",
+  "ajuste mensual": "$36869",
+  "porcentaje": "6,44%",
+  "Bono": "$75000"
+ },
+ {
+  "ID": "15071230-0",
+  "Nombre": "Andrea Silva Salinas",
+  "ajuste mensual": "$29000",
+  "porcentaje": "10%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "20833067-5",
+  "Nombre": "Nicolas Toledo Araya",
+  "ajuste mensual": "$36869",
+  "porcentaje": "6,44%",
+  "Bono": "$75000"
+ },
+ {
+  "ID": "14373537-0",
+  "Nombre": "Gloria Bustos Diaz",
+  "ajuste mensual": "$23129",
+  "porcentaje": "9,04%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "19047268-K",
+  "Nombre": "Sergio Sandoval Cabello",
+  "ajuste mensual": "$39039",
+  "porcentaje": "5,92%",
+  "Bono": "$75000"
+ },
+ {
+  "ID": "20277685-K",
+  "Nombre": "Antonia Luarte Cid",
+  "ajuste mensual": "$28585",
+  "porcentaje": "10,7%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "18585550-3",
+  "Nombre": "Javiera Garay Torres",
+  "ajuste mensual": "$28585",
+  "porcentaje": "10,7%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "25998954-K",
+  "Nombre": "Miguel Aguilar Bandres",
+  "ajuste mensual": "$23129",
+  "porcentaje": "9,04%",
+  "Bono": "$75000"
+ },
+ {
+  "ID": "20175756-8",
+  "Nombre": "Daniel Roa Fuentealba",
+  "ajuste mensual": "$23129",
+  "porcentaje": "9,04%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "20525095-6",
+  "Nombre": "Lucas Cairo Gonzalez",
+  "ajuste mensual": "$23129",
+  "porcentaje": "9,04%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "17808618-9",
+  "Nombre": "Diana Diaz Cisterna",
+  "ajuste mensual": "$28585",
+  "porcentaje": "10,7%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "15764440-8",
+  "Nombre": "Vanessa Wilson Vargas",
+  "ajuste mensual": "$23129",
+  "porcentaje": "9,04%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "14506924-6",
+  "Nombre": "Paola Jaramillo Coñuecar",
+  "ajuste mensual": "$28585",
+  "porcentaje": "10,7%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "20847441-3",
+  "Nombre": "Isaias Cordero Canifru",
+  "ajuste mensual": "$29000",
+  "porcentaje": "10%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "20631996-8",
+  "Nombre": "Diego Perez Placencia",
+  "ajuste mensual": "$23129",
+  "porcentaje": "9,04%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "15085188-2",
+  "Nombre": "Duque Moya,Claudia Paulina",
+  "ajuste mensual": "$36869",
+  "porcentaje": "6,44%",
+  "Bono": "$75000"
+ },
+ {
+  "ID": "18035037-3",
+  "Nombre": "Estefania Maturana Prieto",
+  "ajuste mensual": "$28585",
+  "porcentaje": "10,7%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "21377777-7",
+  "Nombre": "Mayckol Bernales Leiva",
+  "ajuste mensual": "$28585",
+  "porcentaje": "10,7%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "20359073-3",
+  "Nombre": "Camila Sancho Iriarte",
+  "ajuste mensual": "$28585",
+  "porcentaje": "10,7%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "9027086-9",
+  "Nombre": "Pedro Nieto Maturana",
+  "ajuste mensual": "$37000",
+  "porcentaje": "6,4%",
+  "Bono": "$75000"
+ },
+ {
+  "ID": "13635835-9",
+  "Nombre": "Ingrid Lastra Romero",
+  "ajuste mensual": "$28585",
+  "porcentaje": "10,7%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "21989940-8",
+  "Nombre": "Erick Bain Gatica",
+  "ajuste mensual": "$23129",
+  "porcentaje": "9,04%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "20945754-7",
+  "Nombre": "Aida Aracena Pacheco",
+  "ajuste mensual": "$24000",
+  "porcentaje": "9%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "21407429-K",
+  "Nombre": "Bedran Almendras Jeraldo",
+  "ajuste mensual": "$29000",
+  "porcentaje": "10%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "21661553-0",
+  "Nombre": "Catalina Fagerstrom Puebla",
+  "ajuste mensual": "$28585",
+  "porcentaje": "10,7%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "19330408-7",
+  "Nombre": "Natalia Soto Gonzalez",
+  "ajuste mensual": "$37121",
+  "porcentaje": "6,37%",
+  "Bono": "$75000"
+ },
+ {
+  "ID": "21641016-5",
+  "Nombre": "Samira Mira Miranda",
+  "ajuste mensual": "$23129",
+  "porcentaje": "9,04%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "25852279-6",
+  "Nombre": "Gabriela Kirchner Naranjo",
+  "ajuste mensual": "$37121",
+  "porcentaje": "6,37%",
+  "Bono": "$75000"
+ },
+ {
+  "ID": "19613364-K",
+  "Nombre": "Humberto Cruz Valenzuela",
+  "ajuste mensual": "$28585",
+  "porcentaje": "10,7%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "16774525-3",
+  "Nombre": "Maria Vergara Jorquera",
+  "ajuste mensual": "$28585",
+  "porcentaje": "10,7%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "14610119-4",
+  "Nombre": "Angela Castillo Diaz",
+  "ajuste mensual": "$39039",
+  "porcentaje": "5,92%",
+  "Bono": "$75000"
+ },
+ {
+  "ID": "17808704-5",
+  "Nombre": "Rodrigo Herrera Balboa",
+  "ajuste mensual": "$39801",
+  "porcentaje": "5,77%",
+  "Bono": "$75000"
+ },
+ {
+  "ID": "21654403-K",
+  "Nombre": "Fernanda Farias Pacheco",
+  "ajuste mensual": "$28585",
+  "porcentaje": "10,7%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "21774784-8",
+  "Nombre": "Constanza Espinoza Perez",
+  "ajuste mensual": "$23129",
+  "porcentaje": "9,04%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "19872566-8",
+  "Nombre": "Tamara Alarcon Lemus",
+  "ajuste mensual": "$28585",
+  "porcentaje": "10,7%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "15374527-7",
+  "Nombre": "Jorge Bravo Alarcon",
+  "ajuste mensual": "$37121",
+  "porcentaje": "6,37%",
+  "Bono": "$75000"
+ },
+ {
+  "ID": "20904681-4",
+  "Nombre": "Carolina Vidal Arancibia",
+  "ajuste mensual": "$28585",
+  "porcentaje": "10,7%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "26217860-9",
+  "Nombre": "Carmen Bakovic Diaz",
+  "ajuste mensual": "$37121",
+  "porcentaje": "6,37%",
+  "Bono": "$75000"
+ },
+ {
+  "ID": "12626382-1",
+  "Nombre": "Nanette Casanga Peña",
+  "ajuste mensual": "$28585",
+  "porcentaje": "10,7%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "16484130-8",
+  "Nombre": "Pamela Herrera Silva",
+  "ajuste mensual": "$28585",
+  "porcentaje": "10,7%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "13379840-4",
+  "Nombre": "Eugenia Mellado Perez",
+  "ajuste mensual": "$28585",
+  "porcentaje": "10,7%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "18565161-4",
+  "Nombre": "Juan Vargas Toledo",
+  "ajuste mensual": "$39384",
+  "porcentaje": "9,95%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "21695555-2",
+  "Nombre": "Joaquin Fernandez Orrego",
+  "ajuste mensual": "$23129",
+  "porcentaje": "9,04%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "13988848-0",
+  "Nombre": "Maria Caballero Armijo",
+  "ajuste mensual": "$23129",
+  "porcentaje": "9,04%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "17537104-4",
+  "Nombre": "Erika Riveros Soto",
+  "ajuste mensual": "$28585",
+  "porcentaje": "10,7%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "16035187-K",
+  "Nombre": "Daniela Pacheco Velasquez",
+  "ajuste mensual": "$23129",
+  "porcentaje": "9,04%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "21821407-K",
+  "Nombre": "Dafne Polanco Salas",
+  "ajuste mensual": "$28585",
+  "porcentaje": "10,7%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "20898203-6",
+  "Nombre": "Juan Videla Montenegro",
+  "ajuste mensual": "$23129",
+  "porcentaje": "9,04%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "21430562-3",
+  "Nombre": "Dariel Pache Cepeda",
+  "ajuste mensual": "$28585",
+  "porcentaje": "10,7%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "20047540-2",
+  "Nombre": "Gonzalo Busto Acevedo",
+  "ajuste mensual": "$37124",
+  "porcentaje": "6,37%",
+  "Bono": "$75000"
+ },
+ {
+  "ID": "18843223-9",
+  "Nombre": "Isabel Silva Alarcon",
+  "ajuste mensual": "$28585",
+  "porcentaje": "10,7%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "21721488-2",
+  "Nombre": "Julio Benavides Silva",
+  "ajuste mensual": "$28585",
+  "porcentaje": "10,7%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "8649207-5",
+  "Nombre": "Alicia Reyes Arancibia",
+  "ajuste mensual": "$28585",
+  "porcentaje": "10,7%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "20653678-0",
+  "Nombre": "Ailin Lobos Salgado",
+  "ajuste mensual": "$28585",
+  "porcentaje": "10,7%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "13997496-4",
+  "Nombre": "Bravo Olcay,Valeria Del Pilar",
+  "ajuste mensual": "$28585",
+  "porcentaje": "10,7%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "15763764-9",
+  "Nombre": "Carla Olea Silva",
+  "ajuste mensual": "$28585",
+  "porcentaje": "10,7%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "18914652-3",
+  "Nombre": "Anny Labra Muñoz",
+  "ajuste mensual": "$28585",
+  "porcentaje": "10,7%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "15750308-1",
+  "Nombre": "Lissett Ormazabal Zamorano",
+  "ajuste mensual": "$28585",
+  "porcentaje": "10,7%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "19047038-5",
+  "Nombre": "Francesca Williams Salazar",
+  "ajuste mensual": "$29000",
+  "porcentaje": "10%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "17140524-6",
+  "Nombre": "Evelyn Rios Pizarro",
+  "ajuste mensual": "$28585",
+  "porcentaje": "10,7%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "21256221-1",
+  "Nombre": "Constanza Contreras Ramirez",
+  "ajuste mensual": "$28585",
+  "porcentaje": "10,7%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "25486543-5",
+  "Nombre": "Leonardo Romero Yupanqui",
+  "ajuste mensual": "$28585",
+  "porcentaje": "10,7%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "20184448-7",
+  "Nombre": "Fernanda Ortiz Diaz",
+  "ajuste mensual": "$28585",
+  "porcentaje": "10,7%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "21386990-6",
+  "Nombre": "Paz Fernandez Espinoza",
+  "ajuste mensual": "$28585",
+  "porcentaje": "10,7%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "20360013-5",
+  "Nombre": "Maikel Ferreira Alvarez",
+  "ajuste mensual": "$23129",
+  "porcentaje": "9,04%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "20170058-2",
+  "Nombre": "Claudio Miranda Sumonte",
+  "ajuste mensual": "$29000",
+  "porcentaje": "10%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "13457111-K",
+  "Nombre": "Paola Landero Fritz",
+  "ajuste mensual": "$28585",
+  "porcentaje": "10,7%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "19471478-5",
+  "Nombre": "Gonzalo Astudillo Avello",
+  "ajuste mensual": "$15650",
+  "porcentaje": "2,60%",
+  "Bono": "$75000"
+ },
+ {
+  "ID": "21732480-7",
+  "Nombre": "Joaquin Soto Vidal",
+  "ajuste mensual": "$24000",
+  "porcentaje": "9%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "20825217-8",
+  "Nombre": "Cristofer Day Vega",
+  "ajuste mensual": "$23129",
+  "porcentaje": "9,04%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "20773377-6",
+  "Nombre": "Samuel Martinez Espinoza",
+  "ajuste mensual": "$28585",
+  "porcentaje": "10,7%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "12351232-4",
+  "Nombre": "Erika Arancibia Valencia",
+  "ajuste mensual": "$23129",
+  "porcentaje": "9,04%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "21077898-5",
+  "Nombre": "Scarlet Morales Campos",
+  "ajuste mensual": "$28585",
+  "porcentaje": "10,7%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "20530563-7",
+  "Nombre": "Kaira Espinoza Segura",
+  "ajuste mensual": "$23129",
+  "porcentaje": "9,04%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "21508056-0",
+  "Nombre": "Millaray Castro Diaz",
+  "ajuste mensual": "$28585",
+  "porcentaje": "10,7%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "20707726-7",
+  "Nombre": "Vasquez Perez,Jean Franco Isaias",
+  "ajuste mensual": "$28585",
+  "porcentaje": "10,7%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "21202440-6",
+  "Nombre": "Maria Castro Collio",
+  "ajuste mensual": "$28585",
+  "porcentaje": "10,7%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "19617059-6",
+  "Nombre": "Alin Lemmermann Torrealba",
+  "ajuste mensual": "$10255",
+  "porcentaje": "3,85%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "21337395-1",
+  "Nombre": "Matias Chureo Oyanedel",
+  "ajuste mensual": "$23129",
+  "porcentaje": "9,04%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "15546870-K",
+  "Nombre": "Rojas Soto,Caroline Del Rosario",
+  "ajuste mensual": "$12776",
+  "porcentaje": "3,24%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "18463198-9",
+  "Nombre": "Diego Uribe Carrasco",
+  "ajuste mensual": "$37124",
+  "porcentaje": "6,37%",
+  "Bono": "$75000"
+ },
+ {
+  "ID": "18658672-7",
+  "Nombre": "Macarena Caro Pacheco",
+  "ajuste mensual": "$26457",
+  "porcentaje": "9,81%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "18421683-3",
+  "Nombre": "Makarena Pino Morales",
+  "ajuste mensual": "$9502,",
+  "porcentaje": "3,55%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "14396998-3",
+  "Nombre": "Jacqueline Curiman Caro",
+  "ajuste mensual": "$15650",
+  "porcentaje": "2,60%",
+  "Bono": "$75000"
+ },
+ {
+  "ID": "13367822-0",
+  "Nombre": "Llery Pacheco Romero",
+  "ajuste mensual": "$21107",
+  "porcentaje": "8,18%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "21815858-7",
+  "Nombre": "Camilo Moreno Ibañez",
+  "ajuste mensual": "$16309",
+  "porcentaje": "2,39%",
+  "Bono": "$75000"
+ },
+ {
+  "ID": "8887683-0",
+  "Nombre": "Luis Solis Rojas",
+  "ajuste mensual": "$17232",
+  "porcentaje": "2,39%",
+  "Bono": "$75000"
+ },
+ {
+  "ID": "19728077-8",
+  "Nombre": "Aravena Ponce,Felipe Ignacio",
+  "ajuste mensual": "$21107",
+  "porcentaje": "8,18%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "18705447-8",
+  "Nombre": "Marisol Severino Gonzalez",
+  "ajuste mensual": "$11013",
+  "porcentaje": "3,90%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "18584684-9",
+  "Nombre": "Gerardo Vasquez Rojas",
+  "ajuste mensual": "$39953",
+  "porcentaje": "5,69%",
+  "Bono": "$95000"
+ },
+ {
+  "ID": "14387913-5",
+  "Nombre": "Lorena Palma Calderon",
+  "ajuste mensual": "$11013",
+  "porcentaje": "3,90%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "13992552-1",
+  "Nombre": "Daisy Astudillo Salazar",
+  "ajuste mensual": "$9502,",
+  "porcentaje": "3,55%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "21294010-0",
+  "Nombre": "Nelson Valenzuela Gonzalez",
+  "ajuste mensual": "$21107",
+  "porcentaje": "8,18%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "20759867-4",
+  "Nombre": "Victor Soto Muñoz",
+  "ajuste mensual": "$11013",
+  "porcentaje": "3,90%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "18842567-4",
+  "Nombre": "Leon Retamal,Esteban Sandro Emilio",
+  "ajuste mensual": "$26457",
+  "porcentaje": "9,81%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "20794987-6",
+  "Nombre": "Felipe Salinas Rojas",
+  "ajuste mensual": "$9502,",
+  "porcentaje": "3,55%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "19447747-3",
+  "Nombre": "Herman Bustamante Lopez",
+  "ajuste mensual": "$11013",
+  "porcentaje": "3,90%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "18269545-9",
+  "Nombre": "Jose Astudillo Brito",
+  "ajuste mensual": "$9502,",
+  "porcentaje": "3,55%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "20524262-7",
+  "Nombre": "Camila Vallejos Villarroel",
+  "ajuste mensual": "$26457",
+  "porcentaje": "9,81%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "20199234-6",
+  "Nombre": "Brady Godoy Caballero",
+  "ajuste mensual": "$9502,",
+  "porcentaje": "3,55%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "12953264-5",
+  "Nombre": "Ivis Montenegro Ibaceta",
+  "ajuste mensual": "$9502,",
+  "porcentaje": "3,55%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "19801520-2",
+  "Nombre": "Thania Machuca Jerez",
+  "ajuste mensual": "$5696,",
+  "porcentaje": "1,99%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "20689226-9",
+  "Nombre": "Erik Zurita Araya",
+  "ajuste mensual": "$21107",
+  "porcentaje": "8,18%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "15740170-K",
+  "Nombre": "Ivania Vargas Bernal",
+  "ajuste mensual": "$11013",
+  "porcentaje": "3,90%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "21557297-8",
+  "Nombre": "Catalina Herrera Valenzuela",
+  "ajuste mensual": "$26457",
+  "porcentaje": "9,81%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "14501416-6",
+  "Nombre": "Marco Lara Balbontin",
+  "ajuste mensual": "$14394",
+  "porcentaje": "2,37%",
+  "Bono": "$95000"
+ },
+ {
+  "ID": "20962906-2",
+  "Nombre": "Gabriel Sepulveda Polanco",
+  "ajuste mensual": "$21107",
+  "porcentaje": "8,18%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "16818993-1",
+  "Nombre": "Sebastian Ibacache Poblete",
+  "ajuste mensual": "$14394",
+  "porcentaje": "2,37%",
+  "Bono": "$95000"
+ },
+ {
+  "ID": "19393722-5",
+  "Nombre": "Jenifer Soto Bustamante",
+  "ajuste mensual": "$11013",
+  "porcentaje": "3,90%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "20796014-4",
+  "Nombre": "Orrego Estay,Brian Alexis",
+  "ajuste mensual": "$21107",
+  "porcentaje": "8,18%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "17160383-8",
+  "Nombre": "Daniel Ruiz Navarro",
+  "ajuste mensual": "$17232",
+  "porcentaje": "2,39%",
+  "Bono": "$95000"
+ },
+ {
+  "ID": "18842794-4",
+  "Nombre": "Loreto Encalada Herrera",
+  "ajuste mensual": "$45559",
+  "porcentaje": "7,26%",
+  "Bono": "$95000"
+ },
+ {
+  "ID": "20271945-7",
+  "Nombre": "Matias Arancibia Zamora",
+  "ajuste mensual": "$21107",
+  "porcentaje": "8,18%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "19618239-K",
+  "Nombre": "Abraham Vega Miranda",
+  "ajuste mensual": "$26457",
+  "porcentaje": "9,81%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "13398609-K",
+  "Nombre": "Maritza Sandoval Lopez",
+  "ajuste mensual": "$11013",
+  "porcentaje": "3,90%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "19831161-8",
+  "Nombre": "Mariana Lopez Catilao",
+  "ajuste mensual": "$9502,",
+  "porcentaje": "3,55%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "20359927-7",
+  "Nombre": "Benjamin Orellana Pacheco",
+  "ajuste mensual": "$16309",
+  "porcentaje": "2,39%",
+  "Bono": "$95000"
+ },
+ {
+  "ID": "18036415-3",
+  "Nombre": "Catherine Flores Jorquera",
+  "ajuste mensual": "$9502,",
+  "porcentaje": "3,55%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "21248285-4",
+  "Nombre": "Scarleth Olguin Orellana",
+  "ajuste mensual": "$21107",
+  "porcentaje": "8,18%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "13430654-8",
+  "Nombre": "Carolina Cartagena Barrios",
+  "ajuste mensual": "$9502,",
+  "porcentaje": "3,55%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "16598856-6",
+  "Nombre": "Carolina Fuentes Guzman",
+  "ajuste mensual": "$14394",
+  "porcentaje": "2,37%",
+  "Bono": "$95000"
+ },
+ {
+  "ID": "20479252-6",
+  "Nombre": "Mesina Brante,Rachel Tais Naniely",
+  "ajuste mensual": "$11013",
+  "porcentaje": "3,90%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "21270368-0",
+  "Nombre": "Franco Lopez Garces",
+  "ajuste mensual": "$18000",
+  "porcentaje": "4%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "11728569-3",
+  "Nombre": "Patricia Zamora Leiva",
+  "ajuste mensual": "$11013",
+  "porcentaje": "3,90%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "20521651-0",
+  "Nombre": "Ignacio Alvarez Araya",
+  "ajuste mensual": "$9502,",
+  "porcentaje": "3,55%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "21500965-3",
+  "Nombre": "Michelle Ñeguey Mora",
+  "ajuste mensual": "$11013",
+  "porcentaje": "3,90%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "16820384-5",
+  "Nombre": "Lorena Arenas Ojeda",
+  "ajuste mensual": "$11883",
+  "porcentaje": "3,75%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "15740398-2",
+  "Nombre": "Grace Marin Salinas",
+  "ajuste mensual": "$11013",
+  "porcentaje": "3,90%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "19664724-4",
+  "Nombre": "Aylen Salinas Oyarce",
+  "ajuste mensual": "$11013",
+  "porcentaje": "3,90%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "19394982-7",
+  "Nombre": "Tamara Muñoz Rojo",
+  "ajuste mensual": "$11013",
+  "porcentaje": "3,90%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "17209830-4",
+  "Nombre": "Karem Jaramillo Guzman",
+  "ajuste mensual": "$11013",
+  "porcentaje": "3,90%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "17140747-8",
+  "Nombre": "Miriam Brito Leiva",
+  "ajuste mensual": "$11013",
+  "porcentaje": "3,90%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "19446906-3",
+  "Nombre": "Javier Aros Castillo",
+  "ajuste mensual": "$11013",
+  "porcentaje": "3,90%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "19048155-7",
+  "Nombre": "Vanessa Zamora Ahumada",
+  "ajuste mensual": "$11013",
+  "porcentaje": "3,90%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "20126593-2",
+  "Nombre": "Sebastian Sepulveda Gonzalez",
+  "ajuste mensual": "$9502,",
+  "porcentaje": "3,55%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "12112716-4",
+  "Nombre": "Soledad Yañez Villagra",
+  "ajuste mensual": "$11013",
+  "porcentaje": "3,90%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "19398266-2",
+  "Nombre": "Giovanny Diaz Pendola",
+  "ajuste mensual": "$12000",
+  "porcentaje": "4%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "12627014-3",
+  "Nombre": "Paola Farias Streuly",
+  "ajuste mensual": "$26457",
+  "porcentaje": "9,81%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "15753908-6",
+  "Nombre": "Joselyn Paniagua Cespedes",
+  "ajuste mensual": "$11013",
+  "porcentaje": "3,90%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "19822062-0",
+  "Nombre": "Jeison Valencia Gonzalez",
+  "ajuste mensual": "$16309",
+  "porcentaje": "2,39%",
+  "Bono": "$95000"
+ },
+ {
+  "ID": "17792580-2",
+  "Nombre": "Constanza Paredes Saavedra",
+  "ajuste mensual": "$11013",
+  "porcentaje": "3,90%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "16775025-7",
+  "Nombre": "Francisco Barraza Bugueño",
+  "ajuste mensual": "$16309",
+  "porcentaje": "2,39%",
+  "Bono": "$95000"
+ },
+ {
+  "ID": "21255596-7",
+  "Nombre": "Italo Jerez Guzman",
+  "ajuste mensual": "#N\/A",
+  "porcentaje": "#N\/A",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "19124836-8",
+  "Nombre": "Camila Oyaneder Duarte",
+  "ajuste mensual": "$-1709",
+  "porcentaje": "-2,1%",
+  "Bono": "$95000"
+ },
+ {
+  "ID": "19325893-K",
+  "Nombre": "Macarena Vasquez Navia",
+  "ajuste mensual": "$26457",
+  "porcentaje": "9,81%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "20823864-7",
+  "Nombre": "Matias Alfaro Chaparro",
+  "ajuste mensual": "$9502,",
+  "porcentaje": "3,55%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "20361122-6",
+  "Nombre": "Claudio Ibarra Ulloa",
+  "ajuste mensual": "$14394",
+  "porcentaje": "2,37%",
+  "Bono": "$95000"
+ },
+ {
+  "ID": "15660337-6",
+  "Nombre": "Paul Mac-Lean Manriquez",
+  "ajuste mensual": "$21107",
+  "porcentaje": "8,18%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "9943242-K",
+  "Nombre": "Orieta Soto Contreras",
+  "ajuste mensual": "$14394",
+  "porcentaje": "2,37%",
+  "Bono": "$95000"
+ },
+ {
+  "ID": "17804487-7",
+  "Nombre": "Jacqueline Santa Cruz Vidal",
+  "ajuste mensual": "$14394",
+  "porcentaje": "2,37%",
+  "Bono": "$95000"
+ },
+ {
+  "ID": "20501912-K",
+  "Nombre": "Maickol Silva Olivares",
+  "ajuste mensual": "$14764",
+  "porcentaje": "2,37%",
+  "Bono": "$95000"
+ },
+ {
+  "ID": "16331974-8",
+  "Nombre": "Francesca Pino Alongi",
+  "ajuste mensual": "$13637",
+  "porcentaje": "2,24%",
+  "Bono": "$95000"
+ },
+ {
+  "ID": "20722660-2",
+  "Nombre": "Ricardo Moya Cabrera",
+  "ajuste mensual": "$10738",
+  "porcentaje": "3,93%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "19727283-K",
+  "Nombre": "Francisco Herrera Gallardo",
+  "ajuste mensual": "$10738",
+  "porcentaje": "3,93%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "21116083-7",
+  "Nombre": "Maria Osorio Jofre",
+  "ajuste mensual": "$7846,",
+  "porcentaje": "2,69%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "11600601-4",
+  "Nombre": "Antonio Brantes Fernandez",
+  "ajuste mensual": "$10738",
+  "porcentaje": "3,93%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "12819197-6",
+  "Nombre": "Fernando Vivanco Vivanco",
+  "ajuste mensual": "$10738",
+  "porcentaje": "3,93%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "17141493-8",
+  "Nombre": "Pamela Gonzalez Rodriguez",
+  "ajuste mensual": "$37115",
+  "porcentaje": "6,31%",
+  "Bono": "$95000"
+ },
+ {
+  "ID": "15081955-5",
+  "Nombre": "Marie Lazcano Valdebenito",
+  "ajuste mensual": "$31360",
+  "porcentaje": "11,5%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "19337701-7",
+  "Nombre": "Camila Vargas Leiva",
+  "ajuste mensual": "$12249",
+  "porcentaje": "4,26%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "16287995-2",
+  "Nombre": "Tamara Burgos Veliz",
+  "ajuste mensual": "$12249",
+  "porcentaje": "4,26%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "20320017-K",
+  "Nombre": "Josefa Contreras Delgado",
+  "ajuste mensual": "$26010",
+  "porcentaje": "9,98%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "20185181-5",
+  "Nombre": "Tiare Santibañez Olivares",
+  "ajuste mensual": "$31360",
+  "porcentaje": "11,5%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "20319732-2",
+  "Nombre": "Dannae Fredes Veas",
+  "ajuste mensual": "$12249",
+  "porcentaje": "4,26%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "11389618-3",
+  "Nombre": "Rossana Ramos Tobar",
+  "ajuste mensual": "$14394",
+  "porcentaje": "2,37%",
+  "Bono": "$95000"
+ },
+ {
+  "ID": "15818105-3",
+  "Nombre": "Myrna Valdes Orostica",
+  "ajuste mensual": "$12249",
+  "porcentaje": "4,26%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "19980951-2",
+  "Nombre": "Alessandra Plaza Ponce",
+  "ajuste mensual": "$26010",
+  "porcentaje": "9,98%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "18842590-9",
+  "Nombre": "Jeanpier Bravo Cruces",
+  "ajuste mensual": "$32364",
+  "porcentaje": "4,62%",
+  "Bono": "$95000"
+ },
+ {
+  "ID": "21049586-K",
+  "Nombre": "Lucas Bahamondes Pastenes",
+  "ajuste mensual": "$10738",
+  "porcentaje": "3,93%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "26469348-9",
+  "Nombre": "Maria Jose Socorro Nuñez",
+  "ajuste mensual": "$31861",
+  "porcentaje": "4,76%",
+  "Bono": "$95000"
+ },
+ {
+  "ID": "11828782-7",
+  "Nombre": "Monica Cruz Quiroz",
+  "ajuste mensual": "$10738",
+  "porcentaje": "3,93%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "17789975-5",
+  "Nombre": "Katherine Soto Elgueta",
+  "ajuste mensual": "$12249",
+  "porcentaje": "4,26%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "19775125-8",
+  "Nombre": "Ruiz Ardiles,Francisco Fabian",
+  "ajuste mensual": "$15150",
+  "porcentaje": "5,27%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "21143466-K",
+  "Nombre": "Rodriguez Riquelme,Santino Valentin",
+  "ajuste mensual": "$15150",
+  "porcentaje": "5,27%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "16573853-5",
+  "Nombre": "Carreño Dinamarca,Gillermo Andres",
+  "ajuste mensual": "$13639",
+  "porcentaje": "5,00%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "20796506-5",
+  "Nombre": "Luis Hernandez Molina",
+  "ajuste mensual": "$28912",
+  "porcentaje": "11,1%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "21066768-7",
+  "Nombre": "Priscilla Vargas Cortez",
+  "ajuste mensual": "$15150",
+  "porcentaje": "5,27%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "21483705-6",
+  "Nombre": "Olivares Perez,Catalina Constanza",
+  "ajuste mensual": "$15150",
+  "porcentaje": "5,27%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "17171527-K",
+  "Nombre": "Israel Opazo Galdames",
+  "ajuste mensual": "$15150",
+  "porcentaje": "5,27%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "20482936-5",
+  "Nombre": "Tamara Leiva Figueroa",
+  "ajuste mensual": "$28912",
+  "porcentaje": "11,1%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "23732309-2",
+  "Nombre": "Matias Flores Torrijo",
+  "ajuste mensual": "$15150",
+  "porcentaje": "5,27%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "11601072-0",
+  "Nombre": "Roberto Sanchez Molina",
+  "ajuste mensual": "$32000",
+  "porcentaje": "4,6%",
+  "Bono": "$95000"
+ },
+ {
+  "ID": "18552168-0",
+  "Nombre": "Kelly Paredes Reyes",
+  "ajuste mensual": "$29492",
+  "porcentaje": "4,72%",
+  "Bono": "$145000"
+ },
+ {
+  "ID": "20784779-8",
+  "Nombre": "Valentina Peralta Collarte",
+  "ajuste mensual": "$15150",
+  "porcentaje": "5,27%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "16753194-6",
+  "Nombre": "Nicol Otaiza Perez",
+  "ajuste mensual": "$15150",
+  "porcentaje": "5,27%",
+  "Bono": "$50000"
+ },
+ {
+  "ID": "20268629-K",
+  "Nombre": "Gerardo Varas Marambio",
+  "ajuste mensual": "$17162",
+  "porcentaje": "2,70%",
+  "Bono": "$145000"
+ },
+ {
+  "ID": "10543571-1",
+  "Nombre": "Hector Varas De La Cerda",
+  "ajuste mensual": "$32364",
+  "porcentaje": "4,62%",
+  "Bono": "$145000"
+ },
+ {
+  "ID": "17478246-6",
+  "Nombre": "Jesus Sepulveda Garces",
+  "ajuste mensual": "$33748",
+  "porcentaje": "4,57%",
+  "Bono": "$145000"
+ },
+ {
+  "ID": "15074428-8",
+  "Nombre": "Mariana Garrido Piña",
+  "ajuste mensual": "$19966",
+  "porcentaje": "3,16%",
+  "Bono": "$145000"
+ },
+ {
+  "ID": "21149193-0",
+  "Nombre": "Esteban Molina Navarro",
+  "ajuste mensual": "$13639",
+  "porcentaje": "5,00%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "16967924-K",
+  "Nombre": "Utreras Martinez,Camila Constanza",
+  "ajuste mensual": "$13639",
+  "porcentaje": "5,00%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "12848957-6",
+  "Nombre": "Carrasco Navarro,Veronica Ines",
+  "ajuste mensual": "$31861",
+  "porcentaje": "4,76%",
+  "Bono": "$145000"
+ },
+ {
+  "ID": "20652658-0",
+  "Nombre": "Miguel Gomez Coaquira",
+  "ajuste mensual": "$13639",
+  "porcentaje": "5,00%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "20558499-4",
+  "Nombre": "Nicolas Diaz Ampuero",
+  "ajuste mensual": "$29492",
+  "porcentaje": "4,72%",
+  "Bono": "$145000"
+ },
+ {
+  "ID": "19619607-2",
+  "Nombre": "Valeria Ponce Orellana",
+  "ajuste mensual": "$15150",
+  "porcentaje": "5,27%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "20704062-2",
+  "Nombre": "Joaquin Lopez Borquez",
+  "ajuste mensual": "$13639",
+  "porcentaje": "5,00%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "17805289-6",
+  "Nombre": "Carvallo Donoso,Barbara Ninoska",
+  "ajuste mensual": "$15150",
+  "porcentaje": "5,27%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "12447808-1",
+  "Nombre": "Maria Fuentealba Duque",
+  "ajuste mensual": "$15150",
+  "porcentaje": "5,27%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "19328712-3",
+  "Nombre": "Stefany Silva Yañez",
+  "ajuste mensual": "$15150",
+  "porcentaje": "5,27%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "21176327-2",
+  "Nombre": "Kamila Gomez Retamal",
+  "ajuste mensual": "$13639",
+  "porcentaje": "5,00%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "17480378-1",
+  "Nombre": "Paulina Zamora Lazcano",
+  "ajuste mensual": "$15150",
+  "porcentaje": "5,27%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "10725786-1",
+  "Nombre": "Soledad Castro Lindsay",
+  "ajuste mensual": "$15150",
+  "porcentaje": "5,27%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "15750319-7",
+  "Nombre": "Andrea Phillips Rojas",
+  "ajuste mensual": "$15150",
+  "porcentaje": "5,27%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "15762872-0",
+  "Nombre": "Jeanette Flores Urrea",
+  "ajuste mensual": "$15150",
+  "porcentaje": "5,27%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "14606261-K",
+  "Nombre": "Elsa Olvera Guerrero",
+  "ajuste mensual": "$15150",
+  "porcentaje": "5,27%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "18256810-4",
+  "Nombre": "Christian Erazo Celedon",
+  "ajuste mensual": "$13639",
+  "porcentaje": "5,00%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "16103268-9",
+  "Nombre": "Romero Morales,Caroline Del Carmen",
+  "ajuste mensual": "$32047",
+  "porcentaje": "4,76%",
+  "Bono": "$145000"
+ },
+ {
+  "ID": "11829441-6",
+  "Nombre": "Betsy Mejias Aguilera",
+  "ajuste mensual": "$15150",
+  "porcentaje": "5,27%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "21621438-2",
+  "Nombre": "Del Real Fernandez,Alexia Valentina",
+  "ajuste mensual": "$15150",
+  "porcentaje": "5,27%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "20530261-1",
+  "Nombre": "Francisca Quiroz Astudillo",
+  "ajuste mensual": "$15150",
+  "porcentaje": "5,27%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "16540795-4",
+  "Nombre": "Felix Sanchez Maturana",
+  "ajuste mensual": "$32364",
+  "porcentaje": "4,62%",
+  "Bono": "$145000"
+ },
+ {
+  "ID": "20689300-1",
+  "Nombre": "Estefania Agurto Ruiz",
+  "ajuste mensual": "$15150",
+  "porcentaje": "5,27%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "15948501-3",
+  "Nombre": "Gabriela Concha Aguero",
+  "ajuste mensual": "$15150",
+  "porcentaje": "5,27%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "13228554-3",
+  "Nombre": "Jimmy Galdames Solis",
+  "ajuste mensual": "$32364",
+  "porcentaje": "4,62%",
+  "Bono": "$145000"
+ },
+ {
+  "ID": "8354190-3",
+  "Nombre": "Mabel Araceli Vasquez Lopez",
+  "ajuste mensual": "$14944",
+  "porcentaje": "4,86%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "18915543-3",
+  "Nombre": "Valeria Espinoza Lopez",
+  "ajuste mensual": "$34262",
+  "porcentaje": "12,5%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "15753856-K",
+  "Nombre": "Valeska Andrade Cordova",
+  "ajuste mensual": "$15150",
+  "porcentaje": "5,27%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "15818780-9",
+  "Nombre": "Guillermina Muñoz Saavedra",
+  "ajuste mensual": "$20152",
+  "porcentaje": "3,16%",
+  "Bono": "$145000"
+ },
+ {
+  "ID": "18997042-0",
+  "Nombre": "Gonzalez Araya,Danitza Alejandra",
+  "ajuste mensual": "$32047",
+  "porcentaje": "4,76%",
+  "Bono": "$145000"
+ },
+ {
+  "ID": "16819202-9",
+  "Nombre": "Cristian Aedo Ramos",
+  "ajuste mensual": "$29678",
+  "porcentaje": "4,71%",
+  "Bono": "$145000"
+ },
+ {
+  "ID": "9106592-4",
+  "Nombre": "Eduardo Castillo Castro",
+  "ajuste mensual": "$29678",
+  "porcentaje": "4,71%",
+  "Bono": "$145000"
+ },
+ {
+  "ID": "10593257-K",
+  "Nombre": "Evelyn Llanos Robles",
+  "ajuste mensual": "$14944",
+  "porcentaje": "4,86%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "19940520-9",
+  "Nombre": "Gutierrez Espinoza,Vianka Denisse",
+  "ajuste mensual": "$15150",
+  "porcentaje": "5,27%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "9775381-4",
+  "Nombre": "Marcela Carrazana Gonzalez",
+  "ajuste mensual": "$10748",
+  "porcentaje": "3,69%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "15072806-1",
+  "Nombre": "Jimena Arcos Fernandez",
+  "ajuste mensual": "$15150",
+  "porcentaje": "5,27%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "20359165-9",
+  "Nombre": "Gonzalez Gatica,Nicolas Alejandro",
+  "ajuste mensual": "$15150",
+  "porcentaje": "5,27%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "17476046-2",
+  "Nombre": "Paula Clen San Martin",
+  "ajuste mensual": "$15150",
+  "porcentaje": "5,27%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "20185555-1",
+  "Nombre": "Carla Rivera Galleguillos",
+  "ajuste mensual": "$15150",
+  "porcentaje": "5,27%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "17635280-9",
+  "Nombre": "Ema Valdivia Diaz",
+  "ajuste mensual": "$32047",
+  "porcentaje": "4,76%",
+  "Bono": "$145000"
+ },
+ {
+  "ID": "20361360-1",
+  "Nombre": "Karla Gallardo Gonzalez",
+  "ajuste mensual": "$15150",
+  "porcentaje": "5,27%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "13985875-1",
+  "Nombre": "Lissette Maldonado Marchant",
+  "ajuste mensual": "$15150",
+  "porcentaje": "5,27%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "20541002-3",
+  "Nombre": "Jose Tapia Morales",
+  "ajuste mensual": "$15150",
+  "porcentaje": "5,2%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "13757919-7",
+  "Nombre": "Marcela Rodriguez Rodriguez",
+  "ajuste mensual": "$15150",
+  "porcentaje": "5,27%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "20826693-4",
+  "Nombre": "Maria Jimenez Lara",
+  "ajuste mensual": "$15150",
+  "porcentaje": "5,27%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "17475594-9",
+  "Nombre": "Viviana Toro Aravena",
+  "ajuste mensual": "$15150",
+  "porcentaje": "5,27%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "20880638-6",
+  "Nombre": "Millaray Ulloa Soto",
+  "ajuste mensual": "$15150",
+  "porcentaje": "5,27%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "13229695-2",
+  "Nombre": "Aracelly Castro Nuñez",
+  "ajuste mensual": "$15411",
+  "porcentaje": "5,23%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "20528818-K",
+  "Nombre": "Javiera Bernal Maldonado",
+  "ajuste mensual": "$13900",
+  "porcentaje": "4,97%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "16819541-9",
+  "Nombre": "Angelica Rojo Rojo",
+  "ajuste mensual": "$32052",
+  "porcentaje": "4,76%",
+  "Bono": "$145000"
+ },
+ {
+  "ID": "11732063-4",
+  "Nombre": "Natalia Gandara Meneses",
+  "ajuste mensual": "$14944",
+  "porcentaje": "4,86%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "19580027-8",
+  "Nombre": "Javiera Zapata Pacheco",
+  "ajuste mensual": "$15411",
+  "porcentaje": "5,23%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "14282891-K",
+  "Nombre": "Ximena Lotina Quiñones",
+  "ajuste mensual": "$32052",
+  "porcentaje": "4,76%",
+  "Bono": "$145000"
+ },
+ {
+  "ID": "19151696-6",
+  "Nombre": "Camila Chabrillard Vergara",
+  "ajuste mensual": "$11008",
+  "porcentaje": "3,69%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "18566685-9",
+  "Nombre": "Julie Tapia Ibañez",
+  "ajuste mensual": "$15411",
+  "porcentaje": "5,23%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "18383242-5",
+  "Nombre": "Raul Orellana Naranjo",
+  "ajuste mensual": "$13900",
+  "porcentaje": "4,97%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "26733715-2",
+  "Nombre": "Jose Noriega Perez",
+  "ajuste mensual": "$20157",
+  "porcentaje": "3,16%",
+  "Bono": "$145000"
+ },
+ {
+  "ID": "17145202-3",
+  "Nombre": "Maribel Diaz Nuñez",
+  "ajuste mensual": "$15411",
+  "porcentaje": "5,23%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "21157349-K",
+  "Nombre": "Consuelo Palma Mora",
+  "ajuste mensual": "$15411",
+  "porcentaje": "5,23%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "15201104-0",
+  "Nombre": "Bastian Mondaca Moraga",
+  "ajuste mensual": "$29684",
+  "porcentaje": "4,71%",
+  "Bono": "$145000"
+ },
+ {
+  "ID": "17567977-4",
+  "Nombre": "Muñoz Calfuleo,Karina Isabel",
+  "ajuste mensual": "$29684",
+  "porcentaje": "4,71%",
+  "Bono": "$145000"
+ },
+ {
+  "ID": "18033834-9",
+  "Nombre": "Estefanie Zarate Fernandez",
+  "ajuste mensual": "$15411",
+  "porcentaje": "5,23%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "17805396-5",
+  "Nombre": "Ahumada Zenteno,Francisca Macarena",
+  "ajuste mensual": "$29684",
+  "porcentaje": "4,71%",
+  "Bono": "$145000"
+ },
+ {
+  "ID": "15058858-8",
+  "Nombre": "Bernal Olivares,Jorge Andrés",
+  "ajuste mensual": "$32364",
+  "porcentaje": "4,62%",
+  "Bono": "$145000"
+ },
+ {
+  "ID": "11613640-6",
+  "Nombre": "Cisternas Cruzatt,Yessica Paola",
+  "ajuste mensual": "$10912",
+  "porcentaje": "3,86%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "20848586-5",
+  "Nombre": "Cardenas Fuenzalida,Javiera Francisca",
+  "ajuste mensual": "$15411",
+  "porcentaje": "5,23%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "19329047-7",
+  "Nombre": "Montenegro Cofre,Dayanne Scarlett",
+  "ajuste mensual": "$14687",
+  "porcentaje": "4,88%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "21232246-6",
+  "Nombre": "Vargas Ramirez,Javiera Antonia",
+  "ajuste mensual": "$29172",
+  "porcentaje": "10,9%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "19067840-7",
+  "Nombre": "Villagran Aburto,Elias Manuel",
+  "ajuste mensual": "$33748",
+  "porcentaje": "4,57%",
+  "Bono": "$145000"
+ },
+ {
+  "ID": "20172444-9",
+  "Nombre": "Carvajal Navarro,Javier Ignacio",
+  "ajuste mensual": "$13900",
+  "porcentaje": "4,97%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "9557456-4",
+  "Nombre": "Alvarez Pradenas,Veronica Isabel De Lourdes",
+  "ajuste mensual": "$13900",
+  "porcentaje": "4,97%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "12766957-0",
+  "Nombre": "Osses Herrera,Sandra Francisca",
+  "ajuste mensual": "$33871",
+  "porcentaje": "4,57%",
+  "Bono": "$145000"
+ },
+ {
+  "ID": "15817043-4",
+  "Nombre": "Romero Fernandez,Sandra Andrea",
+  "ajuste mensual": "$15411",
+  "porcentaje": "5,23%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "20174475-K",
+  "Nombre": "Lorca Salgado,Camila Alexandra",
+  "ajuste mensual": "$15007",
+  "porcentaje": "5,09%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "19981233-5",
+  "Nombre": "Ponce Reyes,Sebastian Alberto",
+  "ajuste mensual": "$20157",
+  "porcentaje": "3,16%",
+  "Bono": "$145000"
+ },
+ {
+  "ID": "17143193-K",
+  "Nombre": "Oyanader Bruna,Cristopher Alfredo",
+  "ajuste mensual": "$29172",
+  "porcentaje": "10,9%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "18256724-8",
+  "Nombre": "Valdes Arancibia,Francisca Nicole",
+  "ajuste mensual": "$15000",
+  "porcentaje": "5%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "15799646-0",
+  "Nombre": "Serrano Zamudio,Priscilla Elizabeth",
+  "ajuste mensual": "$23705",
+  "porcentaje": "3,39%",
+  "Bono": "$145000"
+ },
+ {
+  "ID": "17387793-5",
+  "Nombre": "Barahona Fernandez,Camila Antonieta",
+  "ajuste mensual": "$15007",
+  "porcentaje": "5,09%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "13993146-7",
+  "Nombre": "Soto González,Natalia Valezka",
+  "ajuste mensual": "$33231",
+  "porcentaje": "4,81%",
+  "Bono": "$145000"
+ },
+ {
+  "ID": "14533144-7",
+  "Nombre": "Zavala Leiva,Ana Maria",
+  "ajuste mensual": "$41282",
+  "porcentaje": "5,51%",
+  "Bono": "$145000"
+ },
+ {
+  "ID": "17473465-8",
+  "Nombre": "Espinoza Gómez,Jenny Belén",
+  "ajuste mensual": "$10912",
+  "porcentaje": "3,86%",
+  "Bono": "$80000"
+ },
+ {
+  "ID": "19666103-4",
+  "Nombre": "Miranda Julio,Alvaro Sebastian",
+  "ajuste mensual": "$30934",
+  "porcentaje": "4,91%",
+  "Bono": "$145000"
+ },
+ {
+  "ID": "17977003-2",
+  "Nombre": "Castillo Matamoro,Mariana de Jesús",
+  "ajuste mensual": "$38984",
+  "porcentaje": "5,67%",
+  "Bono": "$145000"
+ },
+ {
+  "ID": "20126718-8",
+  "Nombre": "Milla Santibañez,Estefania Andrea",
+  "ajuste mensual": "$38984",
+  "porcentaje": "5,67%",
+  "Bono": "$145000"
+ },
+ {
+  "ID": "12836431-5",
+  "Nombre": "Vargas Jorquera,Cinthya Patricia",
+  "ajuste mensual": "$8785,",
+  "porcentaje": "2,93%",
+  "Bono": "$96500"
+ },
+ {
+  "ID": "18659748-6",
+  "Nombre": "Rojas Vera,Rodrigo Andres",
+  "ajuste mensual": "$30934",
+  "porcentaje": "4,91%",
+  "Bono": "$195000"
+ },
+ {
+  "ID": "18032297-3",
+  "Nombre": "Cardenas Guilches,Alexandra Belen",
+  "ajuste mensual": "$15007",
+  "porcentaje": "5,09%",
+  "Bono": "$96500"
+ },
+ {
+  "ID": "15083800-2",
+  "Nombre": "Gonzalez Leiva,Macarena Jose",
+  "ajuste mensual": "$15007",
+  "porcentaje": "5,09%",
+  "Bono": "$96500"
+ },
+ {
+  "ID": "19972658-7",
+  "Nombre": "Ponce Muñoz,Daniela Alejandra",
+  "ajuste mensual": "$15007",
+  "porcentaje": "5,09%",
+  "Bono": "$96500"
+ },
+ {
+  "ID": "20182853-8",
+  "Nombre": "Medina Vega,Benjamin Abel",
+  "ajuste mensual": "$15007",
+  "porcentaje": "5,09%",
+  "Bono": "$96500"
+ },
+ {
+  "ID": "12044665-7",
+  "Nombre": "Mella Saavedra,Orlando Abimelech",
+  "ajuste mensual": "$33614",
+  "porcentaje": "4,79%",
+  "Bono": "$195000"
+ },
+ {
+  "ID": "13204661-1",
+  "Nombre": "Valenzuela Perez,Claudia Guillermina",
+  "ajuste mensual": "$18604",
+  "porcentaje": "2,91%",
+  "Bono": "$195000"
+ },
+ {
+  "ID": "15761964-0",
+  "Nombre": "Silva Saavedra,Sebastian Exequiel",
+  "ajuste mensual": "$30934",
+  "porcentaje": "4,91%",
+  "Bono": "$195000"
+ },
+ {
+  "ID": "18567723-0",
+  "Nombre": "Utreras Martinez,Edward Alexander",
+  "ajuste mensual": "$13900",
+  "porcentaje": "4,97%",
+  "Bono": "$96500"
+ },
+ {
+  "ID": "17792181-5",
+  "Nombre": "Arenas Varela,Tamara",
+  "ajuste mensual": "$41282",
+  "porcentaje": "5,51%",
+  "Bono": "$195000"
+ },
+ {
+  "ID": "12834443-8",
+  "Nombre": "Ponce Veliz,Guillermo Andres",
+  "ajuste mensual": "$24088",
+  "porcentaje": "3,40%",
+  "Bono": "$195000"
+ },
+ {
+  "ID": "20908457-0",
+  "Nombre": "Caceres San Martin,Alan Jeremy",
+  "ajuste mensual": "$15007",
+  "porcentaje": "5,09%",
+  "Bono": "$96500"
+ },
+ {
+  "ID": "13879337-0",
+  "Nombre": "Gomez Gaete,Viviana Andrea",
+  "ajuste mensual": "$21296",
+  "porcentaje": "4,88%",
+  "Bono": "$96500"
+ },
+ {
+  "ID": "9626043-1",
+  "Nombre": "Ramirez Cartes,Marissa Jacqueline",
+  "ajuste mensual": "$21296",
+  "porcentaje": "4,88%",
+  "Bono": "$96500"
+ },
+ {
+  "ID": "12451974-8",
+  "Nombre": "Gonzalez Solis,Gabriela Paola",
+  "ajuste mensual": "$30934",
+  "porcentaje": "4,91%",
+  "Bono": "$195000"
+ },
+ {
+  "ID": "19013174-2",
+  "Nombre": "Ávalos Cruz,Nicoln Romina",
+  "ajuste mensual": "$15007",
+  "porcentaje": "5,09%",
+  "Bono": "$96500"
+ },
+ {
+  "ID": "18383740-0",
+  "Nombre": "Lazcano Flores,Lukas Eduardo",
+  "ajuste mensual": "$30934",
+  "porcentaje": "4,91%",
+  "Bono": "$195000"
+ },
+ {
+  "ID": "17477972-4",
+  "Nombre": "Ponce Amestica,Pablo Andres",
+  "ajuste mensual": "$38984",
+  "porcentaje": "5,67%",
+  "Bono": "$195000"
+ },
+ {
+  "ID": "19257623-7",
+  "Nombre": "Ibarra Garcia,Daniel Alexander",
+  "ajuste mensual": "$30934",
+  "porcentaje": "4,91%",
+  "Bono": "$195000"
+ },
+ {
+  "ID": "20154630-3",
+  "Nombre": "Jerez Poza,Maria Jose",
+  "ajuste mensual": "$33231",
+  "porcentaje": "4,81%",
+  "Bono": "$195000"
+ },
+ {
+  "ID": "13190765-6",
+  "Nombre": "Espinoza Henriquez,Natalia Elizabeth",
+  "ajuste mensual": "$21407",
+  "porcentaje": "3,36%",
+  "Bono": "$195000"
+ },
+ {
+  "ID": "15765037-8",
+  "Nombre": "Lizama Muñoz,Francisco Javier",
+  "ajuste mensual": "$34998",
+  "porcentaje": "4,74%",
+  "Bono": "$195000"
+ },
+ {
+  "ID": "18878569-7",
+  "Nombre": "Valdebenito Zamora,Francisca Andrea",
+  "ajuste mensual": "$15925",
+  "porcentaje": "5,35%",
+  "Bono": "$195000"
+ },
+ {
+  "ID": "19760951-6",
+  "Nombre": "Valdebenito Zamora,Marcela Ignacia",
+  "ajuste mensual": "$14818",
+  "porcentaje": "5,24%",
+  "Bono": "$96500"
+ },
+ {
+  "ID": "7951990-1",
+  "Nombre": "Urbina Morales,Jaime Enrique",
+  "ajuste mensual": "$30934",
+  "porcentaje": "4,91%",
+  "Bono": "$195000"
+ },
+ {
+  "ID": "25852371-7",
+  "Nombre": "Naranjo Fernandez,Yessenia Karina",
+  "ajuste mensual": "$15925",
+  "porcentaje": "5,35%",
+  "Bono": "$96500"
+ },
+ {
+  "ID": "12820132-7",
+  "Nombre": "Castro Erazo,Jacquelin Alejandra",
+  "ajuste mensual": "$15925",
+  "porcentaje": "5,35%",
+  "Bono": "$96500"
+ },
+ {
+  "ID": "16775419-8",
+  "Nombre": "Toro Toro,Daisy Andrea",
+  "ajuste mensual": "$15925",
+  "porcentaje": "5,35%",
+  "Bono": "$96500"
+ },
+ {
+  "ID": "18033437-8",
+  "Nombre": "Henríquez Lobos,Fernando Humberto",
+  "ajuste mensual": "$37862",
+  "porcentaje": "5,94%",
+  "Bono": "$195000"
+ },
+ {
+  "ID": "18996141-3",
+  "Nombre": "Pulgar Peña,Sebastián Alejandro",
+  "ajuste mensual": "$37862",
+  "porcentaje": "5,94%",
+  "Bono": "$195000"
+ },
+ {
+  "ID": "18878755-K",
+  "Nombre": "Arriagada Castillo,Katherine Macarena",
+  "ajuste mensual": "$16312",
+  "porcentaje": "5,77%",
+  "Bono": "$96500"
+ },
+ {
+  "ID": "14252811-8",
+  "Nombre": "Olivares Carvajal,Johanna Del Carmen",
+  "ajuste mensual": "$17419",
+  "porcentaje": "5,85%",
+  "Bono": "$96500"
+ },
+ {
+  "ID": "18032434-8",
+  "Nombre": "Silva Pacheco,Maryorie Andrea",
+  "ajuste mensual": "$40543",
+  "porcentaje": "5,80%",
+  "Bono": "$195000"
+ },
+ {
+  "ID": "17479508-8",
+  "Nombre": "Tapia Parra,Camila Andrea",
+  "ajuste mensual": "$17419",
+  "porcentaje": "5,85%",
+  "Bono": "$96500"
+ },
+ {
+  "ID": "12602823-7",
+  "Nombre": "Linco Linco,Claudia Alejandra",
+  "ajuste mensual": "$16312",
+  "porcentaje": "5,77%",
+  "Bono": "$96500"
+ },
+ {
+  "ID": "26279575-6",
+  "Nombre": "Louis,Nadege",
+  "ajuste mensual": "$17419",
+  "porcentaje": "5,85%",
+  "Bono": "$96500"
+ },
+ {
+  "ID": "17286694-8",
+  "Nombre": "Gajardo Medina,Pedro Esteban",
+  "ajuste mensual": "$38080",
+  "porcentaje": "5,93%",
+  "Bono": "$240000"
+ },
+ {
+  "ID": "11991663-1",
+  "Nombre": "Cárdenas Robles,Claudia Pilar",
+  "ajuste mensual": "$16312",
+  "porcentaje": "5,77%",
+  "Bono": "$116500"
+ },
+ {
+  "ID": "17145149-3",
+  "Nombre": "Quiroz Mendoza,Nicolle Stefanie",
+  "ajuste mensual": "$17419",
+  "porcentaje": "5,85%",
+  "Bono": "$116500"
+ },
+ {
+  "ID": "10829898-7",
+  "Nombre": "Yevenes Arellano,Mauricio Alejandro",
+  "ajuste mensual": "$17419",
+  "porcentaje": "5,85%",
+  "Bono": "$116500"
+ },
+ {
+  "ID": "20502373-9",
+  "Nombre": "Marín Cortez,Catalina Nicole",
+  "ajuste mensual": "$38080",
+  "porcentaje": "5,93%",
+  "Bono": "$240000"
+ },
+ {
+  "ID": "19774141-4",
+  "Nombre": "Martinez Leiva,Carolina Ivette",
+  "ajuste mensual": "$40543",
+  "porcentaje": "5,80%",
+  "Bono": "$240000"
+ },
+ {
+  "ID": "13877140-7",
+  "Nombre": "Buzeta Vicencio,Claudia Andrea",
+  "ajuste mensual": "$38080",
+  "porcentaje": "5,93%",
+  "Bono": "$240000"
+ },
+ {
+  "ID": "15556282-K",
+  "Nombre": "Guerra Reyes,Maribel Victoria Del Pilar",
+  "ajuste mensual": "$16312",
+  "porcentaje": "5,77%",
+  "Bono": "$116500"
+ },
+ {
+  "ID": "19151959-0",
+  "Nombre": "Costa Galindo,Anggie Danae",
+  "ajuste mensual": "$17419",
+  "porcentaje": "5,85%",
+  "Bono": "$116500"
+ },
+ {
+  "ID": "18223810-4",
+  "Nombre": "Navarro Venegas,Kevin Jonathan",
+  "ajuste mensual": "$46130",
+  "porcentaje": "6,58%",
+  "Bono": "$240000"
+ },
+ {
+  "ID": "18915215-9",
+  "Nombre": "Pezoa Pezoa,Karina Daniela",
+  "ajuste mensual": "$17419",
+  "porcentaje": "5,85%",
+  "Bono": "$116500"
+ },
+ {
+  "ID": "12229697-0",
+  "Nombre": "Hernandez Lopez,David Humberto",
+  "ajuste mensual": "$40990",
+  "porcentaje": "5,78%",
+  "Bono": "$240000"
+ },
+ {
+  "ID": "20173780-K",
+  "Nombre": "Rojas Sepulveda,Gabriel Emmir Andres",
+  "ajuste mensual": "$17419",
+  "porcentaje": "5,85%",
+  "Bono": "$116500"
+ },
+ {
+  "ID": "18564631-9",
+  "Nombre": "Salas Garces,Eduardo Andres",
+  "ajuste mensual": "$38080",
+  "porcentaje": "5,93%",
+  "Bono": "$240000"
+ },
+ {
+  "ID": "14001764-7",
+  "Nombre": "Muñoz La Rosa,Elizabeth María",
+  "ajuste mensual": "$40543",
+  "porcentaje": "5,80%",
+  "Bono": "$240000"
+ },
+ {
+  "ID": "13852304-7",
+  "Nombre": "Soto Jimenez,Ruth Mery",
+  "ajuste mensual": "$16312",
+  "porcentaje": "5,77%",
+  "Bono": "$116500"
+ },
+ {
+  "ID": "18036594-K",
+  "Nombre": "Bestard Flores,Carolina Stefania",
+  "ajuste mensual": "$38086",
+  "porcentaje": "5,93%",
+  "Bono": "$240000"
+ },
+ {
+  "ID": "18256294-7",
+  "Nombre": "Guerra Rojas,Susan Nicole",
+  "ajuste mensual": "$38086",
+  "porcentaje": "5,93%",
+  "Bono": "$240000"
+ },
+ {
+  "ID": "20476771-8",
+  "Nombre": "Aguirre Malhue,Catalina Del Carmen",
+  "ajuste mensual": "$17419",
+  "porcentaje": "5,85%",
+  "Bono": "$116500"
+ },
+ {
+  "ID": "20184061-9",
+  "Nombre": "Rios Torres,Damaris Belen",
+  "ajuste mensual": "$48594",
+  "porcentaje": "6,42%",
+  "Bono": "$240000"
+ },
+ {
+  "ID": "15977528-3",
+  "Nombre": "Cuevas Yanca,Oriana Yamilett",
+  "ajuste mensual": "$16312",
+  "porcentaje": "5,77%",
+  "Bono": "$116500"
+ },
+ {
+  "ID": "20012207-0",
+  "Nombre": "Gonzalez Valdes,Kevin Andres",
+  "ajuste mensual": "$38086",
+  "porcentaje": "5,93%",
+  "Bono": "$240000"
+ },
+ {
+  "ID": "10599605-5",
+  "Nombre": "Baez Muñoz,Ajenor Eduardo",
+  "ajuste mensual": "$38086",
+  "porcentaje": "5,93%",
+  "Bono": "$240000"
+ },
+ {
+  "ID": "18380518-5",
+  "Nombre": "Molina Tapia,Karen Elizabeth",
+  "ajuste mensual": "$17419",
+  "porcentaje": "5,85%",
+  "Bono": "$116500"
+ },
+ {
+  "ID": "17568795-5",
+  "Nombre": "Alvarez Araya,Marisol Yessenia",
+  "ajuste mensual": "$29518",
+  "porcentaje": "4,14%",
+  "Bono": "$240000"
+ },
+ {
+  "ID": "11941918-2",
+  "Nombre": "Prado Carreño,Estrella Yancy",
+  "ajuste mensual": "$38086",
+  "porcentaje": "5,93%",
+  "Bono": "$240000"
+ },
+ {
+  "ID": "11387794-4",
+  "Nombre": "Morales Vasquez,Ingrid Paola",
+  "ajuste mensual": "$38086",
+  "porcentaje": "5,93%",
+  "Bono": "$240000"
+ },
+ {
+  "ID": "17568813-7",
+  "Nombre": "Bravo Amestica,Polett Daniela",
+  "ajuste mensual": "$16312",
+  "porcentaje": "5,77%",
+  "Bono": "$116500"
+ },
+ {
+  "ID": "19726722-4",
+  "Nombre": "Schiappacasse Godoy,Cristian Sebastián",
+  "ajuste mensual": "$28000",
+  "porcentaje": "5,7%",
+  "Bono": "$116500"
+ },
+ {
+  "ID": "14315523-4",
+  "Nombre": "Aracena Lopez,Cinthia Elizabeth",
+  "ajuste mensual": "$16312",
+  "porcentaje": "5,77%",
+  "Bono": "$116500"
+ },
+ {
+  "ID": "13542897-3",
+  "Nombre": "Bernal Soto,Daniela Luisa",
+  "ajuste mensual": "$16312",
+  "porcentaje": "5,77%",
+  "Bono": "$116500"
+ },
+ {
+  "ID": "18031597-7",
+  "Nombre": "Meza Villalon,Arauco Romina",
+  "ajuste mensual": "$40990",
+  "porcentaje": "5,78%",
+  "Bono": "$240000"
+ },
+ {
+  "ID": "19012592-0",
+  "Nombre": "Ibañez Berríos,Yalile Daniela de Dios",
+  "ajuste mensual": "$16312",
+  "porcentaje": "5,77%",
+  "Bono": "$116500"
+ },
+ {
+  "ID": "17791631-5",
+  "Nombre": "Caballeria Figueroa,Carolina Paz",
+  "ajuste mensual": "$27517",
+  "porcentaje": "5,71%",
+  "Bono": "$116500"
+ },
+ {
+  "ID": "18566577-1",
+  "Nombre": "Figueroa Huerta,Paulina Isabel",
+  "ajuste mensual": "$19914",
+  "porcentaje": "6,68%",
+  "Bono": "$116500"
+ },
+ {
+  "ID": "20633910-1",
+  "Nombre": "Parra Sepulveda,Nayelly Fernanda",
+  "ajuste mensual": "$21133",
+  "porcentaje": "6,48%",
+  "Bono": "$116500"
+ },
+ {
+  "ID": "19430195-2",
+  "Nombre": "Miranda Arriagada,Jedidias Emanuel",
+  "ajuste mensual": "$38086",
+  "porcentaje": "5,93%",
+  "Bono": "$240000"
+ },
+ {
+  "ID": "17508778-8",
+  "Nombre": "Gonzalez Rojas,Carla Graciela",
+  "ajuste mensual": "$12398",
+  "porcentaje": "2,90%",
+  "Bono": "$116500"
+ },
+ {
+  "ID": "17566971-K",
+  "Nombre": "Lagos Olavarria,Jaime Andres",
+  "ajuste mensual": "$16312",
+  "porcentaje": "5,77%",
+  "Bono": "$116500"
+ },
+ {
+  "ID": "17791425-8",
+  "Nombre": "Torres Zaldivar,Leslie Yeannette",
+  "ajuste mensual": "$19914",
+  "porcentaje": "6,68%",
+  "Bono": "$116500"
+ },
+ {
+  "ID": "13880245-0",
+  "Nombre": "Aros Llanos,Zulema Del Pilar",
+  "ajuste mensual": "$47485",
+  "porcentaje": "6,73%",
+  "Bono": "$240000"
+ },
+ {
+  "ID": "19544354-8",
+  "Nombre": "Alvarez Ovalle,Genesis Esther",
+  "ajuste mensual": "$19914",
+  "porcentaje": "6,68%",
+  "Bono": "$116500"
+ },
+ {
+  "ID": "17723102-9",
+  "Nombre": "Sepulveda Tapia,Gabriela Del Carmen",
+  "ajuste mensual": "$38086",
+  "porcentaje": "5,93%",
+  "Bono": "$240000"
+ },
+ {
+  "ID": "12822234-0",
+  "Nombre": "Vega Castro,Yessenia Katherine",
+  "ajuste mensual": "$9431,",
+  "porcentaje": "3,27%",
+  "Bono": "$136500"
+ },
+ {
+  "ID": "20479221-6",
+  "Nombre": "Guzman Gallardo,Maria Isabel",
+  "ajuste mensual": "$29431",
+  "porcentaje": "6,68%",
+  "Bono": "$136500"
+ },
+ {
+  "ID": "18273135-8",
+  "Nombre": "Navarro Azola,Paulina Alejandra",
+  "ajuste mensual": "$29431",
+  "porcentaje": "6,68%",
+  "Bono": "$136500"
+ },
+ {
+  "ID": "18421379-6",
+  "Nombre": "Villalon Loyola,Kimberli Nicol",
+  "ajuste mensual": "$19914",
+  "porcentaje": "6,68%",
+  "Bono": "$136500"
+ },
+ {
+  "ID": "10388043-2",
+  "Nombre": "Bernal Lopez,Juana del Carmen",
+  "ajuste mensual": "$16312",
+  "porcentaje": "5,77%",
+  "Bono": "$136500"
+ },
+ {
+  "ID": "10333957-K",
+  "Nombre": "Olivares Bahamondes,Mauricio Rene",
+  "ajuste mensual": "$9431,",
+  "porcentaje": "3,27%",
+  "Bono": "$136500"
+ },
+ {
+  "ID": "11825619-0",
+  "Nombre": "Vinnett Riquelme,Lorena Marcela",
+  "ajuste mensual": "$29431",
+  "porcentaje": "6,68%",
+  "Bono": "$136500"
+ },
+ {
+  "ID": "18749056-1",
+  "Nombre": "Campos Peña,Sebastian Gabriel",
+  "ajuste mensual": "$10484",
+  "porcentaje": "3,65%",
+  "Bono": "$136500"
+ },
+ {
+  "ID": "26469364-0",
+  "Nombre": "Viloria Utria,Luis Alejandro",
+  "ajuste mensual": "$47485",
+  "porcentaje": "6,73%",
+  "Bono": "$280000"
+ },
+ {
+  "ID": "17209880-0",
+  "Nombre": "Reyes Marchant,Sofia Michaele",
+  "ajuste mensual": "$38086",
+  "porcentaje": "5,93%",
+  "Bono": "$280000"
+ },
+ {
+  "ID": "20012005-1",
+  "Nombre": "Guerra Moraga,Michael Rodolfo",
+  "ajuste mensual": "$16312",
+  "porcentaje": "5,77%",
+  "Bono": "$136500"
+ },
+ {
+  "ID": "13996130-7",
+  "Nombre": "Campos Suazo,Claudia Del Carmen",
+  "ajuste mensual": "$38086",
+  "porcentaje": "5,93%",
+  "Bono": "$280000"
+ },
+ {
+  "ID": "19873099-8",
+  "Nombre": "Mac-Lean Tello,Melanie Antonia",
+  "ajuste mensual": "$38086",
+  "porcentaje": "5,93%",
+  "Bono": "$280000"
+ },
+ {
+  "ID": "19664882-8",
+  "Nombre": "Barrera Donoso,Juan Manuel",
+  "ajuste mensual": "$38086",
+  "porcentaje": "5,93%",
+  "Bono": "$280000"
+ },
+ {
+  "ID": "20174233-1",
+  "Nombre": "Yañez Salinas,John Alejandro",
+  "ajuste mensual": "$29431",
+  "porcentaje": "6,68%",
+  "Bono": "$136500"
+ },
+ {
+  "ID": "15751231-5",
+  "Nombre": "Soto Navarro,Francisca Carolina",
+  "ajuste mensual": "$19914",
+  "porcentaje": "6,68%",
+  "Bono": "$136500"
+ },
+ {
+  "ID": "20173023-6",
+  "Nombre": "Saldivar Carrasco,Sol Estefania",
+  "ajuste mensual": "$19914",
+  "porcentaje": "6,68%",
+  "Bono": "$136500"
+ },
+ {
+  "ID": "17481478-3",
+  "Nombre": "Muñoz Vergara,Angela Liz",
+  "ajuste mensual": "$19914",
+  "porcentaje": "6,68%",
+  "Bono": "$136500"
+ },
+ {
+  "ID": "13956220-8",
+  "Nombre": "Riquelme Levancine,Gloria Andrea",
+  "ajuste mensual": "$16312",
+  "porcentaje": "5,77%",
+  "Bono": "$136500"
+ },
+ {
+  "ID": "9176903-4",
+  "Nombre": "Ordenes Figueroa,Patricio Esteban",
+  "ajuste mensual": "$16312",
+  "porcentaje": "5,77%",
+  "Bono": "$136500"
+ },
+ {
+  "ID": "13360314-K",
+  "Nombre": "Cortes Cortes,Delfina Teodora",
+  "ajuste mensual": "$33798",
+  "porcentaje": "5,23%",
+  "Bono": "$280000"
+ },
+ {
+  "ID": "15080071-4",
+  "Nombre": "Sepulveda Garay,Pablo Andres",
+  "ajuste mensual": "$16312",
+  "porcentaje": "5,77%",
+  "Bono": "$136500"
+ },
+ {
+  "ID": "13367641-4",
+  "Nombre": "Fraga Ale,Paula Andrea",
+  "ajuste mensual": "$16312",
+  "porcentaje": "5,77%",
+  "Bono": "$136500"
+ },
+ {
+  "ID": "14208705-7",
+  "Nombre": "Cuevas Castillo,Luis Alberto",
+  "ajuste mensual": "$38086",
+  "porcentaje": "5,93%",
+  "Bono": "$280000"
+ },
+ {
+  "ID": "16288643-6",
+  "Nombre": "Guzman Menares,Moises Gamaliel",
+  "ajuste mensual": "$16312",
+  "porcentaje": "5,77%",
+  "Bono": "$136500"
+ },
+ {
+  "ID": "16819598-2",
+  "Nombre": "Ortiz Castillo,Freddy Marco",
+  "ajuste mensual": "$13996",
+  "porcentaje": "3,29%",
+  "Bono": "$136500"
+ },
+ {
+  "ID": "19792594-9",
+  "Nombre": "Alvarez Ortiz,Sebastian Alexander",
+  "ajuste mensual": "$16312",
+  "porcentaje": "5,77%",
+  "Bono": "$136500"
+ },
+ {
+  "ID": "16501204-6",
+  "Nombre": "Estay Torres,Roberto Alejandro",
+  "ajuste mensual": "$38086",
+  "porcentaje": "5,93%",
+  "Bono": "$280000"
+ },
+ {
+  "ID": "11222960-4",
+  "Nombre": "Diaz Santander,Gladys Lorena",
+  "ajuste mensual": "$38086",
+  "porcentaje": "5,93%",
+  "Bono": "$280000"
+ },
+ {
+  "ID": "10701093-9",
+  "Nombre": "Fritis Nuñez,Elizabeth Paola",
+  "ajuste mensual": "$29431",
+  "porcentaje": "6,68%",
+  "Bono": "$136500"
+ },
+ {
+  "ID": "10085960-2",
+  "Nombre": "Valle Acevedo,Erenicia Alejandra",
+  "ajuste mensual": "$9431,",
+  "porcentaje": "3,27%",
+  "Bono": "$136500"
+ },
+ {
+  "ID": "12312293-3",
+  "Nombre": "Paras Tapia,Nelson Abel",
+  "ajuste mensual": "$40990",
+  "porcentaje": "5,78%",
+  "Bono": "$280000"
+ },
+ {
+  "ID": "19213613-K",
+  "Nombre": "Campusano Godoy,Constanza Alejandra",
+  "ajuste mensual": "$16312",
+  "porcentaje": "5,77%",
+  "Bono": "$136500"
+ },
+ {
+  "ID": "11730641-0",
+  "Nombre": "Santana Ibaceta,Nora Marcela",
+  "ajuste mensual": "$26880",
+  "porcentaje": "4,12%",
+  "Bono": "$280000"
+ },
+ {
+  "ID": "10323276-7",
+  "Nombre": "Vargas Cardenas,Jessica Ester",
+  "ajuste mensual": "$19914",
+  "porcentaje": "6,68%",
+  "Bono": "$136500"
+ },
+ {
+  "ID": "12229523-0",
+  "Nombre": "Nuñez Contreras,Andrea del Rosario",
+  "ajuste mensual": "$26880",
+  "porcentaje": "4,12%",
+  "Bono": "$280000"
+ },
+ {
+  "ID": "11991534-1",
+  "Nombre": "Maturana Brito,Claudia Alejandra",
+  "ajuste mensual": "$16312",
+  "porcentaje": "5,77%",
+  "Bono": "$136500"
+ },
+ {
+  "ID": "16969345-5",
+  "Nombre": "Venegas Castro,Gina Elizabeth",
+  "ajuste mensual": "$19914",
+  "porcentaje": "6,68%",
+  "Bono": "$136500"
+ },
+ {
+  "ID": "18704754-4",
+  "Nombre": "Silva Cancino,Maria Jose",
+  "ajuste mensual": "$29431",
+  "porcentaje": "6,68%",
+  "Bono": "$136500"
+ },
+ {
+  "ID": "10381635-1",
+  "Nombre": "Mansilla Almonacid,Mercedes Lucinda",
+  "ajuste mensual": "$19914",
+  "porcentaje": "6,68%",
+  "Bono": "$136500"
+ },
+ {
+  "ID": "13543370-5",
+  "Nombre": "Campos Calderon,Katherine Maria",
+  "ajuste mensual": "$40543",
+  "porcentaje": "5,80%",
+  "Bono": "$315000"
+ },
+ {
+  "ID": "11992043-4",
+  "Nombre": "Salmeron Sepulveda,Fabiola Liliana",
+  "ajuste mensual": "$29431",
+  "porcentaje": "6,68%",
+  "Bono": "$136500"
+ },
+ {
+  "ID": "19338987-2",
+  "Nombre": "Marquez Zuñiga,Manuel Antonio",
+  "ajuste mensual": "$12427",
+  "porcentaje": "2,73%",
+  "Bono": "$156500"
+ },
+ {
+  "ID": "14585540-3",
+  "Nombre": "Castillo Escudero,Paula",
+  "ajuste mensual": "$29431",
+  "porcentaje": "6,68%",
+  "Bono": "$156500"
+ },
+ {
+  "ID": "17807650-7",
+  "Nombre": "Zamora Martinez,Fanny Andrea",
+  "ajuste mensual": "$19914",
+  "porcentaje": "6,68%",
+  "Bono": "$156500"
+ },
+ {
+  "ID": "19154130-8",
+  "Nombre": "Figueroa Vilos,Bruno Antonio",
+  "ajuste mensual": "$16312",
+  "porcentaje": "5,77%",
+  "Bono": "$156500"
+ },
+ {
+  "ID": "11735190-4",
+  "Nombre": "Gonzalez Romero,Claudia Karem",
+  "ajuste mensual": "$29431",
+  "porcentaje": "6,68%",
+  "Bono": "$156500"
+ },
+ {
+  "ID": "16486672-6",
+  "Nombre": "Vidal Vidal,Valeria Paz",
+  "ajuste mensual": "$16312",
+  "porcentaje": "5,77%",
+  "Bono": "$156500"
+ },
+ {
+  "ID": "18239864-0",
+  "Nombre": "Fredes Segovia,Celia Abigail",
+  "ajuste mensual": "$19914",
+  "porcentaje": "6,68%",
+  "Bono": "$156500"
+ },
+ {
+  "ID": "14054161-3",
+  "Nombre": "Quiroz Navarro,Elizabeth Andrea",
+  "ajuste mensual": "$22797",
+  "porcentaje": "3,48%",
+  "Bono": "$315000"
+ },
+ {
+  "ID": "11389462-8",
+  "Nombre": "Nuñez Bazaez,Maria Angelica",
+  "ajuste mensual": "$47485",
+  "porcentaje": "6,73%",
+  "Bono": "$315000"
+ },
+ {
+  "ID": "11832128-6",
+  "Nombre": "Quezada Romero,Iris Del Carmen",
+  "ajuste mensual": "$29431",
+  "porcentaje": "6,68%",
+  "Bono": "$156500"
+ },
+ {
+  "ID": "18917707-0",
+  "Nombre": "Arancibia Uribe,Marisela Estefany",
+  "ajuste mensual": "$16312",
+  "porcentaje": "5,77%",
+  "Bono": "$156500"
+ },
+ {
+  "ID": "15829512-1",
+  "Nombre": "Hernandez Figueroa,Miguel Angel",
+  "ajuste mensual": "$40990",
+  "porcentaje": "5,78%",
+  "Bono": "$315000"
+ },
+ {
+  "ID": "9228337-2",
+  "Nombre": "Grandón Balboa,Ibis Elena Del Carmen",
+  "ajuste mensual": "$24029",
+  "porcentaje": "5,76%",
+  "Bono": "$156500"
+ },
+ {
+  "ID": "17479927-K",
+  "Nombre": "Rios Cortes,Yessenia Del Carmen",
+  "ajuste mensual": "$19914",
+  "porcentaje": "6,68%",
+  "Bono": "$156500"
+ },
+ {
+  "ID": "17536184-7",
+  "Nombre": "Caseres Gatica,Andrea Silvana",
+  "ajuste mensual": "$38086",
+  "porcentaje": "5,93%",
+  "Bono": "$315000"
+ },
+ {
+  "ID": "11829917-5",
+  "Nombre": "Diaz Martinez,Tatiana Jeannette",
+  "ajuste mensual": "$26880",
+  "porcentaje": "4,12%",
+  "Bono": "$315000"
+ },
+ {
+  "ID": "14252618-2",
+  "Nombre": "Peña Pereira,Claudio Mauricio",
+  "ajuste mensual": "$38086",
+  "porcentaje": "5,93%",
+  "Bono": "$315000"
+ },
+ {
+  "ID": "18883065-K",
+  "Nombre": "Videla Valenzuela,Bairon Nicolas",
+  "ajuste mensual": "$13996",
+  "porcentaje": "3,29%",
+  "Bono": "$156500"
+ },
+ {
+  "ID": "22722547-5",
+  "Nombre": "Poblete Gonzalez,Fabiana Gabriela",
+  "ajuste mensual": "$31259",
+  "porcentaje": "6,48%",
+  "Bono": "$156500"
+ },
+ {
+  "ID": "17636334-7",
+  "Nombre": "Tapia Borquez,Luis Felipe",
+  "ajuste mensual": "$40990",
+  "porcentaje": "5,78%",
+  "Bono": "$315000"
+ },
+ {
+  "ID": "16059108-0",
+  "Nombre": "Gallardo Escobar,Caterin Percida",
+  "ajuste mensual": "$24029",
+  "porcentaje": "5,76%",
+  "Bono": "$156500"
+ },
+ {
+  "ID": "15293499-8",
+  "Nombre": "Lara Aviles,Claudia Macarena",
+  "ajuste mensual": "$15679",
+  "porcentaje": "3,47%",
+  "Bono": "$156500"
+ },
+ {
+  "ID": "15096666-3",
+  "Nombre": "Rojas Barraza,Karina Elena",
+  "ajuste mensual": "$24029",
+  "porcentaje": "5,76%",
+  "Bono": "$156500"
+ },
+ {
+  "ID": "17160042-1",
+  "Nombre": "Sotelo Silva,Camila Paulette",
+  "ajuste mensual": "$19914",
+  "porcentaje": "6,68%",
+  "Bono": "$156500"
+ },
+ {
+  "ID": "19338830-2",
+  "Nombre": "Duarte Rojas,Felipe Andres",
+  "ajuste mensual": "$38086",
+  "porcentaje": "5,93%",
+  "Bono": "$315000"
+ },
+ {
+  "ID": "10226599-8",
+  "Nombre": "Padilla Nuñez,Miguel Isaias",
+  "ajuste mensual": "$40990",
+  "porcentaje": "5,78%",
+  "Bono": "$315000"
+ },
+ {
+  "ID": "12822844-6",
+  "Nombre": "Nilo Campos,Fabiola Encarnacion",
+  "ajuste mensual": "$16312",
+  "porcentaje": "5,77%",
+  "Bono": "$156500"
+ },
+ {
+  "ID": "19338948-1",
+  "Nombre": "Velasquez Ovando,Valeria Jazmin",
+  "ajuste mensual": "$19914",
+  "porcentaje": "6,68%",
+  "Bono": "$156500"
+ },
+ {
+  "ID": "11569782-K",
+  "Nombre": "Vera Mera,Viviana Ximena",
+  "ajuste mensual": "$31259",
+  "porcentaje": "6,48%",
+  "Bono": "$156500"
+ },
+ {
+  "ID": "18704585-1",
+  "Nombre": "Delgado Perez,Marina Estrella",
+  "ajuste mensual": "$29431",
+  "porcentaje": "6,68%",
+  "Bono": "$156500"
+ },
+ {
+  "ID": "12228642-8",
+  "Nombre": "Maldonado Rojas,José Antonio",
+  "ajuste mensual": "$38086",
+  "porcentaje": "5,93%",
+  "Bono": "$315000"
+ },
+ {
+  "ID": "11389466-0",
+  "Nombre": "Alvarado Urra,Juan Alejandro",
+  "ajuste mensual": "$38086",
+  "porcentaje": "5,93%",
+  "Bono": "$315000"
+ },
+ {
+  "ID": "11520021-6",
+  "Nombre": "Papagallo Vera,Álvaro Giugliano",
+  "ajuste mensual": "$40990",
+  "porcentaje": "5,78%",
+  "Bono": "$315000"
+ },
+ {
+  "ID": "19326253-8",
+  "Nombre": "Muñoz Cisternas,Constanza Javiera",
+  "ajuste mensual": "$29431",
+  "porcentaje": "6,68%",
+  "Bono": "$156500"
+ },
+ {
+  "ID": "16988929-5",
+  "Nombre": "Tamayo Tamayo,Carolina Romane",
+  "ajuste mensual": "$19914",
+  "porcentaje": "6,68%",
+  "Bono": "$156500"
+ },
+ {
+  "ID": "18618799-7",
+  "Nombre": "Vergara Fariña,Juan Ignacio",
+  "ajuste mensual": "$29337",
+  "porcentaje": "4,14%",
+  "Bono": "$315000"
+ },
+ {
+  "ID": "12621880-K",
+  "Nombre": "Loyola Catalan,Daniela Andrea",
+  "ajuste mensual": "$29431",
+  "porcentaje": "6,68%",
+  "Bono": "$156500"
+ },
+ {
+  "ID": "15646988-2",
+  "Nombre": "Arevalo Martinez,Mauricio Alfredo",
+  "ajuste mensual": "$40990",
+  "porcentaje": "5,78%",
+  "Bono": "$315000"
+ },
+ {
+  "ID": "19775406-0",
+  "Nombre": "Veliz Gonzalez,Nicolas Matias",
+  "ajuste mensual": "$38086",
+  "porcentaje": "5,93%",
+  "Bono": "$315000"
+ },
+ {
+  "ID": "15728376-6",
+  "Nombre": "Viera Alvarez,Cynthia Dallana",
+  "ajuste mensual": "$38086",
+  "porcentaje": "5,93%",
+  "Bono": "$315000"
+ },
+ {
+  "ID": "17619229-1",
+  "Nombre": "Jaque Neira,Claudia Elizabeth",
+  "ajuste mensual": "$29431",
+  "porcentaje": "6,68%",
+  "Bono": "$156500"
+ },
+ {
+  "ID": "18380554-1",
+  "Nombre": "Vergara Mellado,Francisco Javier",
+  "ajuste mensual": "$19868",
+  "porcentaje": "6,66%",
+  "Bono": "$156500"
+ },
+ {
+  "ID": "13999826-K",
+  "Nombre": "Gonzalez Moreno,Johana Denisse",
+  "ajuste mensual": "$36677",
+  "porcentaje": "4,75%",
+  "Bono": "$315000"
+ },
+ {
+  "ID": "18578567-K",
+  "Nombre": "Gonzalez Lehuey,Josué Exequiel",
+  "ajuste mensual": "$26880",
+  "porcentaje": "4,12%",
+  "Bono": "$315000"
+ },
+ {
+  "ID": "13189941-6",
+  "Nombre": "Rodriguez Garcia,Leonora Ercilia",
+  "ajuste mensual": "$21000",
+  "porcentaje": "6,6%",
+  "Bono": "$156500"
+ },
+ {
+  "ID": "19617494-K",
+  "Nombre": "Burgos Gutierrez,Karla Fernanda",
+  "ajuste mensual": "$19868",
+  "porcentaje": "6,66%",
+  "Bono": "$156500"
+ },
+ {
+  "ID": "18271420-8",
+  "Nombre": "Navarro Araya,John Carlos",
+  "ajuste mensual": "$40990",
+  "porcentaje": "5,78%",
+  "Bono": "$315000"
+ },
+ {
+  "ID": "14512576-6",
+  "Nombre": "González Bastía,Gloria Elizabeth",
+  "ajuste mensual": "$29431",
+  "porcentaje": "6,68%",
+  "Bono": "$156500"
+ },
+ {
+  "ID": "16127938-2",
+  "Nombre": "Riveros Bustamante,Jonathan Leonardo",
+  "ajuste mensual": "$29784",
+  "porcentaje": "4,15%",
+  "Bono": "$355000"
+ },
+ {
+  "ID": "16720867-3",
+  "Nombre": "Curinao Huincahual,Patricia Del",
+  "ajuste mensual": "$12398",
+  "porcentaje": "2,90%",
+  "Bono": "$196500"
+ },
+ {
+  "ID": "17473682-0",
+  "Nombre": "Figueroa Jeria,Carlos Braulio",
+  "ajuste mensual": "$40990",
+  "porcentaje": "5,78%",
+  "Bono": "$355000"
+ },
+ {
+  "ID": "16539380-5",
+  "Nombre": "Navia Saez,Cristian Andres",
+  "ajuste mensual": "$24029",
+  "porcentaje": "5,76%",
+  "Bono": "$196500"
+ },
+ {
+  "ID": "17806013-9",
+  "Nombre": "Traverso Abarzua,Karina Andrea",
+  "ajuste mensual": "$38086",
+  "porcentaje": "5,93%",
+  "Bono": "$355000"
+ },
+ {
+  "ID": "19047620-0",
+  "Nombre": "Cardenas Veliz,Sofia Lorena",
+  "ajuste mensual": "$47485",
+  "porcentaje": "6,73%",
+  "Bono": "$355000"
+ },
+ {
+  "ID": "12106498-7",
+  "Nombre": "Salas Donoso,Isabel Italia",
+  "ajuste mensual": "$24029",
+  "porcentaje": "5,76%",
+  "Bono": "$196500"
+ },
+ {
+  "ID": "19140615-K",
+  "Nombre": "Alvarez Soto,Franco David",
+  "ajuste mensual": "$16267",
+  "porcentaje": "5,76%",
+  "Bono": "$196500"
+ },
+ {
+  "ID": "16887852-4",
+  "Nombre": "Leiva Gallardo,Daniella Alejandra",
+  "ajuste mensual": "$29431",
+  "porcentaje": "6,68%",
+  "Bono": "$196500"
+ },
+ {
+  "ID": "15076479-3",
+  "Nombre": "Silva Andaur,Bryan Giovanni",
+  "ajuste mensual": "$38086",
+  "porcentaje": "5,93%",
+  "Bono": "$355000"
+ },
+ {
+  "ID": "19153501-4",
+  "Nombre": "Romero Hill,Nicole Aline Vania",
+  "ajuste mensual": "$38086",
+  "porcentaje": "5,93%",
+  "Bono": "$355000"
+ },
+ {
+  "ID": "14253353-7",
+  "Nombre": "Zamora Cortes,Elisa Andrea",
+  "ajuste mensual": "$38086",
+  "porcentaje": "5,93%",
+  "Bono": "$355000"
+ },
+ {
+  "ID": "17142891-2",
+  "Nombre": "Serrano Reyes,Caroline Isabel",
+  "ajuste mensual": "$29431",
+  "porcentaje": "6,68%",
+  "Bono": "$196500"
+ },
+ {
+  "ID": "13989929-6",
+  "Nombre": "Diaz Santana,Gabriela Maria",
+  "ajuste mensual": "$29431",
+  "porcentaje": "6,68%",
+  "Bono": "$196500"
+ },
+ {
+  "ID": "15947783-5",
+  "Nombre": "Coaquira Coaquira,Jenniffer Del Carmen",
+  "ajuste mensual": "$38086",
+  "porcentaje": "5,93%",
+  "Bono": "$355000"
+ },
+ {
+  "ID": "12110852-6",
+  "Nombre": "Contreras Martinez,Jeannette Candelaria",
+  "ajuste mensual": "$12427",
+  "porcentaje": "2,73%",
+  "Bono": "$196500"
+ },
+ {
+  "ID": "18616052-5",
+  "Nombre": "Jara Sepulveda,Camila Fernanda",
+  "ajuste mensual": "$19914",
+  "porcentaje": "6,68%",
+  "Bono": "$196500"
+ },
+ {
+  "ID": "20479695-5",
+  "Nombre": "Pereira Valdes,Rocio Scarlete",
+  "ajuste mensual": "$40543",
+  "porcentaje": "5,80%",
+  "Bono": "$355000"
+ },
+ {
+  "ID": "17163207-2",
+  "Nombre": "Rojas Elgueta,Luis Guillermo",
+  "ajuste mensual": "$38086",
+  "porcentaje": "5,93%",
+  "Bono": "$355000"
+ },
+ {
+  "ID": "17806065-1",
+  "Nombre": "Moreno Ampuero,Yessenia Caroline",
+  "ajuste mensual": "$24029",
+  "porcentaje": "5,76%",
+  "Bono": "$196500"
+ },
+ {
+  "ID": "18705088-K",
+  "Nombre": "Ossa Arredondo,Luis Marcelo",
+  "ajuste mensual": "$40990",
+  "porcentaje": "5,78%",
+  "Bono": "$355000"
+ },
+ {
+  "ID": "10707360-4",
+  "Nombre": "Barros Fernandez,Claudia Andrea",
+  "ajuste mensual": "$47485",
+  "porcentaje": "6,73%",
+  "Bono": "$355000"
+ },
+ {
+  "ID": "11623088-7",
+  "Nombre": "Lillo Chacana,Ximena del Carmen",
+  "ajuste mensual": "$34219",
+  "porcentaje": "4,78%",
+  "Bono": "$355000"
+ },
+ {
+  "ID": "13994597-2",
+  "Nombre": "Gonzalez Cortes,Luciana Vanessa",
+  "ajuste mensual": "$31259",
+  "porcentaje": "6,48%",
+  "Bono": "$196500"
+ },
+ {
+  "ID": "10001394-0",
+  "Nombre": "Arias Villaseca,Ana Elsa",
+  "ajuste mensual": "$29431",
+  "porcentaje": "6,68%",
+  "Bono": "$196500"
+ },
+ {
+  "ID": "11930510-1",
+  "Nombre": "Garrido Barahona,Ana Maria",
+  "ajuste mensual": "$26880",
+  "porcentaje": "4,12%",
+  "Bono": "$355000"
+ },
+ {
+  "ID": "19152188-9",
+  "Nombre": "Opazo Morales,Francisco Javier",
+  "ajuste mensual": "$38086",
+  "porcentaje": "5,93%",
+  "Bono": "$355000"
+ },
+ {
+  "ID": "17481274-8",
+  "Nombre": "Gonzalez Vicencio,Yarella Nicol",
+  "ajuste mensual": "$29431",
+  "porcentaje": "6,68%",
+  "Bono": "$196500"
+ },
+ {
+  "ID": "12138145-1",
+  "Nombre": "Pizarro Pizarro,Pamela Virginia",
+  "ajuste mensual": "$29431",
+  "porcentaje": "6,68%",
+  "Bono": "$196500"
+ },
+ {
+  "ID": "11830475-6",
+  "Nombre": "Gonzalez Carmona,Margarita Virginia",
+  "ajuste mensual": "$16312",
+  "porcentaje": "5,77%",
+  "Bono": "$196500"
+ },
+ {
+  "ID": "19337364-K",
+  "Nombre": "Prieto Bustamante,Eileen Jazmin",
+  "ajuste mensual": "$19868",
+  "porcentaje": "6,66%",
+  "Bono": "$196500"
+ },
+ {
+  "ID": "12092398-6",
+  "Nombre": "Redin Manquez,Damaris Noemi",
+  "ajuste mensual": "$29431",
+  "porcentaje": "6,68%",
+  "Bono": "$196500"
+ },
+ {
+  "ID": "18032769-K",
+  "Nombre": "Arias Vasquez,Claudia Ninoska",
+  "ajuste mensual": "$13996",
+  "porcentaje": "3,29%",
+  "Bono": "$196500"
+ },
+ {
+  "ID": "16033775-3",
+  "Nombre": "Moreno Castro,Daniela Carolina",
+  "ajuste mensual": "$13996",
+  "porcentaje": "3,29%",
+  "Bono": "$196500"
+ },
+ {
+  "ID": "8898630-K",
+  "Nombre": "Argomedo Diaz,Patricia",
+  "ajuste mensual": "$38086",
+  "porcentaje": "5,93%",
+  "Bono": "$355000"
+ },
+ {
+  "ID": "13540874-3",
+  "Nombre": "Molina Herrera,Denisse Alejandra",
+  "ajuste mensual": "$29431",
+  "porcentaje": "6,68%",
+  "Bono": "$196500"
+ },
+ {
+  "ID": "16678613-4",
+  "Nombre": "Aspes Aspes,Silvia Angelica",
+  "ajuste mensual": "$25857",
+  "porcentaje": "5,63%",
+  "Bono": "$196500"
+ },
+ {
+  "ID": "16968043-4",
+  "Nombre": "Arancibia Biermoritz,Isabel Alejandra",
+  "ajuste mensual": "$19914",
+  "porcentaje": "6,68%",
+  "Bono": "$196500"
+ },
+ {
+  "ID": "17364233-4",
+  "Nombre": "Jeraldo Contreras,Paula Del Carmen",
+  "ajuste mensual": "$12427",
+  "porcentaje": "2,73%",
+  "Bono": "$196500"
+ },
+ {
+  "ID": "18270414-8",
+  "Nombre": "Vega Parkers,Yesenia Ivania",
+  "ajuste mensual": "$21133",
+  "porcentaje": "6,48%",
+  "Bono": "$196500"
+ },
+ {
+  "ID": "10222913-4",
+  "Nombre": "Zamorano Valenzuela,Laura Jimena",
+  "ajuste mensual": "$29431",
+  "porcentaje": "6,68%",
+  "Bono": "$196500"
+ },
+ {
+  "ID": "12848837-5",
+  "Nombre": "Hernandez Arancibia,Marion Cristina",
+  "ajuste mensual": "$29431",
+  "porcentaje": "6,68%",
+  "Bono": "$196500"
+ },
+ {
+  "ID": "13204721-9",
+  "Nombre": "Castro Soto,Karina Del Carmen",
+  "ajuste mensual": "$15679",
+  "porcentaje": "3,47%",
+  "Bono": "$196500"
+ },
+ {
+  "ID": "16753845-2",
+  "Nombre": "Sarrias Aguilar,Daniela Paola",
+  "ajuste mensual": "$12427",
+  "porcentaje": "2,73%",
+  "Bono": "$196500"
+ },
+ {
+  "ID": "19326013-6",
+  "Nombre": "Gutierrez Morales,Daniela Valeska",
+  "ajuste mensual": "$29431",
+  "porcentaje": "6,68%",
+  "Bono": "$196500"
+ },
+ {
+  "ID": "19337159-0",
+  "Nombre": "Burgos Gutierrez,Gerardo Andres",
+  "ajuste mensual": "$29431",
+  "porcentaje": "6,68%",
+  "Bono": "$196500"
+ },
+ {
+  "ID": "18381648-9",
+  "Nombre": "Delano Lanas,Esteban Rodrigo",
+  "ajuste mensual": "$40990",
+  "porcentaje": "5,78%",
+  "Bono": "$370000"
+ },
+ {
+  "ID": "18380961-K",
+  "Nombre": "Bahamondes Henriquez,Aileen Natalia",
+  "ajuste mensual": "$19868",
+  "porcentaje": "6,66%",
+  "Bono": "$196500"
+ },
+ {
+  "ID": "19773669-0",
+  "Nombre": "Huerta Fuentealba,Samuel Esteban",
+  "ajuste mensual": "$13996",
+  "porcentaje": "3,29%",
+  "Bono": "$370000"
+ },
+ {
+  "ID": "12954547-K",
+  "Nombre": "Videla Montiel,Paula Desiree",
+  "ajuste mensual": "$40990",
+  "porcentaje": "5,78%",
+  "Bono": "$370000"
+ },
+ {
+  "ID": "18035967-2",
+  "Nombre": "Pedreros Veliz,Matias Daniel",
+  "ajuste mensual": "$24029",
+  "porcentaje": "5,76%",
+  "Bono": "$216500"
+ },
+ {
+  "ID": "9774342-8",
+  "Nombre": "Alvarez Gonzalez,Aldo Enrique",
+  "ajuste mensual": "$34219",
+  "porcentaje": "4,78%",
+  "Bono": "$370000"
+ },
+ {
+  "ID": "10680770-1",
+  "Nombre": "Donoso Tellez,Yurassy Allison",
+  "ajuste mensual": "$29431",
+  "porcentaje": "6,68%",
+  "Bono": "$216500"
+ },
+ {
+  "ID": "16891100-9",
+  "Nombre": "Caica Sierra,Marcela Alejandra",
+  "ajuste mensual": "$47485",
+  "porcentaje": "6,73%",
+  "Bono": "$370000"
+ },
+ {
+  "ID": "10323262-7",
+  "Nombre": "Toledo Correa,Carolina",
+  "ajuste mensual": "$40990",
+  "porcentaje": "5,78%",
+  "Bono": "$370000"
+ },
+ {
+  "ID": "10738561-4",
+  "Nombre": "Ayala Carvallo,Marcelo Gonzalo",
+  "ajuste mensual": "$40990",
+  "porcentaje": "5,78%",
+  "Bono": "$370000"
+ },
+ {
+  "ID": "8325848-9",
+  "Nombre": "Perez Martinez,Juan Carlos",
+  "ajuste mensual": "$29784",
+  "porcentaje": "4,15%",
+  "Bono": "$370000"
+ },
+ {
+  "ID": "12918488-4",
+  "Nombre": "Salinas Alfaro,Dorys Melina",
+  "ajuste mensual": "$38086",
+  "porcentaje": "5,93%",
+  "Bono": "$370000"
+ },
+ {
+  "ID": "16330700-6",
+  "Nombre": "Lopez Yañez,Ivet Andrea",
+  "ajuste mensual": "$8385,",
+  "porcentaje": "2,73%",
+  "Bono": "$216500"
+ },
+ {
+  "ID": "19339458-2",
+  "Nombre": "Alegre Castillo,Luis Felipe",
+  "ajuste mensual": "$31259",
+  "porcentaje": "6,48%",
+  "Bono": "$370000"
+ },
+ {
+  "ID": "16774574-1",
+  "Nombre": "Cornejo Bravo,Stefanie Andrea",
+  "ajuste mensual": "$34219",
+  "porcentaje": "4,78%",
+  "Bono": "$370000"
+ },
+ {
+  "ID": "9893210-0",
+  "Nombre": "Suarez Zamora,Mario Gustavo",
+  "ajuste mensual": "$24029",
+  "porcentaje": "5,76%",
+  "Bono": "$216500"
+ },
+ {
+  "ID": "18564546-0",
+  "Nombre": "Pulgar Nuñez,Loreto",
+  "ajuste mensual": "$14256",
+  "porcentaje": "2,87%",
+  "Bono": "$216500"
+ },
+ {
+  "ID": "17806145-3",
+  "Nombre": "Plaza Plaza,Carlos Humberto",
+  "ajuste mensual": "$40990",
+  "porcentaje": "5,78%",
+  "Bono": "$370000"
+ },
+ {
+  "ID": "11605744-1",
+  "Nombre": "Peirano Muñoz,David Humberto",
+  "ajuste mensual": "$38086",
+  "porcentaje": "5,93%",
+  "Bono": "$370000"
+ },
+ {
+  "ID": "11945571-5",
+  "Nombre": "Gomez Gomez,Ana Del Carmen",
+  "ajuste mensual": "$38086",
+  "porcentaje": "5,93%",
+  "Bono": "$370000"
+ },
+ {
+  "ID": "12707801-7",
+  "Nombre": "Lopez Peña,Luis Alberto",
+  "ajuste mensual": "$40990",
+  "porcentaje": "5,78%",
+  "Bono": "$370000"
+ },
+ {
+  "ID": "13205160-7",
+  "Nombre": "Arellano Oyarzún,Patricia Andrea",
+  "ajuste mensual": "$12398",
+  "porcentaje": "2,90%",
+  "Bono": "$216500"
+ },
+ {
+  "ID": "15555861-K",
+  "Nombre": "Silva Rojas,Danya Dinely",
+  "ajuste mensual": "$26186",
+  "porcentaje": "5,28%",
+  "Bono": "$216500"
+ },
+ {
+  "ID": "18917033-5",
+  "Nombre": "Maureira Orellana,Jeniffer Aracely",
+  "ajuste mensual": "$40543",
+  "porcentaje": "5,80%",
+  "Bono": "$370000"
+ },
+ {
+  "ID": "18518822-1",
+  "Nombre": "Tapia Arancibia,Marta Patricia",
+  "ajuste mensual": "$44921",
+  "porcentaje": "10,1%",
+  "Bono": "$216500"
+ },
+ {
+  "ID": "19047360-0",
+  "Nombre": "Diaz Olivares,Camila Alejandra",
+  "ajuste mensual": "$44921",
+  "porcentaje": "10,1%",
+  "Bono": "$216500"
+ },
+ {
+  "ID": "15817572-K",
+  "Nombre": "Benitez Silva,Debora Marcelina",
+  "ajuste mensual": "$49213",
+  "porcentaje": "7,64%",
+  "Bono": "$425000"
+ },
+ {
+  "ID": "17982380-2",
+  "Nombre": "Osses Maza,Yonathan Alejandro",
+  "ajuste mensual": "$52513",
+  "porcentaje": "7,50%",
+  "Bono": "$425000"
+ },
+ {
+  "ID": "12453388-0",
+  "Nombre": "Vicencio Messina,Sandra Francisca",
+  "ajuste mensual": "$39846",
+  "porcentaje": "6,11%",
+  "Bono": "$425000"
+ },
+ {
+  "ID": "12624671-4",
+  "Nombre": "Huerta Mondaca,Sandra Del Carmen",
+  "ajuste mensual": "$58903",
+  "porcentaje": "8,28%",
+  "Bono": "$425000"
+ },
+ {
+  "ID": "15129923-7",
+  "Nombre": "Morales Muñoz,Rosana De Los Angeles",
+  "ajuste mensual": "$31473",
+  "porcentaje": "6,95%",
+  "Bono": "$256500"
+ },
+ {
+  "ID": "12134370-3",
+  "Nombre": "Ascencio Fuentes,Yesica Ivonne",
+  "ajuste mensual": "$47477",
+  "porcentaje": "6,59%",
+  "Bono": "$425000"
+ },
+ {
+  "ID": "12141272-1",
+  "Nombre": "Reimán Raimán,Petronila Del  Carmen",
+  "ajuste mensual": "$39519",
+  "porcentaje": "9,44%",
+  "Bono": "$256500"
+ },
+ {
+  "ID": "18256491-5",
+  "Nombre": "Sanhueza Valenzuela,Nicolas Estefano",
+  "ajuste mensual": "$53104",
+  "porcentaje": "7,48%",
+  "Bono": "$425000"
+ },
+ {
+  "ID": "10587525-8",
+  "Nombre": "Chavarrìa Flores,Marcos Antonio",
+  "ajuste mensual": "$39519",
+  "porcentaje": "9,44%",
+  "Bono": "$256500"
+ },
+ {
+  "ID": "12398585-0",
+  "Nombre": "Leiva Ramos,Claudia del Transito",
+  "ajuste mensual": "$44921",
+  "porcentaje": "10,1%",
+  "Bono": "$256500"
+ },
+ {
+  "ID": "19152074-2",
+  "Nombre": "Curaqueo Olmedo,Karen Denny",
+  "ajuste mensual": "$44921",
+  "porcentaje": "10,1%",
+  "Bono": "$256500"
+ },
+ {
+  "ID": "13429914-2",
+  "Nombre": "Quezada Quiroz,Cristian Patricio",
+  "ajuste mensual": "$52513",
+  "porcentaje": "7,50%",
+  "Bono": "$425000"
+ },
+ {
+  "ID": "18256518-0",
+  "Nombre": "Riquelme Cortes,Jean Pierre",
+  "ajuste mensual": "$49505",
+  "porcentaje": "7,63%",
+  "Bono": "$425000"
+ },
+ {
+  "ID": "12824723-8",
+  "Nombre": "Torres Salinas,Olga Ester",
+  "ajuste mensual": "$44921",
+  "porcentaje": "10,1%",
+  "Bono": "$256500"
+ },
+ {
+  "ID": "14588196-K",
+  "Nombre": "Figueroa Diaz,Ruth Celia",
+  "ajuste mensual": "$22794",
+  "porcentaje": "8,04%",
+  "Bono": "$256500"
+ },
+ {
+  "ID": "10378900-1",
+  "Nombre": "Garcia Santibañez,Marcela De Lourdes",
+  "ajuste mensual": "$39519",
+  "porcentaje": "9,44%",
+  "Bono": "$256500"
+ },
+ {
+  "ID": "12380560-7",
+  "Nombre": "Gatica Osorio,Carolina Del Pilar",
+  "ajuste mensual": "$44921",
+  "porcentaje": "10,1%",
+  "Bono": "$256500"
+ },
+ {
+  "ID": "11358986-8",
+  "Nombre": "Peredo Urra,Janett Marisol",
+  "ajuste mensual": "$32191",
+  "porcentaje": "6,49%",
+  "Bono": "$256500"
+ },
+ {
+  "ID": "12300969-K",
+  "Nombre": "Jara Canales,Jose Alejandro",
+  "ajuste mensual": "$53113",
+  "porcentaje": "7,48%",
+  "Bono": "$425000"
+ },
+ {
+  "ID": "19453798-0",
+  "Nombre": "Vera Zuñiga,Cassia Fátima",
+  "ajuste mensual": "$61912",
+  "porcentaje": "8,12%",
+  "Bono": "$425000"
+ },
+ {
+  "ID": "15075207-8",
+  "Nombre": "Aranda Palacios,Daniela Paz",
+  "ajuste mensual": "$40146",
+  "porcentaje": "6,11%",
+  "Bono": "$425000"
+ },
+ {
+  "ID": "17139841-K",
+  "Nombre": "Toro Leiva,Felipe Gonzalo",
+  "ajuste mensual": "$47376",
+  "porcentaje": "9,79%",
+  "Bono": "$256500"
+ },
+ {
+  "ID": "13988911-8",
+  "Nombre": "Garcia Aguilar,Marcela Andrea",
+  "ajuste mensual": "$44921",
+  "porcentaje": "10,1%",
+  "Bono": "$256500"
+ },
+ {
+  "ID": "15305654-4",
+  "Nombre": "Hernandez Vasquez,Karin Luperfina",
+  "ajuste mensual": "$53113",
+  "porcentaje": "7,48%",
+  "Bono": "$425000"
+ },
+ {
+  "ID": "9119180-6",
+  "Nombre": "Lopez Brito,Isabel Margarita",
+  "ajuste mensual": "$29736",
+  "porcentaje": "6,55%",
+  "Bono": "$256500"
+ },
+ {
+  "ID": "9800215-4",
+  "Nombre": "Aguilera Moran,Magaly Del Carmen",
+  "ajuste mensual": "$44921",
+  "porcentaje": "10,1%",
+  "Bono": "$256500"
+ },
+ {
+  "ID": "11830828-K",
+  "Nombre": "Palacios Ahumada,Ernestina Rosa",
+  "ajuste mensual": "$39519",
+  "porcentaje": "9,44%",
+  "Bono": "$256500"
+ },
+ {
+  "ID": "14503557-0",
+  "Nombre": "Araya Mendez,Marlene Luzmenia",
+  "ajuste mensual": "$44921",
+  "porcentaje": "10,1%",
+  "Bono": "$256500"
+ },
+ {
+  "ID": "18996932-5",
+  "Nombre": "Araya Cortes,Varinia Nicole",
+  "ajuste mensual": "$44921",
+  "porcentaje": "10,1%",
+  "Bono": "$256500"
+ },
+ {
+  "ID": "14444009-9",
+  "Nombre": "Molina Gonzalez,Jessica Patricia",
+  "ajuste mensual": "$44921",
+  "porcentaje": "10,1%",
+  "Bono": "$256500"
+ },
+ {
+  "ID": "10405524-9",
+  "Nombre": "Carvajal Sierra,Viviana Carolina",
+  "ajuste mensual": "$49513",
+  "porcentaje": "7,63%",
+  "Bono": "$425000"
+ },
+ {
+  "ID": "17480122-3",
+  "Nombre": "Tapia Cubillo,Steffanie Gabriela",
+  "ajuste mensual": "$44921",
+  "porcentaje": "10,1%",
+  "Bono": "$256500"
+ },
+ {
+  "ID": "19012972-1",
+  "Nombre": "Jimenez Muñoz,Daniela Nicol Alejandra",
+  "ajuste mensual": "$44921",
+  "porcentaje": "10,1%",
+  "Bono": "$425000"
+ },
+ {
+  "ID": "18914882-8",
+  "Nombre": "Caballero Cadiz,Yelddy Scarlett",
+  "ajuste mensual": "$16231",
+  "porcentaje": "5,28%",
+  "Bono": "$256500"
+ },
+ {
+  "ID": "18510777-9",
+  "Nombre": "Morales Collao,Patricia Alejandra",
+  "ajuste mensual": "$44921",
+  "porcentaje": "10,1%",
+  "Bono": "$256500"
+ },
+ {
+  "ID": "12364015-2",
+  "Nombre": "Lagos Alvarado,Sandra Paola",
+  "ajuste mensual": "$31305",
+  "porcentaje": "7,36%",
+  "Bono": "$256500"
+ },
+ {
+  "ID": "9038872-K",
+  "Nombre": "Dupin Rodriguez,Jorge Ivan",
+  "ajuste mensual": "$55434",
+  "porcentaje": "7,39%",
+  "Bono": "$470000"
+ },
+ {
+  "ID": "18885348-K",
+  "Nombre": "Lagos Rojas,Pia Fernanda",
+  "ajuste mensual": "$47376",
+  "porcentaje": "9,79%",
+  "Bono": "$256500"
+ },
+ {
+  "ID": "16540264-2",
+  "Nombre": "Guerra Encina,Denisse Andrea",
+  "ajuste mensual": "$53113",
+  "porcentaje": "7,48%",
+  "Bono": "$470000"
+ },
+ {
+  "ID": "17143140-9",
+  "Nombre": "Alfaro Aranda,Catalina Alejandra",
+  "ajuste mensual": "$52513",
+  "porcentaje": "7,50%",
+  "Bono": "$470000"
+ },
+ {
+  "ID": "16773246-1",
+  "Nombre": "Araya Andia,Alejandro Andres",
+  "ajuste mensual": "$39519",
+  "porcentaje": "9,44%",
+  "Bono": "$276500"
+ },
+ {
+  "ID": "18236770-2",
+  "Nombre": "Brito Brito,Ximena Nicole",
+  "ajuste mensual": "$40146",
+  "porcentaje": "6,11%",
+  "Bono": "$470000"
+ },
+ {
+  "ID": "11436624-2",
+  "Nombre": "Arredondo Vicuña,Jeannette Ivonne",
+  "ajuste mensual": "$47485",
+  "porcentaje": "6,59%",
+  "Bono": "$470000"
+ },
+ {
+  "ID": "9432480-7",
+  "Nombre": "Alfaro Correa,Patricia Rossanna",
+  "ajuste mensual": "$26396",
+  "porcentaje": "8,82%",
+  "Bono": "$276500"
+ },
+ {
+  "ID": "12821167-5",
+  "Nombre": "Fajardo Arancibia,Giannina Angelica",
+  "ajuste mensual": "$49513",
+  "porcentaje": "7,63%",
+  "Bono": "$470000"
+ },
+ {
+  "ID": "11926969-5",
+  "Nombre": "Gallardo Zenteno,Sara Ines",
+  "ajuste mensual": "$58912",
+  "porcentaje": "8,28%",
+  "Bono": "$470000"
+ },
+ {
+  "ID": "17790317-5",
+  "Nombre": "Martinez Sepulveda,Leonides Juana",
+  "ajuste mensual": "$39519",
+  "porcentaje": "9,44%",
+  "Bono": "$276500"
+ },
+ {
+  "ID": "15825115-9",
+  "Nombre": "Astudillo Pizarro,Maricarmen",
+  "ajuste mensual": "$44921",
+  "porcentaje": "10,1%",
+  "Bono": "$276500"
+ },
+ {
+  "ID": "18421167-K",
+  "Nombre": "Milla Castro,Yerko Andres",
+  "ajuste mensual": "$22794",
+  "porcentaje": "8,04%",
+  "Bono": "$276500"
+ },
+ {
+  "ID": "18553688-2",
+  "Nombre": "Guzman Olmos,Ninoska Constanza",
+  "ajuste mensual": "$53113",
+  "porcentaje": "7,48%",
+  "Bono": "$495000"
+ },
+ {
+  "ID": "12352041-6",
+  "Nombre": "Albornoz Molina,Jose Wilson",
+  "ajuste mensual": "$38615",
+  "porcentaje": "4,85%",
+  "Bono": "$495000"
+ },
+ {
+  "ID": "16813079-1",
+  "Nombre": "Salazar Abarca,Rossana Del Carmen",
+  "ajuste mensual": "$58912",
+  "porcentaje": "8,28%",
+  "Bono": "$495000"
+ },
+ {
+  "ID": "10013044-0",
+  "Nombre": "Macias Lizama,Joyce Nevenka",
+  "ajuste mensual": "$49513",
+  "porcentaje": "7,63%",
+  "Bono": "$495000"
+ },
+ {
+  "ID": "10383689-1",
+  "Nombre": "Zamorano Sepulveda,Isabel Del Rosario",
+  "ajuste mensual": "$40146",
+  "porcentaje": "6,11%",
+  "Bono": "$495000"
+ },
+ {
+  "ID": "10711318-5",
+  "Nombre": "Pizarro Parra,Viviana Del Carmen",
+  "ajuste mensual": "$31305",
+  "porcentaje": "7,36%",
+  "Bono": "$296500"
+ },
+ {
+  "ID": "10408748-5",
+  "Nombre": "Pulgar Carrasco,Paula Alejandra",
+  "ajuste mensual": "$58912",
+  "porcentaje": "8,28%",
+  "Bono": "$495000"
+ },
+ {
+  "ID": "16890408-8",
+  "Nombre": "Reyes Perez,Alejandro Andres",
+  "ajuste mensual": "$52513",
+  "porcentaje": "7,50%",
+  "Bono": "$495000"
+ },
+ {
+  "ID": "12600185-1",
+  "Nombre": "Villarroel Zamora,Patricia Isabel",
+  "ajuste mensual": "$49513",
+  "porcentaje": "7,63%",
+  "Bono": "$495000"
+ },
+ {
+  "ID": "11044964-K",
+  "Nombre": "Vera Yañez,Nora Del Carmen",
+  "ajuste mensual": "$58912",
+  "porcentaje": "8,28%",
+  "Bono": "$495000"
+ },
+ {
+  "ID": "10339439-2",
+  "Nombre": "Cartajena Naranjo,Blanca Patricia",
+  "ajuste mensual": "$49513",
+  "porcentaje": "7,63%",
+  "Bono": "$495000"
+ },
+ {
+  "ID": "11807386-K",
+  "Nombre": "Caceres Ramirez,Margarita Mariela",
+  "ajuste mensual": "$49513",
+  "porcentaje": "7,63%",
+  "Bono": "$495000"
+ },
+ {
+  "ID": "13023574-3",
+  "Nombre": "Catalan Catalan,Sara Margarita",
+  "ajuste mensual": "$39519",
+  "porcentaje": "9,44%",
+  "Bono": "$296500"
+ },
+ {
+  "ID": "15486240-4",
+  "Nombre": "Vargas Huentequeo,Sabina Penelope",
+  "ajuste mensual": "$32191",
+  "porcentaje": "6,49%",
+  "Bono": "$296500"
+ },
+ {
+  "ID": "15719631-6",
+  "Nombre": "Casanova Apablaza,Jorgelina Lorena",
+  "ajuste mensual": "$52513",
+  "porcentaje": "7,50%",
+  "Bono": "$495000"
+ },
+ {
+  "ID": "17978070-4",
+  "Nombre": "Basaez Perez,Pamela Andrea",
+  "ajuste mensual": "$49513",
+  "porcentaje": "7,63%",
+  "Bono": "$495000"
+ },
+ {
+  "ID": "16752560-1",
+  "Nombre": "Espinoza Roldan,Carolina Andrea",
+  "ajuste mensual": "$47485",
+  "porcentaje": "6,59%",
+  "Bono": "$495000"
+ },
+ {
+  "ID": "18564321-2",
+  "Nombre": "Herrera Cortes,Claudia Andrea",
+  "ajuste mensual": "$49513",
+  "porcentaje": "7,63%",
+  "Bono": "$495000"
+ },
+ {
+  "ID": "13188478-8",
+  "Nombre": "Atensio Barraza,Jose Antonio",
+  "ajuste mensual": "$58912",
+  "porcentaje": "8,28%",
+  "Bono": "$495000"
+ },
+ {
+  "ID": "17077752-2",
+  "Nombre": "Escobar Espergue,Jennifer Valeria",
+  "ajuste mensual": "$39519",
+  "porcentaje": "9,44%",
+  "Bono": "$296500"
+ },
+ {
+  "ID": "11056027-3",
+  "Nombre": "Muñoz Faundez,Montserrat Del Carmen",
+  "ajuste mensual": "$39519",
+  "porcentaje": "9,44%",
+  "Bono": "$296500"
+ },
+ {
+  "ID": "15096432-6",
+  "Nombre": "Muñoz Henriquez,Luisa Eugenia",
+  "ajuste mensual": "$44921",
+  "porcentaje": "10,1%",
+  "Bono": "$296500"
+ },
+ {
+  "ID": "12821055-5",
+  "Nombre": "Fernandez Poblete,Claudia Alejandra",
+  "ajuste mensual": "$49513",
+  "porcentaje": "7,63%",
+  "Bono": "$495000"
+ },
+ {
+  "ID": "14592294-1",
+  "Nombre": "Fuentes Oyarzun,Silvana Susana",
+  "ajuste mensual": "$49513",
+  "porcentaje": "7,63%",
+  "Bono": "$495000"
+ },
+ {
+  "ID": "13364836-4",
+  "Nombre": "Vergara Salinas,Sandra Paola",
+  "ajuste mensual": "$39519",
+  "porcentaje": "9,44%",
+  "Bono": "$296500"
+ },
+ {
+  "ID": "12008075-K",
+  "Nombre": "Meza Collao,Maria Jose",
+  "ajuste mensual": "$44921",
+  "porcentaje": "10,1%",
+  "Bono": "$320000"
+ },
+ {
+  "ID": "9113339-3",
+  "Nombre": "Morales Olivares,Rita De Las Mercedes",
+  "ajuste mensual": "$39519",
+  "porcentaje": "9,44%",
+  "Bono": "$316500"
+ },
+ {
+  "ID": "15521061-3",
+  "Nombre": "Quiroz Ogas,Katherine Yovana",
+  "ajuste mensual": "$22794",
+  "porcentaje": "8,04%",
+  "Bono": "$316500"
+ },
+ {
+  "ID": "12601416-3",
+  "Nombre": "Stanfield Herrera,Paula Alejandra",
+  "ajuste mensual": "$53113",
+  "porcentaje": "7,48%",
+  "Bono": "$545000"
+ },
+ {
+  "ID": "16287988-K",
+  "Nombre": "Santelices Rodriguez,Ana Carola",
+  "ajuste mensual": "$61912",
+  "porcentaje": "8,12%",
+  "Bono": "$545000"
+ },
+ {
+  "ID": "16821135-K",
+  "Nombre": "Villalon Fernandez,Jesus Alejandro",
+  "ajuste mensual": "$49513",
+  "porcentaje": "7,63%",
+  "Bono": "$545000"
+ },
+ {
+  "ID": "16232717-8",
+  "Nombre": "Salinas Contreras,Luis Gonzalo",
+  "ajuste mensual": "$49513",
+  "porcentaje": "7,63%",
+  "Bono": "$545000"
+ },
+ {
+  "ID": "6778530-4",
+  "Nombre": "Carreño Farfan,Florinda Angelica",
+  "ajuste mensual": "$49513",
+  "porcentaje": "7,63%",
+  "Bono": "$545000"
+ },
+ {
+  "ID": "16888110-K",
+  "Nombre": "Diaz Espinoza,Nataly Marlene",
+  "ajuste mensual": "$52755",
+  "porcentaje": "7,49%",
+  "Bono": "$545000"
+ },
+ {
+  "ID": "17530856-3",
+  "Nombre": "Gutierrez Sepulveda,Carolina Paz",
+  "ajuste mensual": "$49513",
+  "porcentaje": "7,63%",
+  "Bono": "$545000"
+ },
+ {
+  "ID": "11831988-5",
+  "Nombre": "Ponce Poblete,Candida Del Carmen",
+  "ajuste mensual": "$39519",
+  "porcentaje": "9,44%",
+  "Bono": "$316500"
+ },
+ {
+  "ID": "12222064-8",
+  "Nombre": "Nuñez Astudillo,Ingrid Pamela",
+  "ajuste mensual": "$39519",
+  "porcentaje": "9,44%",
+  "Bono": "$316500"
+ },
+ {
+  "ID": "17944887-4",
+  "Nombre": "Carvajal Vargas,Jorge Eduardo",
+  "ajuste mensual": "$53284",
+  "porcentaje": "7,47%",
+  "Bono": "$545000"
+ },
+ {
+  "ID": "17805023-0",
+  "Nombre": "Chaparro Chaparro,Johanna Caroline",
+  "ajuste mensual": "$50485",
+  "porcentaje": "6,54%",
+  "Bono": "$545000"
+ },
+ {
+  "ID": "22086239-9",
+  "Nombre": "Ruiz Yañez,Stephanie Valesca",
+  "ajuste mensual": "$52513",
+  "porcentaje": "7,50%",
+  "Bono": "$545000"
+ },
+ {
+  "ID": "17119896-8",
+  "Nombre": "Pares Gomez,Nicolle Chantal",
+  "ajuste mensual": "$49630",
+  "porcentaje": "6,55%",
+  "Bono": "$545000"
+ },
+ {
+  "ID": "14609863-0",
+  "Nombre": "Miranda Olivares,Yamilet Del Carmen",
+  "ajuste mensual": "$43746",
+  "porcentaje": "6,09%",
+  "Bono": "$545000"
+ },
+ {
+  "ID": "14441894-8",
+  "Nombre": "Sepulveda Figueroa,Lorena Cecilia",
+  "ajuste mensual": "$43746",
+  "porcentaje": "6,09%",
+  "Bono": "$545000"
+ },
+ {
+  "ID": "15763535-2",
+  "Nombre": "Forjan Requena,Kisi Andrea",
+  "ajuste mensual": "$29736",
+  "porcentaje": "6,55%",
+  "Bono": "$316500"
+ },
+ {
+  "ID": "18035013-6",
+  "Nombre": "Messina Quiroz,Daniela Andrea",
+  "ajuste mensual": "$49513",
+  "porcentaje": "7,63%",
+  "Bono": "$545000"
+ },
+ {
+  "ID": "12007387-7",
+  "Nombre": "Olivares Contreras,Lissette Solange",
+  "ajuste mensual": "$43146",
+  "porcentaje": "6,10%",
+  "Bono": "$545000"
+ },
+ {
+  "ID": "17329721-1",
+  "Nombre": "Lara Quiroz,Nancy Yocelyn",
+  "ajuste mensual": "$39519",
+  "porcentaje": "9,44%",
+  "Bono": "$316500"
+ },
+ {
+  "ID": "11547688-2",
+  "Nombre": "Silva Aravena,Susana Andrea",
+  "ajuste mensual": "$44921",
+  "porcentaje": "10,1%",
+  "Bono": "$316500"
+ },
+ {
+  "ID": "18256441-9",
+  "Nombre": "Fontt Veliz,Estefania Margarita",
+  "ajuste mensual": "$40146",
+  "porcentaje": "6,11%",
+  "Bono": "$565000"
+ },
+ {
+  "ID": "15765385-7",
+  "Nombre": "Lopez Rivera,Claudia Andrea",
+  "ajuste mensual": "$44921",
+  "porcentaje": "10,1%",
+  "Bono": "$336500"
+ },
+ {
+  "ID": "16775509-7",
+  "Nombre": "Mellado Silva,Daniela Maricela",
+  "ajuste mensual": "$39519",
+  "porcentaje": "9,44%",
+  "Bono": "$336500"
+ },
+ {
+  "ID": "8641459-7",
+  "Nombre": "Navarro Contreras,Fresia Del Rosario",
+  "ajuste mensual": "$39519",
+  "porcentaje": "9,44%",
+  "Bono": "$336500"
+ },
+ {
+  "ID": "17566962-0",
+  "Nombre": "Valencia Valenzuela,Paulina Alejandra",
+  "ajuste mensual": "$40146",
+  "porcentaje": "6,11%",
+  "Bono": "$565000"
+ },
+ {
+  "ID": "5819531-6",
+  "Nombre": "Pablaza Bobadilla,Gilberto Segundo",
+  "ajuste mensual": "$49513",
+  "porcentaje": "7,63%",
+  "Bono": "$565000"
+ },
+ {
+  "ID": "17481369-8",
+  "Nombre": "Barrera Belmar,Samantha Michelle",
+  "ajuste mensual": "$31305",
+  "porcentaje": "7,36%",
+  "Bono": "$336500"
+ },
+ {
+  "ID": "17143634-6",
+  "Nombre": "Olguin Jimenez,Madeleine Irene",
+  "ajuste mensual": "$49513",
+  "porcentaje": "7,63%",
+  "Bono": "$565000"
+ },
+ {
+  "ID": "17474948-5",
+  "Nombre": "Olivares Jauregui,Michael Andres",
+  "ajuste mensual": "$49513",
+  "porcentaje": "7,63%",
+  "Bono": "$595000"
+ },
+ {
+  "ID": "14243552-7",
+  "Nombre": "Aguilar Pineda,Angelina Del Pilar",
+  "ajuste mensual": "$26396",
+  "porcentaje": "8,82%",
+  "Bono": "$356500"
+ },
+ {
+  "ID": "13367426-8",
+  "Nombre": "Vera Troncoso,Veronica Del Carmen",
+  "ajuste mensual": "$58912",
+  "porcentaje": "8,28%",
+  "Bono": "$595000"
+ },
+ {
+  "ID": "9933679-K",
+  "Nombre": "Ibacache Lopez,Cecilia Del Transito",
+  "ajuste mensual": "$49513",
+  "porcentaje": "7,63%",
+  "Bono": "$595000"
+ },
+ {
+  "ID": "11331602-0",
+  "Nombre": "Jimenez Montenegro,Magaly Del Carmen",
+  "ajuste mensual": "$31305",
+  "porcentaje": "7,36%",
+  "Bono": "$356500"
+ },
+ {
+  "ID": "15077610-4",
+  "Nombre": "Contreras Osses,Alejandra Andrea",
+  "ajuste mensual": "$49513",
+  "porcentaje": "7,63%",
+  "Bono": "$595000"
+ },
+ {
+  "ID": "10129158-8",
+  "Nombre": "Segura Jara,Miriam",
+  "ajuste mensual": "$39519",
+  "porcentaje": "9,44%",
+  "Bono": "$376500"
+ },
+ {
+  "ID": "14635659-1",
+  "Nombre": "Lopez David,Johanna Betsabe",
+  "ajuste mensual": "$29736",
+  "porcentaje": "6,55%",
+  "Bono": "$376500"
+ },
+ {
+  "ID": "15097274-4",
+  "Nombre": "Opazo Fuhrop,Paula Andrea",
+  "ajuste mensual": "$29736",
+  "porcentaje": "6,55%",
+  "Bono": "$376500"
+ },
+ {
+  "ID": "17474367-3",
+  "Nombre": "Muñoz Teran,Leonel Andres",
+  "ajuste mensual": "$43972",
+  "porcentaje": "6,09%",
+  "Bono": "$615000"
+ },
+ {
+  "ID": "14607878-8",
+  "Nombre": "Gonzalez Ramirez,Paula Andrea",
+  "ajuste mensual": "$49513",
+  "porcentaje": "7,63%",
+  "Bono": "$615000"
+ },
+ {
+  "ID": "11119534-K",
+  "Nombre": "Medina Otazo,Brunilda Patricia",
+  "ajuste mensual": "$44921",
+  "porcentaje": "10,1%",
+  "Bono": "$376500"
+ },
+ {
+  "ID": "8975372-4",
+  "Nombre": "Carreño Espinoza,Gilda De Las Mercedes",
+  "ajuste mensual": "$44921",
+  "porcentaje": "10,1%",
+  "Bono": "$376500"
+ },
+ {
+  "ID": "10233729-8",
+  "Nombre": "Navarrete Faundez,Patricia Ines",
+  "ajuste mensual": "$67784",
+  "porcentaje": "8,89%",
+  "Bono": "$655000"
+ },
+ {
+  "ID": "16776925-K",
+  "Nombre": "Pinilla Riquelme,Christian Antonio",
+  "ajuste mensual": "$43105",
+  "porcentaje": "10,3%",
+  "Bono": "$396500"
+ },
+ {
+  "ID": "15740374-5",
+  "Nombre": "Henriquez Valenzuela,Silvana Edith",
+  "ajuste mensual": "$45300",
+  "porcentaje": "5,69%",
+  "Bono": "$655000"
+ },
+ {
+  "ID": "10166590-9",
+  "Nombre": "Lafquen Ñancucheo,Hector Osvaldo",
+  "ajuste mensual": "$54875",
+  "porcentaje": "8,45%",
+  "Bono": "$655000"
+ },
+ {
+  "ID": "15069686-0",
+  "Nombre": "Olivares Cisternas,Andres Antonio",
+  "ajuste mensual": "$54875",
+  "porcentaje": "8,45%",
+  "Bono": "$655000"
+ },
+ {
+  "ID": "15736811-7",
+  "Nombre": "Carvajal Rodriguez,Elisa Del Carmen",
+  "ajuste mensual": "$67784",
+  "porcentaje": "8,89%",
+  "Bono": "$655000"
+ },
+ {
+  "ID": "16232998-7",
+  "Nombre": "Fernandez Barraza,Jeniffer Andrea",
+  "ajuste mensual": "$59087",
+  "porcentaje": "8,32%",
+  "Bono": "$655000"
+ },
+ {
+  "ID": "15717127-5",
+  "Nombre": "Cabrales Pontigos,Vanessa Esmeralda",
+  "ajuste mensual": "$62808",
+  "porcentaje": "8,21%",
+  "Bono": "$655000"
+ },
+ {
+  "ID": "16487179-7",
+  "Nombre": "Molina Villarroel,Ruben Antonio",
+  "ajuste mensual": "$50046",
+  "porcentaje": "6,92%",
+  "Bono": "$655000"
+ },
+ {
+  "ID": "16774935-6",
+  "Nombre": "Yañez Elgueta,Jeanette Del Carmen",
+  "ajuste mensual": "$64274",
+  "porcentaje": "9,03%",
+  "Bono": "$655000"
+ },
+ {
+  "ID": "17140532-7",
+  "Nombre": "Adasme Hernandez,Francisca Fernanda",
+  "ajuste mensual": "$50773",
+  "porcentaje": "6,92%",
+  "Bono": "$655000"
+ },
+ {
+  "ID": "14911154-9",
+  "Nombre": "Caniumilla Muñoz,Cecilia Graciela",
+  "ajuste mensual": "$45300",
+  "porcentaje": "5,69%",
+  "Bono": "$695000"
+ },
+ {
+  "ID": "15751753-8",
+  "Nombre": "Arciego Abarca,Gustavo Enrique",
+  "ajuste mensual": "$67784",
+  "porcentaje": "8,89%",
+  "Bono": "$695000"
+ },
+ {
+  "ID": "15727856-8",
+  "Nombre": "Araya Martinez,Miguel Angel",
+  "ajuste mensual": "$45300",
+  "porcentaje": "5,69%",
+  "Bono": "$695000"
+ },
+ {
+  "ID": "15555837-7",
+  "Nombre": "Torres Arenas,Rose Mery",
+  "ajuste mensual": "$43105",
+  "porcentaje": "10,3%",
+  "Bono": "$416500"
+ },
+ {
+  "ID": "17328173-0",
+  "Nombre": "Morales Muñoz,Noemi Isabel",
+  "ajuste mensual": "$61545",
+  "porcentaje": "8,25%",
+  "Bono": "$695000"
+ },
+ {
+  "ID": "11994334-5",
+  "Nombre": "Vivanco Jara,Jacqueline Evelin",
+  "ajuste mensual": "$50153",
+  "porcentaje": "6,92%",
+  "Bono": "$695000"
+ },
+ {
+  "ID": "16500071-4",
+  "Nombre": "Alfaro Gonzalez,Jonathan Davis",
+  "ajuste mensual": "$58385",
+  "porcentaje": "8,34%",
+  "Bono": "$695000"
+ },
+ {
+  "ID": "10832705-7",
+  "Nombre": "Arevalo Mendez,Gloria Paola",
+  "ajuste mensual": "$59087",
+  "porcentaje": "8,32%",
+  "Bono": "$695000"
+ },
+ {
+  "ID": "9941120-1",
+  "Nombre": "Lazcano Perez,Patricia Bernarda",
+  "ajuste mensual": "$54875",
+  "porcentaje": "8,45%",
+  "Bono": "$695000"
+ },
+ {
+  "ID": "10039373-5",
+  "Nombre": "Bernal Olguin,Hilda Irene",
+  "ajuste mensual": "$48507",
+  "porcentaje": "10,9%",
+  "Bono": "$416500"
+ },
+ {
+  "ID": "13855517-8",
+  "Nombre": "Rojas Flores,Eva Loreto",
+  "ajuste mensual": "$33322",
+  "porcentaje": "7,34%",
+  "Bono": "$416500"
+ },
+ {
+  "ID": "13229014-8",
+  "Nombre": "Moyano Gonzalez,Evelyn Del Carmen",
+  "ajuste mensual": "$49018",
+  "porcentaje": "6,93%",
+  "Bono": "$695000"
+ },
+ {
+  "ID": "15071672-1",
+  "Nombre": "Palma Palma,Adela Del Carmen",
+  "ajuste mensual": "$62573",
+  "porcentaje": "8,22%",
+  "Bono": "$695000"
+ },
+ {
+  "ID": "10082349-7",
+  "Nombre": "Vargas Diaz,Florencia Milena",
+  "ajuste mensual": "$25185",
+  "porcentaje": "8,88%",
+  "Bono": "$416500"
+ },
+ {
+  "ID": "10635447-2",
+  "Nombre": "Puebla Carvajal,Patricia Isabel",
+  "ajuste mensual": "$56412",
+  "porcentaje": "7,30%",
+  "Bono": "$745000"
+ },
+ {
+  "ID": "13340313-2",
+  "Nombre": "Maldonado Vargas,Jessica Del Carmen",
+  "ajuste mensual": "$47061",
+  "porcentaje": "5,72%",
+  "Bono": "$745000"
+ },
+ {
+  "ID": "15752412-7",
+  "Nombre": "Lagos Peñaloza,Jose Miguel",
+  "ajuste mensual": "$51380",
+  "porcentaje": "10,6%",
+  "Bono": "$456500"
+ },
+ {
+  "ID": "11831421-2",
+  "Nombre": "Argandoña Gonzalez,Marcela Del Rosario",
+  "ajuste mensual": "$50328",
+  "porcentaje": "6,92%",
+  "Bono": "$745000"
+ },
+ {
+  "ID": "15974537-6",
+  "Nombre": "Leon Palma,Juana Hortensia",
+  "ajuste mensual": "$59087",
+  "porcentaje": "8,32%",
+  "Bono": "$745000"
+ },
+ {
+  "ID": "12952776-5",
+  "Nombre": "Lopez Cabrera,Karen Marisol",
+  "ajuste mensual": "$45737",
+  "porcentaje": "5,70%",
+  "Bono": "$745000"
+ },
+ {
+  "ID": "10411729-5",
+  "Nombre": "Alvarez Araya,Nancy De Las Mercedes",
+  "ajuste mensual": "$48507",
+  "porcentaje": "10,9%",
+  "Bono": "$456500"
+ },
+ {
+  "ID": "10141567-8",
+  "Nombre": "Gonzalez Candia,Edith Del Carmen",
+  "ajuste mensual": "$43105",
+  "porcentaje": "10,3%",
+  "Bono": "$456500"
+ },
+ {
+  "ID": "12954831-2",
+  "Nombre": "Garrido Coello,Jeannette Pamela",
+  "ajuste mensual": "$70562",
+  "porcentaje": "8,79%",
+  "Bono": "$745000"
+ },
+ {
+  "ID": "11881045-7",
+  "Nombre": "Ibarra Castro,Claudia Pamela",
+  "ajuste mensual": "$69820",
+  "porcentaje": "9,30%",
+  "Bono": "$745000"
+ },
+ {
+  "ID": "13542490-0",
+  "Nombre": "Oyarce Araya,Jose Antonio",
+  "ajuste mensual": "$52780",
+  "porcentaje": "6,72%",
+  "Bono": "$745000"
+ },
+ {
+  "ID": "12173659-4",
+  "Nombre": "Salinas Andrade,Liliana De Las Mercedes",
+  "ajuste mensual": "$65726",
+  "porcentaje": "9,39%",
+  "Bono": "$795000"
+ },
+ {
+  "ID": "14420815-3",
+  "Nombre": "Stevens Tracaman,Jessica Fabiola",
+  "ajuste mensual": "$70462",
+  "porcentaje": "9,29%",
+  "Bono": "$795000"
+ },
+ {
+  "ID": "5808814-5",
+  "Nombre": "Rivera Puga,Luis Gustavo",
+  "ajuste mensual": "$59096",
+  "porcentaje": "7,97%",
+  "Bono": "$795000"
+ },
+ {
+  "ID": "11624027-0",
+  "Nombre": "Jimenez Montenegro,Pablo Andres",
+  "ajuste mensual": "$57989",
+  "porcentaje": "6,82%",
+  "Bono": "$795000"
+ },
+ {
+  "ID": "15762366-4",
+  "Nombre": "Hinojosa Miranda,Patricio Alejandro",
+  "ajuste mensual": "$67668",
+  "porcentaje": "9,35%",
+  "Bono": "$795000"
+ },
+ {
+  "ID": "11601103-4",
+  "Nombre": "Gallardo Caro,Veronica Elizabeth",
+  "ajuste mensual": "$72801",
+  "porcentaje": "9,92%",
+  "Bono": "$795000"
+ },
+ {
+  "ID": "13987315-7",
+  "Nombre": "Carvajal Guerrero,Fabiola Andrea",
+  "ajuste mensual": "$58432",
+  "porcentaje": "6,83%",
+  "Bono": "$845000"
+ },
+ {
+  "ID": "10296416-0",
+  "Nombre": "Santander Ahumada,Patricia Del Carmen",
+  "ajuste mensual": "$61577",
+  "porcentaje": "9,49%",
+  "Bono": "$895000"
+ },
+ {
+  "ID": "8985041-K",
+  "Nombre": "Vargas Ramos,Victor Manuel",
+  "ajuste mensual": "$61577",
+  "porcentaje": "9,49%",
+  "Bono": "$1000000"
+ },
+ {
+  "ID": "14597804-1",
+  "Nombre": "Ahumada Reyes,Miguel Alejandro",
+  "ajuste mensual": "$61577",
+  "porcentaje": "9,49%",
+  "Bono": "$1000000"
+ },
+ {
+  "ID": "13993199-8",
+  "Nombre": "Gomez Peña,Monica",
+  "ajuste mensual": "$75125",
+  "porcentaje": "9,85%",
+  "Bono": "$995000"
+ },
+ {
+  "ID": "12623218-7",
+  "Nombre": "Arriaza Pacheco,Jorge Mario",
+  "ajuste mensual": "$75125",
+  "porcentaje": "9,85%",
+  "Bono": "$985000"
+ },
+ {
+  "ID": "8608885-1",
+  "Nombre": "Cubillos Alvarado,Jose Ismael",
+  "ajuste mensual": "$76558",
+  "porcentaje": "9,81%",
+  "Bono": "$985000"
+ },
+ {
+  "ID": "13020586-0",
+  "Nombre": "Ramirez Chacon,Erik Allan",
+  "ajuste mensual": "$61577",
+  "porcentaje": "9,49%",
+  "Bono": "$985000"
+ },
+ {
+  "ID": "10972423-8",
+  "Nombre": "Muñoz Castro,Susan Karina",
+  "ajuste mensual": "$70976",
+  "porcentaje": "9,97%",
+  "Bono": "$1100000"
+ },
+ {
+  "ID": "12229698-9",
+  "Nombre": "Tapia Miranda,Pedro Alexis",
+  "ajuste mensual": "$58391",
+  "porcentaje": "7,97%",
+  "Bono": "$1100000"
+ },
+ {
+  "ID": "9460558-K",
+  "Nombre": "Fierro Villagran,Ernesto Alejandro",
+  "ajuste mensual": "$74409",
+  "porcentaje": "9,87%",
+  "Bono": "$1100000"
+ },
+ {
+  "ID": "13988814-6",
+  "Nombre": "Flores Cornejo,Jose Rodrigo",
+  "ajuste mensual": "$70840",
+  "porcentaje": "9,28%",
+  "Bono": "$1100000"
+ },
+ {
+  "ID": "9952038-8",
+  "Nombre": "Madrid Arancibia,Rene Alfredo",
+  "ajuste mensual": "$63282",
+  "porcentaje": "9,44%",
+  "Bono": "$1085000"
+ },
+ {
+  "ID": "14417285-K",
+  "Nombre": "Lopez Ahumada,Juan Francisco",
+  "ajuste mensual": "$55820",
+  "porcentaje": "6,78%",
+  "Bono": "$1085000"
+ },
+ {
+  "ID": "10163598-8",
+  "Nombre": "Vega Vivar,Carlos Ivan",
+  "ajuste mensual": "$61577",
+  "porcentaje": "9,49%",
+  "Bono": "$1085000"
+ },
+ {
+  "ID": "12221708-6",
+  "Nombre": "Silva Espindola,Manuel Gustavo",
+  "ajuste mensual": "$61786",
+  "porcentaje": "9,48%",
+  "Bono": "$1085000"
+ },
+ {
+  "ID": "8934477-8",
+  "Nombre": "Paez De Los Reyes,Alexis Luis",
+  "ajuste mensual": "$66052",
+  "porcentaje": "9,38%",
+  "Bono": "$1085000"
+ },
+ {
+  "ID": "11826431-2",
+  "Nombre": "Pasten Pueyes,Alex Rodrigo",
+  "ajuste mensual": "$68085",
+  "porcentaje": "9,34%",
+  "Bono": "$1085000"
+ },
+ {
+  "ID": "11831218-K",
+  "Nombre": "Espinoza Miño,Margarita Amanda",
+  "ajuste mensual": "$75125",
+  "porcentaje": "9,85%",
+  "Bono": "$1085000"
+ },
+ {
+  "ID": "13229797-5",
+  "Nombre": "Huerta Mondaca,Jimena Cecilia",
+  "ajuste mensual": "$78636",
+  "porcentaje": "9,76%",
+  "Bono": "$1085000"
+ },
+ {
+  "ID": "9863651-K",
+  "Nombre": "Sepulveda Gallegos,Hector Ismael",
+  "ajuste mensual": "$62269",
+  "porcentaje": "7,98%",
+  "Bono": "$1085000"
+ },
+ {
+  "ID": "10135131-9",
+  "Nombre": "Osse Vivanco,Ana Maria",
+  "ajuste mensual": "$75125",
+  "porcentaje": "9,85%",
+  "Bono": "$1085000"
+ },
+ {
+  "ID": "11401836-8",
+  "Nombre": "Garrido Flores,Marco Antonio",
+  "ajuste mensual": "$73295",
+  "porcentaje": "9,24%",
+  "Bono": "$1085000"
+ },
+ {
+  "ID": "12626794-0",
+  "Nombre": "Navarro Paredes,Jeannette Caroline",
+  "ajuste mensual": "$77278",
+  "porcentaje": "10,9%",
+  "Bono": "$1185000"
+ },
+ {
+  "ID": "12851422-8",
+  "Nombre": "Santibañez Rojas,Eduardo Antonio",
+  "ajuste mensual": "$72762",
+  "porcentaje": "11,0%",
+  "Bono": "$1185000"
+ },
+ {
+  "ID": "12823072-6",
+  "Nombre": "Irarrazabal Cisterna,Luis Fernando",
+  "ajuste mensual": "$77418",
+  "porcentaje": "10,9%",
+  "Bono": "$1185000"
+ },
+ {
+  "ID": "11556491-9",
+  "Nombre": "Oyarzun Marmolejo,Marco Antonio",
+  "ajuste mensual": "$80513",
+  "porcentaje": "10,6%",
+  "Bono": "$1185000"
+ },
+ {
+  "ID": "12452902-6",
+  "Nombre": "Matta Olivares,Alfredo Cristian",
+  "ajuste mensual": "$73992",
+  "porcentaje": "11,0%",
+  "Bono": "$1185000"
+ },
+ {
+  "ID": "10758940-6",
+  "Nombre": "Moya Tapia,Maria Luz",
+  "ajuste mensual": "$72083",
+  "porcentaje": "11,0%",
+  "Bono": "$1185000"
+ },
+ {
+  "ID": "10581171-3",
+  "Nombre": "Vidal Flores,Hernan Moises",
+  "ajuste mensual": "$80513",
+  "porcentaje": "9,33%",
+  "Bono": "$1185000"
+ },
+ {
+  "ID": "11195458-5",
+  "Nombre": "Morales Olivares,Adriana De Los Angeles",
+  "ajuste mensual": "$79500",
+  "porcentaje": "10,9%",
+  "Bono": "$1185000"
+ },
+ {
+  "ID": "12048790-6",
+  "Nombre": "Fredes Ahumada,Eugenia Irene",
+  "ajuste mensual": "$74022",
+  "porcentaje": "11,0%",
+  "Bono": "$1185000"
+ },
+ {
+  "ID": "10663684-2",
+  "Nombre": "Huerta Diaz,Pascual Enrique",
+  "ajuste mensual": "$76736",
+  "porcentaje": "10,9%",
+  "Bono": "$1185000"
+ },
+ {
+  "ID": "11401241-6",
+  "Nombre": "Galvez Suarez,Maritza Iluminada",
+  "ajuste mensual": "$72442",
+  "porcentaje": "11,0%",
+  "Bono": "$1185000"
+ },
+ {
+  "ID": "9489399-2",
+  "Nombre": "Peña Lara,Alejandra Soledad",
+  "ajuste mensual": "$80513",
+  "porcentaje": "10,5%",
+  "Bono": "$1185000"
+ },
+ {
+  "ID": "12229439-0",
+  "Nombre": "Riveros Castellon,Elena Del Rosario",
+  "ajuste mensual": "$79824",
+  "porcentaje": "10,9%",
+  "Bono": "$1185000"
+ },
+ {
+  "ID": "12823482-9",
+  "Nombre": "Zamora Torres,Andrea Leticia",
+  "ajuste mensual": "$86135",
+  "porcentaje": "11,2%",
+  "Bono": "$1185000"
+ },
+ {
+  "ID": "10079552-3",
+  "Nombre": "Cassab Andrade,Jose Alfredo",
+  "ajuste mensual": "$80513",
+  "porcentaje": "10,2%",
+  "Bono": "$1300000"
+ },
+ {
+  "ID": "10338595-4",
+  "Nombre": "Robledo Alvear,Claudia Aida",
+  "ajuste mensual": "$84401",
+  "porcentaje": "10,3%",
+  "Bono": "$1285000"
+ },
+ {
+  "ID": "9513721-0",
+  "Nombre": "Riveros Saavedra,Ricardo Antonio",
+  "ajuste mensual": "$71630",
+  "porcentaje": "11,0%",
+  "Bono": "$1285000"
+ },
+ {
+  "ID": "10764587-K",
+  "Nombre": "Ramirez Baquedano,Hector Enrique",
+  "ajuste mensual": "$80513",
+  "porcentaje": "10,2%",
+  "Bono": "$1285000"
+ },
+        
+        {
+            "ID": "11388081-3",
+            "Nombre": "Bahamondes Robledo,Lorena Elizabeth",
+            "ajuste mensual": "$76428",
+            "porcentaje": "9,69%",
+            "Bono": "$1385000"
+        },
+        {
+            "ID": "10654837-4",
+            "Nombre": "Figueroa Figueroa,Marisol Lorena",
+            "ajuste mensual": "$61842",
+            "porcentaje": "6,16%",
+            "Bono": "$1385000"
+        }
+    ];
+
+    function buscarTrabajador() {
+        const rutInput = document.getElementById('rut').value.trim();
+        const resultContainer = document.getElementById('result');
+
+        // Normalizar el RUT ingresado (remover puntos, pasar a minúsculas)
+        const rut = rutInput.replace(/\./g, '').toLowerCase();
+
+        // Validación del RUT (básica)
+        if (!rut || !/^\d{7,8}-[kK\d]$/.test(rut)) {
+            resultContainer.innerHTML = '<p>Por favor, ingrese un RUT válido.</p>';
+            return;
+        }
+
+        // Buscar al trabajador por el RUT, normalizando ambos valores
+        const trabajador = workers.find(w => w.ID.replace(/\./g, '').toLowerCase() === rut);
+
+        if (trabajador) {
+            // Quitar el símbolo "$" y los separadores de miles para evitar errores de formato
+            const bonoNumerico = Number(trabajador.Bono.replace(/\D/g, ''));
+
+            // Formatear el bono con separadores de miles
+            const bonoFormateado = new Intl.NumberFormat('es-CL', {
+                style: 'currency',
+                currency: 'CLP',
+                minimumFractionDigits: 0
+            }).format(bonoNumerico);
+
+            // Mostrar los resultados en el contenedor
+            resultContainer.innerHTML = `
+                <h3>Datos del Trabajador</h3>
+                <p><strong>Nombre:</strong> ${trabajador.Nombre}</p>
+                <p><strong>Ajuste Mensual:</strong> ${trabajador["ajuste mensual"]}</p>
+                <p><strong>Porcentaje:</strong> ${trabajador.porcentaje}</p>
+                <p><strong>Bono:</strong> ${bonoFormateado}</p>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSc0SKKi9Q_BNjafNqvgxEFsZEM8QmatIuf856lcQ0IWOMFT1g/viewform?usp=header" target="_blank">
+                    <button>Ir a Plataforma de Votación</button>
+                </a>
+            `;
+        } else {
+            resultContainer.innerHTML = '<p>No se encontró ningún trabajador con el RUT ingresado.</p>';
+        }
+    }
+</script>
+
+</head>
+<body>
+    <div class="container">
+        <h1>Consulta de Datos del Trabajador</h1>
+        <p>Ingrese su RUT para consultar sus datos:</p>
+        <input type="text" id="rut" placeholder="Ingrese su RUT aquí...">
+        <button onclick="buscarTrabajador()">Buscar</button>
+        <div id="result" class="result"></div>
+    </div>
+</body>
+</html>
+
