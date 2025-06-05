@@ -132,17 +132,25 @@
           ? `25% o 30% del sueldo base según corresponda`
           : `$${persona.aguinaldo.toLocaleString('es-CL')}`;
 
+        const movilizacionTexto = persona.jornada < 45
+          ? `$${persona.movilizacion.toLocaleString('es-CL')} por hora`
+          : `$${persona.movilizacion.toLocaleString('es-CL')}`;
+
+        const cajaTexto = persona.jornada < 45
+          ? `$${persona.asig_caja.toLocaleString('es-CL')} por hora`
+          : `$${persona.asig_caja.toLocaleString('es-CL')}`;
+
         resultado.style.display = 'block';
         acciones.style.display = 'flex';
         resultado.innerHTML = `
           <strong>${persona.nombre}</strong><br>
           Jornada: ${persona.jornada} horas<br>
           Antigüedad: ${persona.antiguedad.toFixed(2)} años<br><br>
-          <strong>Nuevo Sueldo Base:</strong> $${persona.sueldo_base.toLocaleString('es-CL')}<br>
-          <strong>Movilización:</strong> $${persona.movilizacion.toLocaleString('es-CL')}<br>
+          <strong>Nuevo Sueldo Base:</strong> $${Math.round(persona.sueldo_base).toLocaleString('es-CL')}<br>
+          <strong>Movilización:</strong> ${movilizacionTexto}<br>
           <strong>Presentismo:</strong> $${persona.presentismo.toLocaleString('es-CL')}<br>
-          <strong>Asignación de Caja:</strong> $${persona.asig_caja.toLocaleString('es-CL')}<br>
-          <strong>Aguinaldo:</strong> ${aguinaldoTexto}<br>
+          <strong>Asignación de Caja:</strong> ${cajaTexto}<br>
+          <strong>Aguinaldos:</strong> ${aguinaldoTexto}<br>
           <strong>Vacaciones Día Verano:</strong> $${persona.vacaciones_verano.toLocaleString('es-CL')}<br>
           <strong>Vacaciones Día Invierno:</strong> $${persona.vacaciones_invierno.toLocaleString('es-CL')}<br>
           <strong style="color:#007bff">Bono Término de Negociación:</strong> $${calcularBono(persona.antiguedad, persona.jornada).toLocaleString('es-CL')}<br>
@@ -197,3 +205,4 @@
   </script>
 </body>
 </html>
+
