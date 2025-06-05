@@ -104,7 +104,8 @@
   <script>
     const trabajadores = [];
 
-    fetch('https://andresurbanoz7.github.io/buscatra/trabajadores_locales_completo_con_texto.json')
+    fetch('https://raw.githubusercontent.com/andresurbanoz7/buscatra/main/trabajadores_locales_completo.json
+')
       .then(res => res.json())
       .then(data => {
         if (Array.isArray(data)) {
