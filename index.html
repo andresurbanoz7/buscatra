@@ -77,7 +77,7 @@
 <body>
   <div class="container">
     <header>
-      <img src="https://raw.githubusercontent.com/andresurbanoz7/buscatra/refs/heads/main/logo-sindicato.jpg" alt="Logo Sindicato">
+      <img src="logo-sindicato.jpg" alt="Logo Sindicato">
       <h2>Consulta tu resultado de la negociación</h2>
     </header>
 
@@ -104,9 +104,15 @@
   <script>
     const trabajadores = [];
 
-    fetch('https://raw.githubusercontent.com/andresurbanoz7/buscatra/refs/heads/main/trabajadores_locales_completo.json')
+    fetch('https://andresurbanoz7.github.io/buscatra/trabajadores_locales_completo_con_texto.json')
       .then(res => res.json())
-      .then(data => trabajadores.push(...data))
+      .then(data => {
+        if (Array.isArray(data)) {
+          trabajadores.push(...data);
+        } else {
+          throw new Error("Formato de datos inválido");
+        }
+      })
       .catch(error => {
         console.error("Error al cargar el archivo JSON:", error);
         alert("Hubo un problema al cargar los datos. Intenta nuevamente más tarde.");
@@ -129,11 +135,25 @@
 
     function buscarTrabajador() {
       const rut = document.getElementById('rut').value.trim();
-      const codigo = parseInt(document.getElementById('codigo').value.trim());
+      const codigoStr = document.getElementById('codigo').value.trim();
+
+      if (!/^[0-9]{7,8}-[0-9kK]$/.test(rut)) {
+        alert("Por favor, ingresa un RUT válido (sin puntos, con guión). Ej: 12345678-9");
+        return;
+      }
+
+      if (!/^[0-9]{4}$/.test(codigoStr)) {
+        alert("Por favor, ingresa un código de 4 dígitos.");
+        return;
+      }
+
+      const codigo = parseInt(codigoStr);
       const res = trabajadores.find(t => t.rut === rut && t.codigo === codigo);
 
       const resultadoDiv = document.getElementById('resultado');
       const accionesDiv = document.getElementById('acciones');
+
+      resultadoDiv.innerHTML = "";
 
       if (res) {
         resultadoDiv.style.display = 'block';
