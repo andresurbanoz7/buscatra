@@ -1,98 +1,168 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buscar Trabajador</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            padding: 20px;
-            background-color: #f4f4f4;
-        }
-        input, button {
-            margin: 10px 0;
-            padding: 10px;
-            font-size: 16px;
-        }
-        button {
-            cursor: pointer;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        #result {
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Resultados Negociación Locales</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f9fb;
+      color: #333;
+      max-width: 100%;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    header img {
+      max-width: 100px;
+      margin-bottom: 10px;
+    }
+    input, button {
+      padding: 12px;
+      margin: 8px 0;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .resultado {
+      background: #ffffff;
+      padding: 15px;
+      margin-top: 20px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
+    .acciones {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    footer {
+      text-align: center;
+      font-size: 0.9em;
+      margin-top: 40px;
+      color: #777;
+    }
+    @media (min-width: 480px) {
+      .acciones {
+        flex-direction: row;
+      }
+    }
+  </style>
 </head>
 <body>
-    <h1>Buscar Trabajador</h1>
-    <input type="text" id="rut" placeholder="Ingrese el RUT del trabajador">
-    <button onclick="cargarDatosYBuscar()">Buscar</button>
-    <div id="result"></div>
+  <div class="container">
+    <header>
+      <img src="logo-sindicato.jpg" alt="Logo Sindicato">
+      <h2>Consulta tu resultado de la negociación</h2>
+    </header>
 
-    <script>
-        async function cargarDatosYBuscar() {
-            try {
-           const response = await fetch('https://andresurbanoz7.github.io/buscatra/buscatrababajdor.json');
+    <label for="rut">RUT (sin puntos, con guión):</label>
+    <input type="text" id="rut" placeholder="Ej: 12345678-9">
 
+    <label for="codigo">Código de seguridad (4 dígitos):</label>
+    <input type="number" id="codigo" placeholder="Ej: 1234">
 
-                const workers = await response.json();
-                buscarTrabajador(workers);
-            } catch (error) {
-                document.getElementById('result').innerHTML = '<p>Error al cargar los datos. Verifique la URL del JSON.</p>';
-                console.error('Error:', error);
-            }
-        }
+    <button id="btnConsultar">Consultar</button>
+    <button id="btnLimpiar">Limpiar</button>
 
-        function buscarTrabajador(workers) {
-            const rutInput = document.getElementById('rut').value.trim();
-            const resultContainer = document.getElementById('result');
+    <div id="resultado" class="resultado" style="display:none;"></div>
+    <div class="acciones" id="acciones" style="display:none;">
+      <button id="btnImprimir">Imprimir</button>
+      <button id="btnCompartir">Compartir</button>
+    </div>
 
-            // Normalizar el RUT ingresado (remover puntos y pasar a minúsculas)
-            const rut = rutInput.replace(/\./g, '').toLowerCase();
+    <footer>
+      Sindicato Log&iacute;stica Nacional Santa Isabel &mdash; Todos los derechos reservados
+    </footer>
+  </div>
 
-            // Validación del RUT (básica)
-            if (!rut || !/^\d{7,8}-[kK\d]$/.test(rut)) {
-                resultContainer.innerHTML = '<p>Por favor, ingrese un RUT válido.</p>';
-                return;
-            }
+  <script>
+    const trabajadores = [];
 
-            // Buscar al trabajador por el RUT
-            const trabajador = workers.find(w => w.ID.replace(/\./g, '').toLowerCase() === rut);
+    fetch('trabajadores_locales_completo_con_texto.json')
+      .then(res => res.json())
+      .then(data => trabajadores.push(...data))
+      .catch(error => {
+        console.error("Error al cargar el archivo JSON:", error);
+        alert("Hubo un problema al cargar los datos. Intenta nuevamente más tarde.");
+      });
 
-            if (trabajador) {
-                const bonoNumerico = Number(trabajador.Bono.replace(/\D/g, ''));
-                const bonoFormateado = new Intl.NumberFormat('es-CL', {
-                    style: 'currency',
-                    currency: 'CLP',
-                    minimumFractionDigits: 0
-                }).format(bonoNumerico);
+    function generarHTMLResultado(res) {
+      return `
+        <strong>${res.nombre}</strong><br>
+        Jornada: ${res.jornada} horas<br>
+        Antigüedad: ${res.antiguedad.toFixed(2)} años<br><br>
+        <strong>Nuevo Sueldo Base:</strong> $${res.sueldo_base.toLocaleString('es-CL')}<br>
+        <strong>Movilización:</strong> $${res.movilizacion.toLocaleString('es-CL')}<br>
+        <strong>Presentismo:</strong> $${res.presentismo.toLocaleString('es-CL')}<br>
+        <strong>Asignación de Caja:</strong> $${res.asig_caja.toLocaleString('es-CL')}<br>
+        <strong>Aguinaldo:</strong> ${res.aguinaldo}<br>
+        <strong>Vacaciones Verano:</strong> $${res.vacaciones_verano.toLocaleString('es-CL')}<br>
+        <strong>Vacaciones Invierno:</strong> $${res.vacaciones_invierno.toLocaleString('es-CL')}<br>
+      `;
+    }
 
-                resultContainer.innerHTML = `
-                    <h3>Datos del Trabajador</h3>
-                    <p><strong>Nombre:</strong> ${trabajador.Nombre}</p>
-                    <p><strong>Ajuste Mensual:</strong> ${trabajador["ajuste mensual"]}</p>
-                    <p><strong>Porcentaje:</strong> ${trabajador.porcentaje}</p>
-                    <p><strong>Bono:</strong> ${bonoFormateado}</p>
-                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSc0SKKi9Q_BNjafNqvgxEFsZEM8QmatIuf856lcQ0IWOMFT1g/viewform?usp=header" target="_blank">
-                        <button>Ir a Plataforma de Votación</button>
-                    </a>
-                `;
-            } else {
-                resultContainer.innerHTML = '<p>No se encontró ningún trabajador con el RUT ingresado.</p>';
-            }
-        }
-    </script>
+    function buscarTrabajador() {
+      const rut = document.getElementById('rut').value.trim();
+      const codigo = parseInt(document.getElementById('codigo').value.trim());
+      const res = trabajadores.find(t => t.rut === rut && t.codigo === codigo);
+
+      const resultadoDiv = document.getElementById('resultado');
+      const accionesDiv = document.getElementById('acciones');
+
+      if (res) {
+        resultadoDiv.style.display = 'block';
+        accionesDiv.style.display = 'flex';
+        resultadoDiv.innerHTML = generarHTMLResultado(res);
+      } else {
+        resultadoDiv.style.display = 'block';
+        accionesDiv.style.display = 'none';
+        resultadoDiv.innerHTML = '<span style="color:red">Datos no encontrados. Verifica tu RUT y código.</span>';
+      }
+    }
+
+    function limpiarFormulario() {
+      document.getElementById('rut').value = '';
+      document.getElementById('codigo').value = '';
+      document.getElementById('resultado').style.display = 'none';
+      document.getElementById('acciones').style.display = 'none';
+    }
+
+    function compartirResultado() {
+      const url = window.location.href;
+      navigator.clipboard.writeText(url);
+      alert("Enlace copiado al portapapeles para compartir");
+    }
+
+    document.getElementById('btnConsultar').addEventListener('click', buscarTrabajador);
+    document.getElementById('btnLimpiar').addEventListener('click', limpiarFormulario);
+    document.getElementById('btnImprimir').addEventListener('click', () => window.print());
+    document.getElementById('btnCompartir').addEventListener('click', compartirResultado);
+  </script>
 </body>
 </html>
