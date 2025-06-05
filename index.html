@@ -2,17 +2,13 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Resultados Negociación Locales</title>
+  <title>Consulta por Código</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    * {
-      box-sizing: border-box;
-    }
     body {
       font-family: Arial, sans-serif;
-      background-color: #f7f9fb;
+      background-color: #f0f2f5;
       color: #333;
-      max-width: 100%;
       margin: 0;
       padding: 20px;
     }
@@ -21,39 +17,34 @@
       margin: auto;
       background: #fff;
       padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
     header {
       text-align: center;
       margin-bottom: 20px;
     }
     header img {
-      max-width: 100px;
-      margin-bottom: 10px;
+      max-width: 120px;
     }
     input, button {
-      padding: 12px;
-      margin: 8px 0;
       width: 100%;
-      border: 1px solid #ccc;
-      border-radius: 5px;
+      padding: 12px;
+      margin: 10px 0;
       font-size: 1rem;
+      border-radius: 5px;
+    }
+    input {
+      border: 1px solid #ccc;
     }
     button {
+      border: none;
       background-color: #007bff;
       color: white;
-      border: none;
+      cursor: pointer;
     }
     button:hover {
       background-color: #0056b3;
-    }
-    .resultado {
-      background: #ffffff;
-      padding: 15px;
-      margin-top: 20px;
-      border-radius: 8px;
-      border: 1px solid #ddd;
     }
     .acciones {
       display: flex;
@@ -61,16 +52,29 @@
       gap: 10px;
       margin-top: 10px;
     }
+    @media (min-width: 480px) {
+      .acciones {
+        flex-direction: row;
+      }
+    }
+    .resultado {
+      margin-top: 20px;
+      padding: 15px;
+      background: #ffffff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+    #cargando {
+      text-align: center;
+      color: #555;
+      font-size: 0.95em;
+      margin-bottom: 10px;
+    }
     footer {
       text-align: center;
       font-size: 0.9em;
       margin-top: 40px;
       color: #777;
-    }
-    @media (min-width: 480px) {
-      .acciones {
-        flex-direction: row;
-      }
     }
   </style>
 </head>
@@ -81,96 +85,76 @@
       <h2>Consulta tu resultado de la negociación</h2>
     </header>
 
-    <label for="rut">RUT (sin puntos, con guión):</label>
-    <input type="text" id="rut" placeholder="Ej: 12345678-9">
+    <div id="cargando">Cargando archivo...</div>
 
-    <label for="codigo">Código de seguridad (4 dígitos):</label>
+    <label for="codigo">Ingresa tu código (4 dígitos):</label>
     <input type="number" id="codigo" placeholder="Ej: 1234">
 
-    <button id="btnConsultar">Consultar</button>
-    <button id="btnLimpiar">Limpiar</button>
+    <button onclick="buscarPorCodigo()">Consultar</button>
 
     <div id="resultado" class="resultado" style="display:none;"></div>
+
     <div class="acciones" id="acciones" style="display:none;">
-      <button id="btnImprimir">Imprimir</button>
-      <button id="btnCompartir">Compartir</button>
+      <button onclick="window.print()">Imprimir</button>
+      <button onclick="compartirResultado()">Compartir</button>
     </div>
 
     <footer>
-      Sindicato Log&iacute;stica Nacional Santa Isabel &mdash; Todos los derechos reservados
+      Sindicato Logística Nacional Santa Isabel &mdash; Todos los derechos reservados
     </footer>
   </div>
 
   <script>
     const trabajadores = [];
+    let datosCargados = false;
 
     fetch('https://raw.githubusercontent.com/andresurbanoz7/buscatra/main/trabajadores_locales_completo.json')
       .then(res => res.json())
       .then(data => {
-        if (Array.isArray(data)) {
-          trabajadores.push(...data);
-        } else {
-          throw new Error("Formato de datos inválido");
-        }
+        trabajadores.push(...data);
+        datosCargados = true;
+        document.getElementById('cargando').style.display = 'none';
       })
-      .catch(error => {
-        console.error("Error al cargar el archivo JSON:", error);
-        alert("Hubo un problema al cargar los datos. Intenta nuevamente más tarde.");
+      .catch(err => {
+        document.getElementById('cargando').textContent = 'Error al cargar los datos';
       });
 
-    function generarHTMLResultado(res) {
-      return `
-        <strong>${res.nombre}</strong><br>
-        Jornada: ${res.jornada} horas<br>
-        Antigüedad: ${res.antiguedad.toFixed(2)} años<br><br>
-        <strong>Nuevo Sueldo Base:</strong> $${res.sueldo_base.toLocaleString('es-CL')}<br>
-        <strong>Movilización:</strong> $${res.movilizacion.toLocaleString('es-CL')}<br>
-        <strong>Presentismo:</strong> $${res.presentismo.toLocaleString('es-CL')}<br>
-        <strong>Asignación de Caja:</strong> $${res.asig_caja.toLocaleString('es-CL')}<br>
-        <strong>Aguinaldo:</strong> ${res.aguinaldo}<br>
-        <strong>Vacaciones Verano:</strong> $${res.vacaciones_verano.toLocaleString('es-CL')}<br>
-        <strong>Vacaciones Invierno:</strong> $${res.vacaciones_invierno.toLocaleString('es-CL')}<br>
-      `;
-    }
-
-    function buscarTrabajador() {
-      const rut = document.getElementById('rut').value.trim();
-      const codigoStr = document.getElementById('codigo').value.trim();
-
-      if (!/^[0-9]{7,8}-[0-9kK]$/.test(rut)) {
-        alert("Por favor, ingresa un RUT válido (sin puntos, con guión). Ej: 12345678-9");
+    function buscarPorCodigo() {
+      if (!datosCargados) {
+        alert("Los datos aún se están cargando. Por favor, espera unos segundos e intenta de nuevo.");
         return;
       }
 
-      if (!/^[0-9]{4}$/.test(codigoStr)) {
-        alert("Por favor, ingresa un código de 4 dígitos.");
-        return;
-      }
+      const codigo = document.getElementById('codigo').value.trim();
+      const resultado = document.getElementById('resultado');
+      const acciones = document.getElementById('acciones');
+      const persona = trabajadores.find(t => String(t.codigo) === codigo);
 
-      const codigo = parseInt(codigoStr);
-     const res = trabajadores.find(t => t.rut === rut && String(t.codigo) === String(codigo));
+      if (persona) {
+        const aguinaldoTexto = persona.antiguedad >= 10 && persona.jornada === 45
+          ? `25% o 30% del sueldo base según corresponda`
+          : `$${persona.aguinaldo.toLocaleString('es-CL')}`;
 
-      const resultadoDiv = document.getElementById('resultado');
-      const accionesDiv = document.getElementById('acciones');
-
-      resultadoDiv.innerHTML = "";
-
-      if (res) {
-        resultadoDiv.style.display = 'block';
-        accionesDiv.style.display = 'flex';
-        resultadoDiv.innerHTML = generarHTMLResultado(res);
+        resultado.style.display = 'block';
+        acciones.style.display = 'flex';
+        resultado.innerHTML = `
+          <strong>${persona.nombre}</strong><br>
+          Jornada: ${persona.jornada} horas<br>
+          Antigüedad: ${persona.antiguedad.toFixed(2)} años<br><br>
+          <strong>Nuevo Sueldo Base:</strong> $${persona.sueldo_base.toLocaleString('es-CL')}<br>
+          <strong>Movilización:</strong> $${persona.movilizacion.toLocaleString('es-CL')}<br>
+          <strong>Presentismo:</strong> $${persona.presentismo.toLocaleString('es-CL')}<br>
+          <strong>Asignación de Caja:</strong> $${persona.asig_caja.toLocaleString('es-CL')}<br>
+          <strong>Aguinaldo:</strong> ${aguinaldoTexto}<br>
+          <strong>Vacaciones Día Verano:</strong> $${persona.vacaciones_verano.toLocaleString('es-CL')}<br>
+          <strong>Vacaciones Invierno:</strong> $${persona.vacaciones_invierno.toLocaleString('es-CL')}<br>
+          <strong style="color:#007bff">Bono Término de Negociación:</strong> $${calcularBono(persona.antiguedad, persona.jornada).toLocaleString('es-CL')}<br>
+        `;
       } else {
-        resultadoDiv.style.display = 'block';
-        accionesDiv.style.display = 'none';
-        resultadoDiv.innerHTML = '<span style="color:red">Datos no encontrados. Verifica tu RUT y código.</span>';
+        resultado.style.display = 'block';
+        acciones.style.display = 'none';
+        resultado.innerHTML = '<span style="color:red">Código no encontrado.</span>';
       }
-    }
-
-    function limpiarFormulario() {
-      document.getElementById('rut').value = '';
-      document.getElementById('codigo').value = '';
-      document.getElementById('resultado').style.display = 'none';
-      document.getElementById('acciones').style.display = 'none';
     }
 
     function compartirResultado() {
@@ -178,11 +162,47 @@
       navigator.clipboard.writeText(url);
       alert("Enlace copiado al portapapeles para compartir");
     }
+  
 
-    document.getElementById('btnConsultar').addEventListener('click', buscarTrabajador);
-    document.getElementById('btnLimpiar').addEventListener('click', limpiarFormulario);
-    document.getElementById('btnImprimir').addEventListener('click', () => window.print());
-    document.getElementById('btnCompartir').addEventListener('click', compartirResultado);
+    function calcularBono(antiguedadAnios, jornada) {
+      const meses = antiguedadAnios * 12;
+      if (jornada === 45) {
+        if (antiguedadAnios > 25) return 1400000;
+        const tabla45 = [
+          { min: 0, max: 12, valor: 1000, fijo: 2000 },
+          { min: 13, max: 23, valor: 1450, fijo: 2400 },
+          { min: 24, max: 35, valor: 1600, fijo: 2500 },
+          { min: 36, max: 54, valor: 2000, fijo: 2500 },
+          { min: 55, max: 117, valor: 2500, fijo: 3100 },
+          { min: 118, max: 500, valor: 3000, fijo: 3100 }
+        ];
+        const rango = tabla45.find(r => meses >= r.min && meses <= r.max);
+        return rango ? Math.round(meses * rango.valor + rango.fijo) : 0;
+      } else if (jornada === 30 || jornada === 20) {
+        const tablaParcial = [
+          { min: 0, max: 12, valor: 950, fijo: 1200 },
+          { min: 13, max: 22, valor: 1250, fijo: 1400 },
+          { min: 23, max: 35, valor: 1350, fijo: 1500 },
+          { min: 36, max: 54, valor: 1550, fijo: 1800 },
+          { min: 55, max: 107, valor: 1650, fijo: 1900 },
+          { min: 108, max: 368, valor: 1750, fijo: 2000 }
+        ];
+        const rango = tablaParcial.find(r => meses >= r.min && meses <= r.max);
+        return rango ? Math.round(meses * rango.valor + rango.fijo) : 0;
+      }
+      return 0;
+    },
+        { min: 13, max: 23, valor: 1450, fijo: 2400 },
+        { min: 24, max: 35, valor: 1600, fijo: 2500 },
+        { min: 36, max: 54, valor: 2000, fijo: 2500 },
+        { min: 55, max: 117, valor: 2500, fijo: 3100 },
+        { min: 118, max: 500, valor: 3000, fijo: 3100 }
+      ];
+      const rango = tabla.find(r => meses >= r.min && meses <= r.max);
+      if (!rango) return 0;
+      return Math.round(meses * rango.valor + rango.fijo);
+    }
+
   </script>
 </body>
 </html>
