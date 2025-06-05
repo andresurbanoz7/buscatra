@@ -148,7 +148,7 @@
       }
 
       const codigo = parseInt(codigoStr);
-      const res = trabajadores.find(t => t.rut === rut && t.codigo === codigo);
+     const res = trabajadores.find(t => t.rut === rut && String(t.codigo) === String(codigo));
 
       const resultadoDiv = document.getElementById('resultado');
       const accionesDiv = document.getElementById('acciones');
