@@ -8,6 +8,7 @@
     body {
       font-family: Arial, sans-serif;
       background-color: #f0f2f5;
+      color: #333;
       margin: 0;
       padding: 20px;
     }
@@ -80,7 +81,7 @@
 <body>
   <div class="container">
     <header>
-      <img src="https://raw.githubusercontent.com/andresurbanoz7/buscatra/refs/heads/main/logo-sindicato.jpg" alt="Logo Sindicato">
+      <img src="logo-sindicato.jpg" alt="Logo Sindicato">
       <h2>Consulta tu resultado de la negociación</h2>
     </header>
 
@@ -88,9 +89,11 @@
 
     <label for="codigo">Ingresa tu código (4 dígitos):</label>
     <input type="number" id="codigo" placeholder="Ej: 1234">
+
     <button onclick="buscarPorCodigo()">Consultar</button>
 
     <div id="resultado" class="resultado" style="display:none;"></div>
+
     <div class="acciones" id="acciones" style="display:none;">
       <button onclick="window.print()">Imprimir</button>
       <button onclick="compartirResultado()">Compartir</button>
@@ -105,7 +108,7 @@
     const trabajadores = [];
     let datosCargados = false;
 
-    fetch('https://raw.githubusercontent.com/andresurbanoz7/buscatra/main/trabajadores_locales_completo.json')
+    fetch('trabajadores_con_diferencia.json')
       .then(res => res.json())
       .then(data => {
         trabajadores.push(...data);
@@ -128,17 +131,8 @@
       const persona = trabajadores.find(t => String(t.codigo) === codigo);
 
       if (persona) {
-        const aguinaldoTexto = persona.antiguedad >= 10 && persona.jornada === 45
-          ? `25% o 30% del sueldo base según corresponda`
-          : `$${persona.aguinaldo.toLocaleString('es-CL')}`;
-
-        const movilizacionTexto = persona.jornada < 45
-          ? `$${persona.movilizacion.toLocaleString('es-CL')} por hora`
-          : `$${persona.movilizacion.toLocaleString('es-CL')}`;
-
-        const cajaTexto = persona.jornada < 45
-          ? `$${persona.asig_caja.toLocaleString('es-CL')} por hora`
-          : `$${persona.asig_caja.toLocaleString('es-CL')}`;
+        const aumentoTramo = calcularAumentoTramo(persona.antiguedad, persona.jornada);
+        const totalAumento = Math.round(aumentoTramo + persona.diferencia_sueldo);
 
         resultado.style.display = 'block';
         acciones.style.display = 'flex';
@@ -146,14 +140,9 @@
           <strong>${persona.nombre}</strong><br>
           Jornada: ${persona.jornada} horas<br>
           Antigüedad: ${persona.antiguedad.toFixed(2)} años<br><br>
-          <strong>Nuevo Sueldo Base:</strong> $${Math.round(persona.sueldo_base).toLocaleString('es-CL')}<br>
-          <strong>Movilización:</strong> ${movilizacionTexto}<br>
-          <strong>Presentismo:</strong> $${persona.presentismo.toLocaleString('es-CL')}<br>
-          <strong>Asignación de Caja:</strong> ${cajaTexto}<br>
-          <strong>Aguinaldos:</strong> ${aguinaldoTexto}<br>
-          <strong>Vacaciones Día Verano:</strong> $${persona.vacaciones_verano.toLocaleString('es-CL')}<br>
-          <strong>Vacaciones Día Invierno:</strong> $${persona.vacaciones_invierno.toLocaleString('es-CL')}<br>
-          <strong style="color:#007bff">Bono Término de Negociación:</strong> $${calcularBono(persona.antiguedad, persona.jornada).toLocaleString('es-CL')}<br>
+          <strong>Aumento por tramo:</strong> $${aumentoTramo.toLocaleString('es-CL')}<br>
+          <strong>Diferencia mensual individual:</strong> $${persona.diferencia_sueldo.toLocaleString('es-CL')}<br>
+          <strong style="color:#007bff">Aumento mensual total:</strong> $${totalAumento.toLocaleString('es-CL')}
         `;
       } else {
         resultado.style.display = 'block';
@@ -162,47 +151,52 @@
       }
     }
 
+    function calcularAumentoTramo(antiguedad, jornada) {
+      const tramos = {
+        45: [
+          { min: 0, max: 0.49, valor: 16532 },
+          { min: 0.5, max: 0.99, valor: 11701 },
+          { min: 1, max: 1.99, valor: 21405 },
+          { min: 2, max: 2.99, valor: 23262 },
+          { min: 3, max: 3.99, valor: 20809 },
+          { min: 4, max: 4.99, valor: 19703 },
+          { min: 5, max: 9.99, valor: 17069 },
+          { min: 10, max: 40, valor: 23655 },
+        ],
+        30: [
+          { min: 0, max: 0.49, valor: 8869 },
+          { min: 0.5, max: 0.99, valor: 9253 },
+          { min: 1, max: 1.99, valor: 10002 },
+          { min: 2, max: 2.99, valor: 7573 },
+          { min: 3, max: 3.99, valor: 11612 },
+          { min: 4, max: 4.99, valor: 12412 },
+          { min: 5, max: 9.99, valor: 11641 },
+          { min: 10, max: 39.99, valor: 11919 },
+        ],
+        20: [
+          { min: 0, max: 0.49, valor: 9202 },
+          { min: 0.5, max: 0.99, valor: 12661 },
+          { min: 1, max: 1.99, valor: 13251 },
+          { min: 2, max: 2.99, valor: 11072 },
+          { min: 3, max: 3.99, valor: 14360 },
+          { min: 4, max: 4.99, valor: 15160 },
+          { min: 5, max: 9.99, valor: 17224 },
+          { min: 10, max: 39.99, valor: 20502 },
+        ],
+      };
+
+      const tabla = tramos[jornada] || [];
+      const tramo = tabla.find(t => antiguedad >= t.min && antiguedad <= t.max);
+      return tramo ? tramo.valor : 0;
+    }
+
     function compartirResultado() {
       const url = window.location.href;
       navigator.clipboard.writeText(url);
       alert("Enlace copiado al portapapeles para compartir");
     }
-
-    function calcularBono(antiguedadAnios, jornada) {
-      const factorFijo = 33;
-      const antiguedadRedondeada = Math.round(antiguedadAnios * 100) / 100;
-      const meses = antiguedadRedondeada * 12;
-
-      if (jornada === 45) {
-        if (antiguedadAnios > 25) return 1400000;
-        const tabla45 = [
-          { min: 0, max: 12, valor: 1000, fijo: 2000 },
-          { min: 13, max: 23, valor: 1450, fijo: 2400 },
-          { min: 24, max: 35, valor: 1600, fijo: 2500 },
-          { min: 36, max: 54, valor: 2000, fijo: 2500 },
-          { min: 55, max: 117, valor: 2500, fijo: 3100 },
-          { min: 118, max: 500, valor: 3000, fijo: 3100 }
-        ];
-        const rango = tabla45.find(r => meses >= r.min && meses <= r.max);
-        return rango ? Math.round(rango.valor * antiguedadRedondeada * 12 + rango.fijo * factorFijo) : 0;
-      }
-
-      if (jornada === 30 || jornada === 20) {
-        const tablaParcial = [
-          { min: 0, max: 12, valor: 950, fijo: 1200 },
-          { min: 13, max: 22, valor: 1250, fijo: 1400 },
-          { min: 23, max: 35, valor: 1350, fijo: 1500 },
-          { min: 36, max: 54, valor: 1550, fijo: 1800 },
-          { min: 55, max: 107, valor: 1650, fijo: 1900 },
-          { min: 108, max: 368, valor: 1750, fijo: 2000 }
-        ];
-        const rango = tablaParcial.find(r => meses >= r.min && meses <= r.max);
-        return rango ? Math.round(rango.valor * antiguedadRedondeada * 12 + rango.fijo * factorFijo) : 0;
-      }
-
-      return 0;
-    }
   </script>
 </body>
 </html>
+
 
