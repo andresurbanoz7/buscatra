@@ -421,7 +421,14 @@ function buscarBTN(tabla, jornada, meses) {
   }
 
   function actualizar() {
-    const fechaIngreso = ingreso.value;
+   const dia = parseInt(document.getElementById("dia").value);
+const mes = parseInt(document.getElementById("mes").value) - 1; // los meses en JS van de 0 a 11
+const anio = parseInt(document.getElementById("anio").value);
+
+if (!dia || !mes || !anio) return;
+
+const fechaIngreso = new Date(anio, mes, dia);
+
     const tipoJornada = parseInt(jornada.value);
     const tieneCaja = caja.value === "si";
 
