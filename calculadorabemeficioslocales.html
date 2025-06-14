@@ -473,7 +473,10 @@ const total = aumentoMensual + Math.round(base * 0.25) + base;
     document.getElementById("total").textContent = "$" + total.toLocaleString();
   }
 
-  ingreso.addEventListener("change", actualizar);
+ document.getElementById("dia").addEventListener("input", actualizar);
+document.getElementById("mes").addEventListener("input", actualizar);
+document.getElementById("anio").addEventListener("input", actualizar);
+
   jornada.addEventListener("change", actualizar);
   caja.addEventListener("change", actualizar);
 });
