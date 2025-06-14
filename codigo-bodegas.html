@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculadora Bodegas - Sindicato Logística Santa Isabel</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #eef2f5;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    h1, h2 {
+      text-align: center;
+      color: #1e3a8a;
+    }
+    label, p {
+      margin: 10px 0 5px;
+    }
+    input[type="number"] {
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    .fecha-inputs {
+      display: flex;
+      gap: 5px;
+    }
+    .fecha-inputs input {
+      flex: 1;
+    }
+    .checkboxes label {
+      display: block;
+      margin-top: 10px;
+    }
+    .result {
+      background: #f1f5f9;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+    .highlight {
+      background-color: #d1fae5;
+      border: 2px solid #059669;
+      padding: 10px;
+      border-radius: 8px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    .highlight span {
+      color: #065f46;
+      font-size: 1.1em;
+    }
+    .btns {
+      text-align: center;
+      margin-top: 30px;
+    }
+    button {
+      margin: 5px;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .print { background-color: #1e3a8a; color: white; }
+    .share { background-color: #25D366; color: white; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="https://andresurbanoz7.github.io/buscatra/logo-sindicato.jpg" alt="Logo Sindicato" style="max-width: 180px; height: auto; display: block; margin: 0 auto 10px;">
+    <h1>Sindicato Logística Santa Isabel</h1>
+    <h2>Calculadora de Beneficios - Bodegas</h2>
+
+    <label>Fecha de contratación:</label>
+    <div class="fecha-inputs">
+      <input type="number" id="dia" placeholder="Día" min="1" max="31" />
+      <input type="number" id="mes" placeholder="Mes" min="1" max="12" />
+      <input type="number" id="anio" placeholder="Año" min="1900" max="2025" />
+    </div>
+
+    <div class="checkboxes">
+      <label><input type="checkbox" id="intemperie" /> Aplica Bono Intemperie</label>
+      <label><input type="checkbox" id="frio" /> Aplica Bono Frío</label>
+      <label><input type="checkbox" id="perecederos" /> Aplica Bono Perecederos</label>
+    </div>
+
+    <div class="result" id="resultados"></div>
+
+    <div class="btns">
+      <button class="print" onclick="window.print()">🖨 Imprimir</button>
+      <button class="share" onclick="compartirWhatsApp()">📤 Compartir</button>
+    </div>
+  </div>
+
+<script>
+function calcular() {
+  const dia = parseInt(document.getElementById("dia").value);
+  const mes = parseInt(document.getElementById("mes").value) - 1;
+  const anio = parseInt(document.getElementById("anio").value);
+  if (isNaN(dia) || isNaN(mes) || isNaN(anio)) return;
+
+  const fechaIngreso = new Date(anio, mes, dia);
+  const fechaCorte = new Date(2025, 4, 1);
+  const diffEnMeses = Math.floor((fechaCorte - fechaIngreso) / (1000 * 60 * 60 * 24 * 30.44));
+  const meses = Math.max(0, diffEnMeses);
+
+  function buscar(tabla) {
+    return tabla.find(t => meses >= t.min && meses <= t.max)?.valor || 0;
+  }
+
+  const sueldoBase = buscar([
+    {min:0,max:23,valor:20000},{min:24,max:59,valor:26000},
+    {min:60,max:83,valor:30000},{min:84,max:119,valor:40000},
+    {min:120,max:179,valor:50000},{min:180,max:480,valor:80000}
+  ]);
+
+  const movilizacionAumento = buscar([
+    {min:0,max:5,valor:9806},{min:6,max:11,valor:6139},
+    {min:12,max:35,valor:2067},{min:36,max:59,valor:2201},
+    {min:60,max:999,valor:5120}
+  ]);
+
+  const presentismoAumento = buscar([
+    {min:0,max:11,valor:4020},{min:12,max:23,valor:3091},
+    {min:24,max:35,valor:4961},{min:36,max:59,valor:3701},
+    {min:60,max:999,valor:6701}
+  ]);
+
+  const bonoCDAumento = buscar([
+    {min:0,max:5,valor:975},{min:6,max:11,valor:2400},
+    {min:12,max:35,valor:2609},{min:36,max:999,valor:3710}
+  ]);
+
+  let aumentoMensual = movilizacionAumento + presentismoAumento + bonoCDAumento;
+
+  if (document.getElementById("frio").checked) {
+    aumentoMensual += (meses < 36) ? 1951 : 2320;
+  }
+  if (document.getElementById("intemperie").checked) {
+    aumentoMensual += (meses < 36) ? 1951 : 4160;
+  }
+  if (document.getElementById("perecederos").checked) {
+    aumentoMensual += 2320;
+  }
+
+  const movilizacion = buscar([
+    {min:0,max:5,valor:32000},{min:6,max:11,valor:42000},
+    {min:12,max:35,valor:52000},{min:36,max:59,valor:63500},
+    {min:60,max:999,valor:75000}
+  ]);
+
+  const presentismo = buscar([
+    {min:0,max:11,valor:40800},{min:12,max:23,valor:46000},
+    {min:24,max:35,valor:54000},{min:36,max:59,valor:65000},
+    {min:60,max:999,valor:68000}
+  ]);
+
+  const bonoCD = buscar([
+    {min:0,max:5,valor:16300},{min:6,max:11,valor:33000},
+    {min:12,max:35,valor:45600},{min:36,max:999,valor:67500}
+  ]);
+
+  const bonoFrio = buscar([
+    {min:0,max:35,valor:32600},{min:36,max:999,valor:39100}
+  ]);
+
+  const bonoIntemperie = buscar([
+    {min:0,max:35,valor:32600},{min:36,max:999,valor:47000}
+  ]);
+
+  const bonoPerecederos = 39100;
+  const vacacionesVerano = 7710;
+  const vacacionesInvierno = 8566;
+
+  const btnTabla = [
+    {min:0,max:12,valAnt:1531,valContrato:3800},
+    {min:13,max:22,valAnt:3375,valContrato:4050},
+    {min:23,max:35,valAnt:3500,valContrato:4050},
+    {min:36,max:47,valAnt:4050,valContrato:4500},
+    {min:48,max:117,valAnt:4600,valContrato:5000},
+    {min:118,max:999,valAnt:5000,valContrato:5600}
+  ];
+  const tramoBTN = btnTabla.find(t => meses >= t.min && meses <= t.max);
+  const btn = tramoBTN ? (meses * tramoBTN.valAnt + 33 * tramoBTN.valContrato) : 0;
+  const totalAumentoCombinado = sueldoBase + sueldoBase * 0.25 + aumentoMensual;
+
+  let result = `
+    <p><strong>Antigüedad:</strong> ${meses} meses</p>
+    <p><strong>Sueldo Base:</strong> $${sueldoBase.toLocaleString()}</p>
+    <p><strong>Movilización:</strong> $${movilizacion.toLocaleString()}</p>
+    <p><strong>Presentismo:</strong> $${presentismo.toLocaleString()}</p>
+    <p><strong>Bono Especial CD:</strong> $${bonoCD.toLocaleString()}</p>
+    <p><strong>Total aumentos mensuales (bonos):</strong> $${aumentoMensual.toLocaleString()}</p>
+    <p><strong>Total aumento mensual combinado (SB + 25% + bonos):</strong> <span style="color: green; font-weight: bold;">$${totalAumentoCombinado.toLocaleString()}</span></p>
+    <hr>
+    <p><strong>Aguinaldo Septiembre/Diciembre:</strong> $75000</p>
+    <p><strong>Vacaciones (verano por día):</strong> $${vacacionesVerano}</p>
+    <p><strong>Vacaciones (invierno por día):</strong> $${vacacionesInvierno}</p>
+  `;
+
+  if (document.getElementById("intemperie").checked) {
+    result += `<p><strong>Bono Intemperie:</strong> $${bonoIntemperie.toLocaleString()}</p>`;
+  }
+  if (document.getElementById("frio").checked) {
+    result += `<p><strong>Bono Frío:</strong> $${bonoFrio.toLocaleString()}</p>`;
+  }
+  if (document.getElementById("perecederos").checked) {
+    result += `<p><strong>Bono Perecederos:</strong> $${bonoPerecederos.toLocaleString()}</p>`;
+  }
+
+  result += `<hr><div class="highlight">💵 <strong>Bono de Término de Negociación (BTN):</strong> <span>$${btn.toLocaleString()}</span></div>`;
+
+  document.getElementById("resultados").innerHTML = result;
+}
+
+document.querySelectorAll("input").forEach(input => {
+  input.addEventListener("input", calcular);
+});
+
+function compartirWhatsApp() {
+  const mensaje = encodeURIComponent("Revisa tus beneficios como trabajador de bodega: https://app.jotform.com/251556545629668");
+  window.open("https://wa.me/?text=" + mensaje, "_blank");
+}
+</script>
+</body>
+</html>
+l>
