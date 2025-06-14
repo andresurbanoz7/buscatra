@@ -394,10 +394,17 @@ function buscarTabla(tabla, jornada, anios) {
 }
 
 // ✅ BTN se sigue calculando con meses
+// ✅ BTN se sigue calculando con meses
 function buscarBTN(tabla, jornada, meses) {
+  // Excepción: jornada completa (45) con 26 años o más (312 meses)
+  if (jornada === 45 && meses >= 312) {
+    return 1400000;
+  }
+
   const tramo = tabla[jornada].find(r => meses >= r.min && meses <= r.max);
   return tramo ? (meses * tramo.ant) + (33 * tramo.contrato) : 0;
 }
+
 
 
   function calcularAntiguedad(fechaIngreso) {
