@@ -228,9 +228,30 @@ document.querySelectorAll("input").forEach(input => {
 });
 
 function compartirWhatsApp() {
-  const mensaje = encodeURIComponent("Revisa tus beneficios como trabajador de bodega: https://app.jotform.com/251556545629668");
+  const contenido = document.getElementById("resultados").innerText;
+
+  const textoFormateado = contenido
+    .replace(/^\s*💵/, "💵")
+    .replace(/Antigüedad:/g, "📅 Antigüedad:")
+    .replace(/Sueldo Base:/g, "💰 Sueldo Base:")
+    .replace(/Movilización:/g, "🚌 Movilización:")
+    .replace(/Presentismo:/g, "🎯 Presentismo:")
+    .replace(/Bono Especial CD:/g, "📦 Bono Especial CD:")
+    .replace(/Total aumentos mensuales \(bonos\):/g, "🔸 Aumentos mensuales (bonos):")
+    .replace(/Total aumento mensual combinado \(SB \+ 25% \+ bonos\):/g, "📈 Aumento mensual combinado (SB + 25% + bonos):")
+    .replace(/Aumento adicional:/g, "➕ Aumento adicional:")
+    .replace(/Vacaciones \(verano por día\):/g, "🌞 Vacaciones verano (por día):")
+    .replace(/Vacaciones \(invierno por día\):/g, "❄️ Vacaciones invierno (por día):")
+    .replace(/Bono Intemperie:/g, "🌧️ Bono Intemperie:")
+    .replace(/Bono Frío:/g, "🥶 Bono Frío:")
+    .replace(/Bono Perecederos:/g, "🍎 Bono Perecederos:")
+    .replace(/Bono de Término de Negociación \(BTN\):/g, "📌 Bono Término de Negociación:")
+    .trim();
+
+  const mensaje = encodeURIComponent("🧾 Resultado de tu cálculo de beneficios:\n\n" + textoFormateado);
   window.open("https://wa.me/?text=" + mensaje, "_blank");
 }
+
 </script>
 </body>
 </html>
