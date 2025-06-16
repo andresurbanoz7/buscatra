@@ -119,10 +119,14 @@ function calcular() {
   }
 
   const sueldoBase = buscar([
-    {min:0,max:23,valor:20000},{min:24,max:59,valor:26000},
-    {min:60,max:83,valor:30000},{min:84,max:119,valor:40000},
-    {min:120,max:179,valor:50000},{min:180,max:480,valor:80000}
-  ]);
+  {min: 0,   max: 23,  valor: 18443},  // 20000 - 1557
+  {min: 24,  max: 59,  valor: 24443},  // 26000 - 1557
+  {min: 60,  max: 83,  valor: 28443},  // 30000 - 1557
+  {min: 84,  max: 119, valor: 38443},  // 40000 - 1557
+  {min: 120, max: 179, valor: 48443},  // 50000 - 1557
+  {min: 180, max: 480, valor: 78443}   // 80000 - 1557
+]);
+
 
   const movilizacionAumento = buscar([
     {min:0,max:5,valor:9806},{min:6,max:11,valor:6139},
