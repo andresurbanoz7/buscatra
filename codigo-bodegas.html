@@ -110,7 +110,7 @@ function calcular() {
   if (isNaN(dia) || isNaN(mes) || isNaN(anio)) return;
 
   const fechaIngreso = new Date(anio, mes, dia);
-  const fechaCorte = new Date(2025, 4, 30); // 30 de abril de 2025
+  const fechaCorte = new Date(2025, 3, 30); // 30 de abril de 2025
 
   let anios = fechaCorte.getFullYear() - fechaIngreso.getFullYear();
   let mesesDif = fechaCorte.getMonth() - fechaIngreso.getMonth();
