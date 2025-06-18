@@ -426,58 +426,50 @@ if (jornada === 45 && meses >= 240) {
     return Math.floor(diff / (1000 * 60 * 60 * 24 * 30.4375)); // meses aproximados
   }
 
-  function actualizar() {
-   const dia = parseInt(document.getElementById("dia").value);
-const mes = parseInt(document.getElementById("mes").value) - 1; // los meses en JS van de 0 a 11
-const anio = parseInt(document.getElementById("anio").value);
+ function actualizar() {
+  const dia = parseInt(document.getElementById("dia").value);
+  const mes = parseInt(document.getElementById("mes").value) - 1;
+  const anio = parseInt(document.getElementById("anio").value);
+  if (isNaN(dia) || isNaN(mes) || isNaN(anio)) return;
 
-if (!dia || !mes || !anio) return;
+  const fechaIngreso = new Date(anio, mes, dia);
+  const tipoJornada = parseInt(jornada.value);
+  const tieneCaja = caja.value === "si";
+  if (!fechaIngreso || !tipoJornada) return;
 
-const fechaIngreso = new Date(anio, mes, dia);
+  const mesesAntiguedad = calcularAntiguedad(fechaIngreso);
+  const anios = mesesAntiguedad / 12;
 
-    const tipoJornada = parseInt(jornada.value);
-    const tieneCaja = caja.value === "si";
+  const movilizacion = buscarTabla(tablaMovilizacion, tipoJornada, anios);
+  let cajaAsignacion = 0;
+  let base = sueldoBase[tipoJornada].find(r => anios <= r.anios)?.valor || 0;
 
-    if (!fechaIngreso || !tipoJornada) return;
-
-    const mesesAntiguedad = calcularAntiguedad(fechaIngreso);
-    const anios = mesesAntiguedad / 12;
-
-   // Calculamos valores
-const movilizacion = buscarTabla(tablaMovilizacion, tipoJornada, anios);
-
-let cajaAsignacion = 0;
-let base = sueldoBase[tipoJornada].find(r => anios <= r.anios)?.valor || 0;
-
-if (tieneCaja) {
-  cajaAsignacion = buscarTabla(tablaCaja, tipoJornada, anios);
-} else {
-  base += 7000; // bonificación si no tiene asignación de caja
-}
-
-const presentismo = buscarTabla(tablaPresentismo, tipoJornada, anios);
-const aguinaldo = buscarTabla(tablaAguinaldo.septiembre, tipoJornada, anios);
-const vacacionesVerano = buscarTabla(tablaVacaciones.verano, tipoJornada, anios);
-const vacacionesInvierno = buscarTabla(tablaVacaciones.invierno, tipoJornada, anios);
-const btn = buscarBTN(tablaBTN, tipoJornada, mesesAntiguedad);
-
-const aumentoMensual = buscarTabla(tablaAumentoMensual, tipoJornada, anios);
-const total = aumentoMensual + Math.round(base * 0.25) + base;
-
-
-
-    // Mostrar en el HTML
-    document.getElementById("antiguedad").textContent = mesesAntiguedad + " meses";
-    document.getElementById("base").textContent = "$" + base.toLocaleString();
-    document.getElementById("movilizacion").textContent = "$" + movilizacion.toLocaleString();
-    document.getElementById("caja_asignacion").textContent = cajaAsignacion > 0 ? "$" + cajaAsignacion.toLocaleString() : "No aplica";
-    document.getElementById("presentismo").textContent = "$" + presentismo.toLocaleString();
-    document.getElementById("aguinaldo").textContent = "$" + aguinaldo.toLocaleString();
-    document.getElementById("verano").textContent = "$" + vacacionesVerano.toLocaleString();
-    document.getElementById("invierno").textContent = "$" + vacacionesInvierno.toLocaleString();
-    document.getElementById("btn").textContent = "$" + btn.toLocaleString();
-    document.getElementById("total").textContent = "$" + total.toLocaleString();
+  if (tieneCaja) {
+    cajaAsignacion = buscarTabla(tablaCaja, tipoJornada, anios);
+  } else {
+    base += 7000;
   }
+
+  const presentismo = buscarTabla(tablaPresentismo, tipoJornada, anios);
+  const aguinaldo = buscarTabla(tablaAguinaldo.septiembre, tipoJornada, anios);
+  const vacacionesVerano = buscarTabla(tablaVacaciones.verano, tipoJornada, anios);
+  const vacacionesInvierno = buscarTabla(tablaVacaciones.invierno, tipoJornada, anios);
+  const btn = buscarBTN(tablaBTN, tipoJornada, mesesAntiguedad);
+  const aumentoMensual = buscarTabla(tablaAumentoMensual, tipoJornada, anios);
+  const total = aumentoMensual + Math.round(base * 0.25) + base;
+
+  // ✅ Mostrar en el HTML (DEBE IR DENTRO DE actualizar())
+  document.getElementById("antiguedad").textContent = mesesAntiguedad + " meses";
+  document.getElementById("base").textContent = "$" + base.toLocaleString();
+  document.getElementById("movilizacion").textContent = "$" + movilizacion.toLocaleString();
+  document.getElementById("caja_asignacion").textContent = cajaAsignacion > 0 ? "$" + cajaAsignacion.toLocaleString() : "No aplica";
+  document.getElementById("presentismo").textContent = "$" + presentismo.toLocaleString();
+  document.getElementById("aguinaldo").textContent = "$" + aguinaldo.toLocaleString();
+  document.getElementById("verano").textContent = "$" + vacacionesVerano.toLocaleString();
+  document.getElementById("invierno").textContent = "$" + vacacionesInvierno.toLocaleString();
+  document.getElementById("btn").textContent = "$" + btn.toLocaleString();
+  document.getElementById("total").textContent = "$" + total.toLocaleString();
+}
 
  document.getElementById("dia").addEventListener("input", actualizar);
 document.getElementById("mes").addEventListener("input", actualizar);
@@ -530,7 +522,6 @@ document.getElementById("anio").addEventListener("input", actualizar);
 
 </body>
 </html>
-
 
 
 
