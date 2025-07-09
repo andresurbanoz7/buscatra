@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Calculadora Beneficios Sindicato Suroeste</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 700px; margin: auto; padding: 1em; background: #f2f2f2; }
+    h1 { color: #333366; }
+    label { display: block; margin-top: 1em; font-weight: bold; }
+    input, select { width: 100%; padding: 8px; margin-top: 4px; }
+    button { margin-top: 1em; padding: 10px 20px; font-size: 16px; background: #333366; color: white; border: none; cursor: pointer; }
+    .result { background: #e0e0e0; padding: 1em; margin-top: 1em; }
+  </style>
+</head>
+<body>
+  <h1>🧮 Calculadora de Beneficios - Sindicato Suroeste</h1>
+
+  <label for="antiguedad">Antigüedad (en años):</label>
+  <input type="number" id="antiguedad" min="0" step="0.1">
+
+  <label for="tipoContrato">Tipo de Contrato:</label>
+  <select id="tipoContrato">
+    <option value="full">Full-time</option>
+    <option value="part">Part-time</option>
+  </select>
+
+  <label for="nocturno">¿Realiza turnos nocturnos?</label>
+  <select id="nocturno">
+    <option value="si">Sí</option>
+    <option value="no">No</option>
+  </select>
+
+  <label for="asistencia">¿Cumple asistencia completa mensual? (solo full-time)</label>
+  <select id="asistencia">
+    <option value="si">Sí</option>
+    <option value="no">No</option>
+  </select>
+
+  <label for="vacaciones">¿Tomó vacaciones anuales como full-time?</label>
+  <select id="vacaciones">
+    <option value="si">Sí</option>
+    <option value="no">No</option>
+  </select>
+
+  <label for="escolar">¿Está en etapa escolar o tiene hijos en etapa escolar?</label>
+  <select id="escolar">
+    <option value="si">Sí</option>
+    <option value="no">No</option>
+  </select>
+
+  <button onclick="calcular()">Calcular Beneficios</button>
+
+  <div class="result" id="resultado"></div>
+
+  <script>
+    function calcular() {
+      const IMM = 529000;
+      const antiguedad = parseFloat(document.getElementById("antiguedad").value);
+      const tipoContrato = document.getElementById("tipoContrato").value;
+      const nocturno = document.getElementById("nocturno").value === "si";
+      const asistencia = document.getElementById("asistencia").value === "si";
+      const escolar = document.getElementById("escolar").value === "si";
+      const vacaciones = document.getElementById("vacaciones").value === "si";
+
+      let porcentaje = 0;
+      if (antiguedad >= 1 && antiguedad < 3) porcentaje = 0.02;
+      else if (antiguedad >= 3 && antiguedad < 5) porcentaje = 0.03;
+      else if (antiguedad >= 5 && antiguedad < 10) porcentaje = 0.04;
+      else if (antiguedad >= 10) porcentaje = 0.05;
+
+      const sueldoBase = IMM + IMM * porcentaje;
+      let total = sueldoBase;
+      let beneficios = [`Sueldo base ajustado: $${sueldoBase.toLocaleString()}`];
+
+      if (tipoContrato === "full" && asistencia) {
+        total += 15000;
+        beneficios.push("Bono de Asistencia: $15.000");
+      }
+      if (nocturno) {
+        total += 25000;
+        beneficios.push("Bono Nocturno: $25.000");
+      }
+      if (vacaciones && tipoContrato === "full") {
+        total += 25000;
+        beneficios.push("Bono de Vacaciones: $25.000");
+      }
+      if (escolar) {
+        beneficios.push("Bono Escolar: $25.000 anual");
+      }
+
+      beneficios.push("Giftcard Fiestas Patrias: $30.000");
+      beneficios.push("Giftcard Navidad: $30.000");
+      beneficios.push("Anticipo mensual a cuenta de gratificación: $50.000");
+      beneficios.push("Gratificación legal proporcional al resultado de la empresa");
+      beneficios.push("Sala Cuna o bono compensatorio de $335.000 si corresponde");
+
+      document.getElementById("resultado").innerHTML = `<h3>Resumen de Beneficios:</h3><ul><li>${beneficios.join("</li><li>")}</li></ul><p><strong>Total mensual estimado (sin contar beneficios anuales):</strong> $${total.toLocaleString()}</p>`;
+    }
+  </script>
+</body>
+</html>
