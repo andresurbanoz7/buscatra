@@ -3,575 +3,428 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Informe Financiero Sindical</title>
+    <title>Informe Tesorería 2024 - Sindicato Cenco 2</title>
     <style>
+        :root {
+            --primary-color: #004aad; /* Azul Institucional */
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-color: #333;
+            --border-color: #e0e0e0;
+            --income-color: #2e7d32; /* Verde oscuro */
+            --expense-color: #c62828; /* Rojo oscuro */
+            --balance-color: #0277bd; /* Azul claro para saldos */
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f2f5;
-            color: #333;
-            margin: 20px;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.5;
         }
+
         .container {
-            max-width: 800px;
-            margin: auto;
+            max-width: 900px;
+            margin: 0 auto;
         }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-bottom: 4px solid var(--primary-color);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin: 0;
+            font-size: 26px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        h2 {
+            font-size: 16px;
+            color: #666;
+            margin-top: 5px;
+            font-weight: normal;
+        }
+
+        /* Estilo de las Tarjetas Mensuales */
+        .month-card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            overflow: hidden; /* Para que el borde redondeado funcione con el header */
+            page-break-inside: avoid;
+        }
+
+        .month-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 20px;
+            font-weight: bold;
+            font-size: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 30px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            background-color: #fff;
         }
-        caption {
-            font-size: 1.5em;
-            font-weight: bold;
-            padding: 10px;
-            background-color: #005A9C;
-            color: white;
-            text-align: left;
-        }
+
         th, td {
-            padding: 12px 15px;
-            border-bottom: 1px solid #ddd;
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
         }
-        thead th {
-            background-color: #e9f2f9;
-            color: #333;
-            font-weight: bold;
+
+        /* Columnas */
+        td:first-child {
             text-align: left;
+            color: #555;
+            font-weight: 500;
         }
-        tbody tr:nth-child(even) {
-            background-color: #f8f9fa;
-        }
-        td:nth-child(1) {
-            text-align: left;
-        }
-        td:nth-child(2), td:nth-child(3) {
+
+        td:last-child {
             text-align: right;
-            font-family: 'Courier New', Courier, monospace;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-weight: 600;
         }
+
+        /* Filas específicas */
+        .row-saldo-anterior {
+            background-color: #f8f9fa;
+            color: #666;
+            font-style: italic;
+        }
+
+        .row-ingreso {
+            color: var(--income-color) !important;
+        }
+
+        .row-egreso td:last-child {
+            color: var(--expense-color);
+        }
+
+        /* Footer del mes */
         tfoot {
-            font-weight: bold;
-            background-color: #e9f2f9;
+            background-color: #e1f5fe;
+            border-top: 2px solid var(--primary-color);
         }
-        .negativo {
-            color: #d9534f;
+
+        tfoot td {
+            font-size: 16px;
+            color: var(--primary-color);
+            font-weight: bold !important;
+            padding-top: 15px;
+            padding-bottom: 15px;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            th, td {
+                padding: 10px 15px;
+            }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
+    <header>
+        <h1>Sindicato Cenco 2</h1>
+        <h2>Informe de Tesorería Enero - Octubre 2024</h2>
+    </header>
 
-    <table>
-        <caption>ENERO</caption>
-        <thead>
-            <tr>
-                <th>CUENTA</th>
-                <th>Salidas</th>
-                <th>Entradas</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Beneficios Sindicales</td>
-                <td class="negativo">-$360.000</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Cooperativa Lautaro</td>
-                <td class="negativo">-$9.255.695</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Cuota Ord.</td>
-                <td class="negativo">-$993.875</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Cuota Extra</td>
-                <td></td>
-                <td>$6.882.857</td>
-            </tr>
-            <tr>
-                <td>Gastos Directorio</td>
-                <td></td>
-                <td>$4.632.000</td>
-            </tr>
-            <tr>
-                <td>Gastos Presentacion Tecnologica</td>
-                <td class="negativo">-$3.109.760</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Imovistar</td>
-                <td class="negativo">-$188.596</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Pago Banco</td>
-                <td class="negativo">-$10.000</td>
-                <td></td>
-            </tr>
-        </tbody>
-        <tfoot>
-            <tr>
-                <td>Total general</td>
-                <td class="negativo">-$10.977.526</td>
-                <td>$11.514.857</td>
-            </tr>
-        </tfoot>
-    </table>
+    <div class="month-card">
+        <div class="month-header">ENERO</div>
+        <table>
+            <tbody>
+                <tr class="row-saldo-anterior"><td>Saldo Anterior</td><td>45 pesos</td></tr>
+                <tr class="row-ingreso"><td>INGRESOS</td><td>$11.514.857</td></tr>
+                
+                <tr class="row-egreso"><td>Cooperativas y Convenios</td><td>-$6.538.170</td></tr>
+                <tr class="row-egreso"><td>Plan Socios Movistar</td><td>-$308.596</td></tr>
+                <tr class="row-egreso"><td>Gastos Directorio</td><td>-$1.329.200</td></tr>
+                <tr class="row-egreso"><td>Horas Sindicales</td><td>-$779.855</td></tr>
+                <tr class="row-egreso"><td>Visitas Locales</td><td>-$57.200</td></tr>
+                <tr class="row-egreso"><td>Viáticos</td><td>-$392.862</td></tr>
+                <tr class="row-egreso"><td>Papelería</td><td>-$12.330</td></tr>
+                <tr class="row-egreso"><td>Bancos</td><td>-$3.500</td></tr>
+                <tr class="row-egreso"><td>Asesorías Legales</td><td>-$300.000</td></tr>
+                <tr class="row-egreso"><td>Aplicación</td><td>-$508.000</td></tr>
+                <tr class="row-egreso"><td>Beneficios</td><td>-$360.000</td></tr>
+                <tr class="row-egreso"><td>Devoluciones</td><td>-$148.454</td></tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>SALDO ACTUAL</td>
+                    <td>$541.789</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
 
-    <table>
-        <caption>FEBRERO</caption>
-        <thead>
-            <tr>
-                <th>CUENTA</th>
-                <th>Salidas</th>
-                <th>Entradas</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Aporte Negociacion</td>
-                <td></td>
-                <td>$211.244.206</td>
-            </tr>
-            <tr>
-                <td>Beneficios Sindicales</td>
-                <td class="negativo">-$64.068</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Copaccel</td>
-                <td class="negativo">-$5.415.621</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Cooperativa Lautaro</td>
-                <td class="negativo">-$829.171</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Cuota Extra</td>
-                <td></td>
-                <td>$4.728.000</td>
-            </tr>
-            <tr>
-                <td>Cuota Ord.</td>
-                <td></td>
-                <td>$6.370.837</td>
-            </tr>
-            <tr>
-                <td>Gastos Directorio</td>
-                <td class="negativo">-$1.917.033</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Implementacion Tecnologica</td>
-                <td class="negativo">-$552.125</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Imovistar</td>
-                <td class="negativo">-$188.596</td>
-                <td></td>
-            </tr>
-             <tr>
-                <td>Pago Banco</td>
-                <td class="negativo">-$16.468</td>
-                <td></td>
-            </tr>
-        </tbody>
-        <tfoot>
-            <tr>
-                <td>Total general</td>
-                <td class="negativo">-$9.003.082</td>
-                <td>$222.343.043</td>
-            </tr>
-        </tfoot>
-    </table>
+    <div class="month-card">
+        <div class="month-header">FEBRERO</div>
+        <table>
+            <tbody>
+                <tr class="row-saldo-anterior"><td>Saldo Anterior</td><td>$541.789</td></tr>
+                <tr class="row-ingreso"><td>INGRESOS</td><td>$222.343.043</td></tr>
+                
+                <tr class="row-egreso"><td>Cooperativas y Convenios</td><td>-$6.250.192</td></tr>
+                <tr class="row-egreso"><td>Plan Socios Movistar</td><td>-$188.596</td></tr>
+                <tr class="row-egreso"><td>Gastos Directorio</td><td>-$1.074.587</td></tr>
+                <tr class="row-egreso"><td>Horas Sindicales</td><td>-$610.998</td></tr>
+                <tr class="row-egreso"><td>Viáticos</td><td>-$231.180</td></tr>
+                <tr class="row-egreso"><td>Asesorías Legales</td><td>-$583.193</td></tr>
+                <tr class="row-egreso"><td>Devoluciones</td><td>-$64.068</td></tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>SALDO ACTUAL</td>
+                    <td>$213.881.750</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
 
-    <table>
-        <caption>MARZO</caption>
-        <thead>
-            <tr>
-                <th>CUENTA</th>
-                <th>Salidas</th>
-                <th>Entradas</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Beneficios Sindicales</td>
-                <td class="negativo">-$202.960.800</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Beneficios Sindicales</td>
-                <td class="negativo">-$8.220.926</td>
-                <td>$3.470.000</td>
-            </tr>
-            <tr>
-                <td>Copaccel</td>
-                <td class="negativo">-$426.546</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Cooperativa Lautaro</td>
-                <td></td>
-                <td>$247.789</td>
-            </tr>
-            <tr>
-                <td>Cuota Extra</td>
-                <td></td>
-                <td>$4.844.072</td>
-            </tr>
-            <tr>
-                <td>Cuota Ord.</td>
-                <td></td>
-                <td>$7.760.400</td>
-            </tr>
-            <tr>
-                <td>Gastos Directorio</td>
-                <td class="negativo">-$5.677.116</td>
-                <td>$40.000</td>
-            </tr>
-            <tr>
-                <td>Pago Banco</td>
-                <td class="negativo">-$889.819</td>
-                <td></td>
-            </tr>
-        </tbody>
-        <tfoot>
-            <tr>
-                <td>Total general</td>
-                <td class="negativo">-$218.784.207</td>
-                <td>$16.522.261</td>
-            </tr>
-        </tfoot>
-    </table>
+    <div class="month-card">
+        <div class="month-header">MARZO</div>
+        <table>
+            <tbody>
+                <tr class="row-saldo-anterior"><td>Saldo Anterior</td><td>$213.881.750</td></tr>
+                <tr class="row-ingreso"><td>INGRESOS</td><td>$29.222.261</td></tr>
+                
+                <tr class="row-egreso"><td>Cooperativas y Convenios</td><td>-$7.471.723</td></tr>
+                <tr class="row-egreso"><td>Plan Socios Movistar</td><td>-$317.596</td></tr>
+                <tr class="row-egreso"><td>Gastos Directorio</td><td>-$300.000</td></tr>
+                <tr class="row-egreso"><td>Horas Sindicales</td><td>-$52.116</td></tr>
+                <tr class="row-egreso"><td>Visitas Locales</td><td>-$88.000</td></tr>
+                <tr class="row-egreso"><td>Viáticos</td><td>-$1.214.839</td></tr>
+                <tr class="row-egreso"><td>Papelería</td><td>-$2.070</td></tr>
+                <tr class="row-egreso"><td>Pago Arriendo Espacios</td><td>-$156.000</td></tr>
+                <tr class="row-egreso"><td>Bancos</td><td>-$889.819</td></tr>
+                <tr class="row-egreso"><td>Cuenta Ahorro</td><td>-$1.800.000</td></tr>
+                <tr class="row-egreso"><td>Asesorías Legales</td><td>-$5.000.000</td></tr>
+                <tr class="row-egreso"><td>Aplicación</td><td>-$260.742</td></tr>
+                <tr class="row-egreso"><td>Devoluciones</td><td>-$163.187</td></tr>
+                <tr class="row-egreso"><td>Término de Conflicto</td><td>-$209.584.800</td></tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>SALDO ACTUAL</td>
+                    <td>$15.592.980</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
 
-    <table>
-        <caption>ABRIL</caption>
-        <thead>
-            <tr>
-                <th>Cuentas</th>
-                <th>Salidas</th>
-                <th>Entradas</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>ASESORIAS SINDICALES</td>
-                <td></td>
-                <td>$1.500.000</td>
-            </tr>
-            <tr>
-                <td>BENEFICIOS ASOCIADOS</td>
-                <td></td>
-                <td>$100.000</td>
-            </tr>
-            <tr>
-                <td>GASTOM DIRECTORIO</td>
-                <td></td>
-                <td>$53.980</td>
-            </tr>
-            <tr>
-                <td>GASTOS BANCARIOS</td>
-                <td></td>
-                <td>$3.985</td>
-            </tr>
-            <tr>
-                <td>GASTOS DE ADMINISTRACIÓN</td>
-                <td></td>
-                <td>$336.395</td>
-            </tr>
-            <tr>
-                <td>GASTOS SINDICALES</td>
-                <td></td>
-                <td>$250.000</td>
-            </tr>
-            <tr>
-                <td>INGRESOS</td>
-                <td></td>
-                <td>$1.982.449</td>
-            </tr>
-            <tr>
-                <td>PAGO PRESTAMO DE ASOCIADOS</td>
-                <td>$6.302.480</td>
-                <td></td>
-            </tr>
-        </tbody>
-        <tfoot>
-            <tr>
-                <td>Total general</td>
-                <td>$8.788.855</td>
-                <td>$12.232.440</td>
-            </tr>
-        </tfoot>
-    </table>
+    <div class="month-card">
+        <div class="month-header">ABRIL</div>
+        <table>
+            <tbody>
+                <tr class="row-saldo-anterior"><td>Saldo Anterior</td><td>$15.592.980</td></tr>
+                <tr class="row-ingreso"><td>INGRESOS</td><td>$12.232.448</td></tr>
+                
+                <tr class="row-egreso"><td>Cooperativas y Convenios</td><td>-$6.204.250</td></tr>
+                <tr class="row-egreso"><td>Convenio Dental</td><td>-$104.230</td></tr>
+                <tr class="row-egreso"><td>Plan Socios Movistar</td><td>-$187.506</td></tr>
+                <tr class="row-egreso"><td>Gastos Directorio</td><td>-$500.000</td></tr>
+                <tr class="row-egreso"><td>Visitas Locales</td><td>-$35.000</td></tr>
+                <tr class="row-egreso"><td>Viáticos</td><td>-$80.000</td></tr>
+                <tr class="row-egreso"><td>Papelería</td><td>-$7.180</td></tr>
+                <tr class="row-egreso"><td>Asesorías Legales</td><td>-$1.500.000</td></tr>
+                <tr class="row-egreso"><td>Beneficios</td><td>-$60.000</td></tr>
+                <tr class="row-egreso"><td>Devoluciones</td><td>-$110.689</td></tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>SALDO ACTUAL</td>
+                    <td>$19.036.574</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
 
-    <table>
-        <caption>MAYO</caption>
-        <thead>
-            <tr>
-                <th>Cuentas</th>
-                <th>Salidas</th>
-                <th>Entradas</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>APORTE</td>
-                <td>$10.000.000</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>ASESORIAS SINDICALES</td>
-                <td></td>
-                <td>$1.151.521</td>
-            </tr>
-            <tr>
-                <td>BENEFICIOS ASOCIADOS</td>
-                <td>$50.000</td>
-                <td>$50.000</td>
-            </tr>
-            <tr>
-                <td>CUOTA ORD.</td>
-                <td>$4.740.000</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>CUOTA EXTRA</td>
-                <td>$5.751.784</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>GASTOM DIRECTORIO</td>
-                <td>$60.000</td>
-                <td>$289.550</td>
-            </tr>
-            <tr>
-                <td>GASTOS BANCARIOS</td>
-                <td></td>
-                <td>$6.940</td>
-            </tr>
-            <tr>
-                <td>GASTOS DE ADMINISTRACIÓN</td>
-                <td></td>
-                <td>$215.310</td>
-            </tr>
-            <tr>
-                <td>HORAS SINDICALES</td>
-                <td></td>
-                <td>$59.613</td>
-            </tr>
-            <tr>
-                <td>PAGO PRESTAMO DE ASOCIADOS</td>
-                <td></td>
-                <td>$6.899.154</td>
-            </tr>
-        </tbody>
-        <tfoot>
-            <tr>
-                <td>Total general</td>
-                <td>$21.182.894</td>
-                <td>$8.672.988</td>
-            </tr>
-        </tfoot>
-    </table>
+    <div class="month-card">
+        <div class="month-header">MAYO</div>
+        <table>
+            <tbody>
+                <tr class="row-saldo-anterior"><td>Saldo Anterior</td><td>$19.036.574</td></tr>
+                <tr class="row-ingreso"><td>INGRESOS</td><td>$21.182.894</td></tr>
+                
+                <tr class="row-egreso"><td>Cooperativas y Convenios</td><td>-$6.350.493</td></tr>
+                <tr class="row-egreso"><td>Plan Socios Movistar</td><td>-$309.810</td></tr>
+                <tr class="row-egreso"><td>Gastos Directorio</td><td>-$510.000</td></tr>
+                <tr class="row-egreso"><td>Horas Sindicales</td><td>-$155.254</td></tr>
+                <tr class="row-egreso"><td>Visitas Locales</td><td>-$56.360</td></tr>
+                <tr class="row-egreso"><td>Viáticos</td><td>-$33.650</td></tr>
+                <tr class="row-egreso"><td>Papelería</td><td>-$21.010</td></tr>
+                <tr class="row-egreso"><td>Bancos</td><td>-$4.890</td></tr>
+                <tr class="row-egreso"><td>Asesorías Legales</td><td>-$650.000</td></tr>
+                <tr class="row-egreso"><td>Aplicación</td><td>-$551.521</td></tr>
+                <tr class="row-egreso"><td>Beneficios</td><td>-$30.000</td></tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>SALDO ACTUAL</td>
+                    <td>$31.546.480</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
 
-    <table>
-        <caption>JUNIO</caption>
-        <thead>
-            <tr>
-                <th>Cuentas</th>
-                <th>Salidas</th>
-                <th>Entradas</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>APORTES SINDICALES (INGRESOS)</td>
-                <td>$11.400.387</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>ASESORIAS SINDICALES</td>
-                <td></td>
-                <td>$300.000</td>
-            </tr>
-            <tr>
-                <td>BENEFICIOS ASOCIADOS</td>
-                <td></td>
-                <td>$600.000</td>
-            </tr>
-            <tr>
-                <td>FONDOS MUTUOS</td>
-                <td></td>
-                <td>$30.000.000</td>
-            </tr>
-            <tr>
-                <td>GASTOM DIRECTORIO</td>
-                <td></td>
-                <td>$1.457.751</td>
-            </tr>
-            <tr>
-                <td>GASTOS BANCARIOS</td>
-                <td></td>
-                <td>$6.000</td>
-            </tr>
-            <tr>
-                <td>GASTOS DE ADMINISTRACIÓN</td>
-                <td>$1.753.400</td>
-                <td>$301.636</td>
-            </tr>
-            <tr>
-                <td>HORAS SINDICALES</td>
-                <td></td>
-                <td>$500.000</td>
-            </tr>
-            <tr>
-                <td>PAGO DE CUOTA PRESTAMOS</td>
-                <td></td>
-                <td>$954.000</td>
-            </tr>
-            <tr>
-                <td>PAGO DE CUOTA PRESTAMOS SINDICATO</td>
-                <td></td>
-                <td>$4.087.639</td>
-            </tr>
-        </tbody>
-        <tfoot>
-            <tr>
-                <td>Total general</td>
-                <td>$13.153.787</td>
-                <td>$38.216.789</td>
-            </tr>
-        </tfoot>
-    </table>
+    <div class="month-card">
+        <div class="month-header">JUNIO</div>
+        <table>
+            <tbody>
+                <tr class="row-saldo-anterior"><td>Saldo Anterior</td><td>$31.546.480</td></tr>
+                <tr class="row-ingreso"><td>INGRESOS</td><td>$13.153.787</td></tr>
+                
+                <tr class="row-egreso"><td>Cooperativas y Convenios</td><td>-$6.506.520</td></tr>
+                <tr class="row-egreso"><td>Plan Socios Movistar</td><td>-$189.810</td></tr>
+                <tr class="row-egreso"><td>Gastos Directorio</td><td>-$500.000</td></tr>
+                <tr class="row-egreso"><td>Horas Sindicales</td><td>-$183.876</td></tr>
+                <tr class="row-egreso"><td>Visitas Locales</td><td>-$41.682</td></tr>
+                <tr class="row-egreso"><td>Viáticos</td><td>-$5.125</td></tr>
+                <tr class="row-egreso"><td>Papelería</td><td>-$5.490</td></tr>
+                <tr class="row-egreso"><td>Bancos (Inv. Fondos Mutuos)</td><td>-$30.000.000</td></tr>
+                <tr class="row-egreso"><td>Asesorías Legales</td><td>-$300.000</td></tr>
+                <tr class="row-egreso"><td>Beneficios</td><td>-$600.000</td></tr>
+                <tr class="row-egreso"><td>Devoluciones</td><td>-$30.000</td></tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>SALDO ACTUAL</td>
+                    <td>$5.983.482</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
 
-    <table>
-        <caption>JULIO</caption>
-        <thead>
-            <tr>
-                <th>Cuentas</th>
-                <th>Salidas</th>
-                <th>Entradas</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>ASESORIAS SINDICALES</td>
-                <td></td>
-                <td>$1.358.921</td>
-            </tr>
-            <tr>
-                <td>BENEFICIOS ASOCIADOS</td>
-                <td></td>
-                <td>$1.250.000</td>
-            </tr>
-            <tr>
-                <td>FONDOS MUTUOS</td>
-                <td>$20.081.806</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>GASTOM DIRECTORIO</td>
-                <td></td>
-                <td>$1.125.332</td>
-            </tr>
-            <tr>
-                <td>GASTOS BANCARIOS</td>
-                <td></td>
-                <td>$6.009</td>
-            </tr>
-            <tr>
-                <td>GASTOS DE ADMINISTRACIÓN</td>
-                <td></td>
-                <td>$355.733</td>
-            </tr>
-            <tr>
-                <td>GASTOS SINDICALES</td>
-                <td></td>
-                <td>$500.000</td>
-            </tr>
-            <tr>
-                <td>INGRESOS</td>
-                <td>$11.986.041</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>PAGO DE PRESTAMO DE ASOCIADOS</td>
-                <td></td>
-                <td>$6.082.239</td>
-            </tr>
-        </tbody>
-        <tfoot>
-            <tr>
-                <td>Total general</td>
-                <td>$32.067.847</td>
-                <td>$10.678.234</td>
-            </tr>
-        </tfoot>
-    </table>
+    <div class="month-card">
+        <div class="month-header">JULIO</div>
+        <table>
+            <tbody>
+                <tr class="row-saldo-anterior"><td>Saldo Anterior</td><td>$5.983.482</td></tr>
+                <tr class="row-ingreso"><td>INGRESOS</td><td>$32.067.847</td></tr>
+                
+                <tr class="row-egreso"><td>Cooperativas y Convenios</td><td>-$5.916.039</td></tr>
+                <tr class="row-egreso"><td>Convenio Dental</td><td>-$104.230</td></tr>
+                <tr class="row-egreso"><td>Plan Socios Movistar</td><td>-$250.653</td></tr>
+                <tr class="row-egreso"><td>Gastos Directorio</td><td>-$813.500</td></tr>
+                <tr class="row-egreso"><td>Horas Sindicales</td><td>-$71.891</td></tr>
+                <tr class="row-egreso"><td>Visitas Locales</td><td>-$87.000</td></tr>
+                <tr class="row-egreso"><td>Viáticos</td><td>-$40.000</td></tr>
+                <tr class="row-egreso"><td>Papelería</td><td>-$921.400</td></tr>
+                <tr class="row-egreso"><td>Asesorías Legales</td><td>-$500.000</td></tr>
+                <tr class="row-egreso"><td>Aplicación</td><td>-$559.321</td></tr>
+                <tr class="row-egreso"><td>Beneficios</td><td>-$1.320.000</td></tr>
+                <tr class="row-egreso"><td>Devoluciones</td><td>-$22.200</td></tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>SALDO ACTUAL</td>
+                    <td>$27.373.095</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
 
-    <table>
-        <caption>AGOSTO</caption>
-        <thead>
-            <tr>
-                <th>CUENTA</th>
-                <th>Ingresos</th>
-                <th>Egresos</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>ASESORIAS SINDICALES</td>
-                <td></td>
-                <td>$200.000</td>
-            </tr>
-            <tr>
-                <td>BENEFICIOS ASOCIADOS</td>
-                <td></td>
-                <td>$850.500</td>
-            </tr>
-            <tr>
-                <td>GASTOM DIRECTORIO</td>
-                <td></td>
-                <td>$54.100</td>
-            </tr>
-            <tr>
-                <td>GASTOS SINDICALES</td>
-                <td></td>
-                <td>$659.657</td>
-            </tr>
-            <tr>
-                <td>HORAS SINDICALES</td>
-                <td></td>
-                <td>$5.786.887</td>
-            </tr>
-            <tr>
-                <td>INGRESOS</td>
-                <td>$30.902.397</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>PAGO DE PRESTAMO DE ASOCIADOS</td>
-                <td></td>
-                <td>$6.605.700</td>
-            </tr>
-        </tbody>
-        <tfoot>
-            <tr>
-                <td>Total general</td>
-                <td>$30.902.397</td>
-                <td>$6.615.700</td>
-            </tr>
-        </tfoot>
-    </table>
+    <div class="month-card">
+        <div class="month-header">AGOSTO</div>
+        <table>
+            <tbody>
+                <tr class="row-saldo-anterior"><td>Saldo Anterior</td><td>$27.373.095</td></tr>
+                <tr class="row-ingreso"><td>INGRESOS</td><td>$30.902.397</td></tr>
+                
+                <tr class="row-egreso"><td>Cooperativas y Convenios</td><td>-$6.130.294</td></tr>
+                <tr class="row-egreso"><td>Plan Socios Movistar</td><td>-$190.653</td></tr>
+                <tr class="row-egreso"><td>Gastos Directorio</td><td>-$850.000</td></tr>
+                <tr class="row-egreso"><td>Horas Sindicales</td><td>-$75.301</td></tr>
+                <tr class="row-egreso"><td>Visitas Locales</td><td>-$44.000</td></tr>
+                <tr class="row-egreso"><td>Viáticos</td><td>-$50.150</td></tr>
+                <tr class="row-egreso"><td>Papelería</td><td>-$4.980</td></tr>
+                <tr class="row-egreso"><td>Pago Arriendo Espacios</td><td>-$72.000</td></tr>
+                <tr class="row-egreso"><td>Bancos</td><td>-$250</td></tr>
+                <tr class="row-egreso"><td>Aplicación</td><td>-$310.867</td></tr>
+                <tr class="row-egreso"><td>Beneficios</td><td>-$930.000</td></tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>SALDO ACTUAL</td>
+                    <td>$49.662.317</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <div class="month-card">
+        <div class="month-header">SEPTIEMBRE</div>
+        <table>
+            <tbody>
+                <tr class="row-saldo-anterior"><td>Saldo Anterior</td><td>$49.662.317</td></tr>
+                <tr class="row-ingreso"><td>INGRESOS</td><td>$11.546.525</td></tr>
+                
+                <tr class="row-egreso"><td>Cooperativas y Convenios</td><td>-$5.776.702</td></tr>
+                <tr class="row-egreso"><td>Plan Socios Movistar</td><td>-$310.653</td></tr>
+                <tr class="row-egreso"><td>Gastos Directorio</td><td>-$200.000</td></tr>
+                <tr class="row-egreso"><td>Horas Sindicales</td><td>-$384.468</td></tr>
+                <tr class="row-egreso"><td>Visitas Locales</td><td>-$65.760</td></tr>
+                <tr class="row-egreso"><td>Viáticos</td><td>-$30.600</td></tr>
+                <tr class="row-egreso"><td>Pago Arriendo Espacios</td><td>-$12.000</td></tr>
+                <tr class="row-egreso"><td>Bancos</td><td>-$650.233</td></tr>
+                <tr class="row-egreso"><td>Asesorías Legales</td><td>-$650.000</td></tr>
+                <tr class="row-egreso"><td>Aplicación</td><td>-$299.577</td></tr>
+                <tr class="row-egreso"><td>Beneficios</td><td>-$660.000</td></tr>
+                <tr class="row-egreso"><td>Devoluciones</td><td>-$5.000</td></tr>
+                <tr class="row-egreso"><td>Giftcards</td><td>-$31.640.000</td></tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>SALDO ACTUAL</td>
+                    <td>$20.535.849</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <div class="month-card">
+        <div class="month-header">OCTUBRE</div>
+        <table>
+            <tbody>
+                <tr class="row-saldo-anterior"><td>Saldo Anterior</td><td>$20.535.849</td></tr>
+                <tr class="row-ingreso"><td>INGRESOS</td><td>$30.280.923</td></tr>
+                
+                <tr class="row-egreso"><td>Cooperativas y Convenios</td><td>-$6.193.692</td></tr>
+                <tr class="row-egreso"><td>Convenio Dental</td><td>-$104.230</td></tr>
+                <tr class="row-egreso"><td>Plan Socios Movistar</td><td>-$251.128</td></tr>
+                <tr class="row-egreso"><td>Gastos Directorio</td><td>-$520.000</td></tr>
+                <tr class="row-egreso"><td>Horas Sindicales</td><td>-$255.801</td></tr>
+                <tr class="row-egreso"><td>Visitas Locales</td><td>-$131.060</td></tr>
+                <tr class="row-egreso"><td>Viáticos</td><td>-$114.300</td></tr>
+                <tr class="row-egreso"><td>Asesorías Legales</td><td>-$200.000</td></tr>
+                <tr class="row-egreso"><td>Aplicación</td><td>-$304.400</td></tr>
+                <tr class="row-egreso"><td>Beneficios</td><td>-$360.000</td></tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>SALDO ACTUAL</td>
+                    <td>$42.382.161</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
 
 </div>
 
