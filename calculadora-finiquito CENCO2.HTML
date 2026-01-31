@@ -1,0 +1,118 @@
+<div id="calculadora-finiquito" style="background: #ffffff; padding: 25px; border-radius: 12px; border: 3px solid #e21d26; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 550px; margin: auto; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+    <div class="no-print">
+        <h3 style="color: #e21d26; text-align: center; margin-bottom: 5px;">Calculadora de Finiquito</h3>
+        <p style="font-size: 13px; text-align: center; color: #555; margin-bottom: 20px;">Sindicato Nacional Cencosud N°2</p>
+
+        <label style="font-weight: bold; font-size: 14px;">Monto Imponible Mensual (Art. 172):</label>
+        <small style="display: block; color: #666; margin-bottom: 5px;">Sueldo base, gratificación, comisiones y bonos permanentes.</small>
+        <input type="number" id="sueldo" placeholder="Ej: 850000" style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 15px;">
+
+        <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+            <div style="flex: 1;">
+                <label style="font-weight: bold; font-size: 14px;">Fecha de Contratación:</label>
+                <input type="date" id="fechaInicio" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+            </div>
+            <div style="flex: 1;">
+                <label style="font-weight: bold; font-size: 14px;">Fecha de Término:</label>
+                <input type="date" id="fechaFin" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+            </div>
+        </div>
+
+        <label style="display: block; margin-bottom: 15px; background: #fef2f2; padding: 10px; border-radius: 5px; cursor: pointer;">
+            <input type="checkbox" id="aviso"> <strong>¿Se dio aviso previo (30 días)?</strong>
+        </label>
+
+        <button onclick="calcularFiniquito()" style="width: 100%; background: #e21d26; color: white; border: none; padding: 15px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold;">CALCULAR ESTIMACIÓN</button>
+    </div>
+
+    <div id="resultado" style="margin-top: 25px; padding: 20px; background: #f8f9fa; border-left: 5px solid #e21d26; display: none; border-radius: 5px;">
+        <h4 class="only-print" style="display:none; text-align:center; color:#e21d26;">Estimación de Finiquito - Sindicato Cenco2</h4>
+        
+        <p style="margin: 5px 0;">Tiempo total: <strong id="resTiempoTotal">0</strong></p>
+        <p style="margin: 5px 0;">Años a pagar: <strong id="resAnosTexto">0</strong> <small id="notaTope" style="color:red; display:none;">(Tope legal de 11 años aplicado)</small></p>
+        
+        <p style="margin: 5px 0;">Indemnización Años de Servicio: <span id="resAnos" style="float: right; font-weight: bold;">$0</span></p>
+        <p style="margin: 5px 0;">Mes de Aviso (Sustitutiva): <span id="resAviso" style="float: right; font-weight: bold;">$0</span></p>
+        <p style="margin: 5px 0;">Feriado Proporcional (Último periodo): <span id="resVacas" style="float: right; font-weight: bold;">$0</span></p>
+        
+        <hr style="margin: 15px 0; border: 0; border-top: 1px solid #ddd;">
+        <h3 style="color: #e21d26; margin: 0;">Total Estimado: <span id="resTotal" style="float: right;">$0</span></h3>
+        
+        <div class="no-print" style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;">
+            <button onclick="window.print()" style="background: #6c757d; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer;">🖨️ Imprimir Resultado</button>
+            
+            <a id="btnWhatsapp" href="#" target="_blank" style="background: #25D366; color: white; border: none; padding: 12px; border-radius: 5px; cursor: pointer; text-decoration: none; text-align: center; font-weight: bold; font-size: 14px;">
+                💬 Necesito abogado (Recuperar 30% AFC)
+            </a>
+        </div>
+        <p style="font-size: 11px; color: #777; margin-top: 15px;">*Cálculo referencial según Art. 172. No considera descuentos previsionales.</p>
+    </div>
+</div>
+
+<style>
+@media print {
+    .no-print { display: none !important; }
+    .only-print { display: block !important; }
+    #calculadora-finiquito { border: none !important; box-shadow: none !important; padding: 0 !important; }
+    #resultado { display: block !important; background: white !important; border: 1px solid #eee !important; }
+}
+</style>
+
+<script>
+function calcularFiniquito() {
+    const sueldo = parseFloat(document.getElementById('sueldo').value) || 0;
+    const fInicio = new Date(document.getElementById('fechaInicio').value);
+    const fFin = new Date(document.getElementById('fechaFin').value);
+    const avisoPrevio = document.getElementById('aviso').checked;
+
+    if (isNaN(fInicio) || isNaN(fFin)) { alert("Por favor, ingresa ambas fechas."); return; }
+    
+    let diffMs = fFin - fInicio;
+    let totalDias = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    if (totalDias < 0) { alert("La fecha de término es anterior a la de inicio."); return; }
+
+    // 1. Años de Servicio (Art. 163)
+    let anosCompletos = Math.floor(totalDias / 365);
+    let diasRestantes = totalDias % 365;
+    let mesesRestantes = Math.floor(diasRestantes / 30.44);
+
+    let anosAPagar = (mesesRestantes > 6) ? anosCompletos + 1 : anosCompletos;
+    
+    // Aplicar tope de 11 años
+    if (anosAPagar > 11) {
+        anosAPagar = 11;
+        document.getElementById('notaTope').style.display = 'inline';
+    } else {
+        document.getElementById('notaTope').style.display = 'none';
+    }
+
+    let totalIAS = anosAPagar * sueldo;
+
+    // 2. Mes de Aviso
+    let totalAviso = avisoPrevio ? 0 : sueldo;
+
+    // 3. Feriado Proporcional (SOLO sobre el último año parcial)
+    // Se calculan los meses trabajados desde el último aniversario
+    let mesesParaVacaciones = mesesRestantes + ( (diasRestantes % 30.44) / 30.44 );
+    let diasVacasDerecho = mesesParaVacaciones * 1.25; 
+    let totalVacas = (sueldo / 30) * diasVacasDerecho;
+
+    let totalFinal = totalIAS + totalAviso + totalVacas;
+
+    // Mostrar Resultados
+    document.getElementById('resTiempoTotal').innerText = anosCompletos + " años, " + mesesRestantes + " meses";
+    document.getElementById('resAnosTexto').innerText = anosAPagar + " años";
+    document.getElementById('resAnos').innerText = '$' + Math.round(totalIAS).toLocaleString('es-CL');
+    document.getElementById('resAviso').innerText = '$' + Math.round(totalAviso).toLocaleString('es-CL');
+    document.getElementById('resVacas').innerText = '$' + Math.round(totalVacas).toLocaleString('es-CL');
+    
+    const totalTexto = '$' + Math.round(totalFinal).toLocaleString('es-CL');
+    document.getElementById('resTotal').innerText = totalTexto;
+
+    // WhatsApp Dinámico
+    const mensaje = encodeURIComponent("Hola, mi finiquito estimado es " + totalTexto + ". Fui despedido por Necesidades de la Empresa y busco abogado para recuperar el 30% del descuento AFC.");
+    document.getElementById('btnWhatsapp').href = "https://wa.me/56944360655?text=" + mensaje;
+
+    document.getElementById('resultado').style.display = 'block';
+}
+</script>
