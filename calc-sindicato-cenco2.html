@@ -1,0 +1,177 @@
+<div id="calc-sindicato-cenco2-final" style="font-family: 'Segoe UI', Tahoma, sans-serif; width: 100%; max-width: 950px; margin: auto; border: 1px solid #ddd; border-radius: 12px; background: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden;">
+    
+    <div style="background: #e21d26; color: white; padding: 20px; text-align: center;">
+        <h2 style="margin: 0; font-size: 24px;">Calculadora de Beneficios Contrato Colectivo</h2>
+        <p style="margin: 5px 0 0; opacity: 0.9; font-size: 14px;">Vigencia: 2025 - 2028 </p>
+    </div>
+
+    <div style="padding: 20px;">
+        <div style="background: #fdf2f2; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+            <div style="display: flex; flex-wrap: wrap; gap: 15px;">
+                <div style="flex: 1; min-width: 200px;">
+                    <label style="font-weight: bold; font-size: 13px;">Fecha de Ingreso:</label>
+                    <input type="date" id="fIngreso" onchange="calcularTodo()" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                </div>
+                <div style="flex: 1; min-width: 200px;">
+                    <label style="font-weight: bold; font-size: 13px;">IMM Actual ($):</label>
+                    <input type="number" id="imm" value="539000" onchange="calcularTodo()" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                </div>
+                <div style="flex: 1; min-width: 200px;">
+                    <label style="font-weight: bold; font-size: 13px;">Jornada:</label>
+                    <select id="jornada" onchange="calcularTodo()" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                        <option value="full">Full Time (44-45 hrs)</option>
+                        <option value="part30">Part Time 30 hrs</option>
+                        <option value="part20">Pick Time / 20 hrs</option>
+                    </select>
+                </div>
+                <div style="flex: 1; min-width: 200px;">
+                    <label style="font-weight: bold; font-size: 13px;">Cargo Actual:</label>
+                    <select id="cargo" onchange="calcularTodo()" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                        <option value="operador">Operador (Abarrotes, Cajas, etc)</option>
+                        <option value="primer">Primer Operador (Supervisión)</option>
+                        <option value="encargado">Encargado (Adm, Sistemas, Seg)</option>
+                        <option value="jefe">Jefatura (Jefe de Recepción/Cajas)</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div style="margin-top: 15px; padding: 10px; background: #fff; border-radius: 5px; border: 1px solid #ffeeba;">
+                <label style="font-weight: bold; color: #856404; display: block; margin-bottom: 5px;">Opción de Aguinaldo:</label>
+                <label style="font-size: 14px;"><input type="radio" name="optAguinaldo" value="tabla" checked onclick="calcularTodo()"> Por Tabla (Nuevo Contrato)</label>
+                <label style="font-size: 14px; margin-left: 15px;"><input type="radio" name="optAguinaldo" value="25" onclick="calcularTodo()"> 25% Sueldo Base (Beneficio Histórico)</label>
+            </div>
+        </div>
+
+        <div id="pantalla-resultados" style="display:none;">
+            
+            <div style="background: #e21d26; color: white; padding: 15px; border-radius: 8px; text-align: center; margin-bottom: 20px;">
+                <p style="margin: 0; font-size: 14px; opacity: 0.9;">Tu Sueldo Base Mínimo según Contrato:</p>
+                <h3 id="resSueldoBase" style="margin: 5px 0 0; font-size: 28px;">$0</h3>
+                <small id="detalleSueldo" style="font-size: 11px;"></small>
+            </div>
+
+            <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+                <div style="flex: 1; min-width: 280px; border: 1px solid #eee; padding: 15px; border-radius: 8px;">
+                    <h4 style="color: #e21d26; border-bottom: 2px solid #e21d26; margin-top: 0; padding-bottom: 5px;">Asignaciones Mensuales</h4>
+                    <p style="display: flex; justify-content: space-between;"><span>🚗 Movilizacion:</span> <b id="resMov">$0</b></p>
+                    <p style="display: flex; justify-content: space-between;"><span>🍎 Colación:</span> <b id="resCol">$0</b></p>
+                    <p style="display: flex; justify-content: space-between;"><span>✅ Presentismo:</span> <b id="resPres">$0</b></p>
+                </div>
+
+                <div style="flex: 1; min-width: 280px; border: 1px solid #eee; padding: 15px; border-radius: 8px; background: #f0f7ff;">
+                    <h4 style="color: #004085; border-bottom: 2px solid #004085; margin-top: 0; padding-bottom: 5px;">Aguinaldos</h4>
+                    <p style="display: flex; justify-content: space-between;"><span>🇨🇱 Fiestas Patrias:</span> <b id="resSept">$0</b></p>
+                    <p style="display: flex; justify-content: space-between;"><span>🎄 Navidad:</span> <b id="resDic">$0</b></p>
+                </div>
+            </div>
+
+            <div style="margin-top: 20px; padding: 15px; background: #f9f9f9; border-radius: 8px; border-left: 5px solid #e21d26;">
+                <h4 style="margin-top: 0; color: #444;">Beneficios por Evento y Antigüedad</h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px;">
+                    <div style="background: #fff; padding: 10px; border: 1px solid #ddd;">
+                        <small>💍 Nupcialidad:</small><br>
+                        <b id="resNup" style="color:#e21d26;">$0</b>
+                    </div>
+                    <div style="background: #fff; padding: 10px; border: 1px solid #ddd;">
+                        <small>👶 Natalidad:</small><br>
+                        <b id="resNat" style="color:#e21d26;">$0</b>
+                    </div>
+                    <div style="background: #fff; padding: 10px; border: 1px solid #ddd;">
+                        <small>🎖️ Premio Antigüedad:</small><br>
+                        <b id="resAnti" style="color:#e21d26;">$0</b>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="window.print()" style="width: 100%; margin-top: 20px; background: #333; color: white; border: none; padding: 15px; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 16px;">🖨️ IMPRIMIR MI INFORME DE BENEFICIOS</button>
+        </div>
+    </div>
+</div>
+
+<script>
+const R = 1.035; // Reajuste del 3.5%
+
+function calcularTodo() {
+    const fI = document.getElementById('fIngreso').value;
+    if(!fI) return;
+    document.getElementById('pantalla-resultados').style.display = 'block';
+
+    const hoy = new Date();
+    const ing = new Date(fI);
+    let anios = hoy.getFullYear() - ing.getFullYear();
+    if (hoy.getMonth() < ing.getMonth() || (hoy.getMonth() === ing.getMonth() && hoy.getDate() < ing.getDate())) anios--;
+
+    const jornada = document.getElementById('jornada').value;
+    const cargo = document.getElementById('cargo').value;
+    const imm = parseFloat(document.getElementById('imm').value) || 0;
+    const tipoAgu = document.querySelector('input[name="optAguinaldo"]:checked').value;
+
+    // --- 1. LÓGICA SUELDO BASE (TABLA 0 Y 1) ---
+    let sBase = 0;
+    let det = "";
+    if (jornada === 'full') {
+        if (cargo === 'operador') {
+            let pct = (anios >= 10) ? 0.05 : (anios >= 5 ? 0.04 : (anios >= 3 ? 0.03 : (anios >= 1 ? 0.02 : 0)));
+            sBase = imm * (1 + pct);
+            det = "IMM + " + (pct*100) + "% por antigüedad";
+        } else if (cargo === 'primer') {
+            sBase = imm * 1.15;
+            det = "Primer Operador: IMM + 15%";
+        } else if (cargo === 'encargado') {
+            sBase = imm * 1.17;
+            det = "Encargado: IMM + 17%";
+        } else {
+            sBase = imm * 1.288;
+            det = "Jefatura: IMM + 28.8%";
+        }
+    } else {
+        // Part Time (Valor Hora)
+        let hrs = (jornada === 'part30') ? 120 : 80; // Mensual aprox
+        let vHora = (imm / 180);
+        if (cargo === 'operador') {
+            if (anios >= 3) vHora *= 1.03;
+            det = "Valor Hora Mínimo" + (anios>=3?" + 3%":"");
+        } else {
+            vHora *= 1.15;
+            det = "Valor Hora Cargo: IMM/180 + 15%";
+        }
+        sBase = vHora * (jornada === 'part30' ? 120 : 80); // Ajustar a jornada real
+    }
+    document.getElementById('resSueldoBase').innerText = "$" + Math.round(sBase).toLocaleString('es-CL');
+    document.getElementById('detalleSueldo').innerText = det;
+
+    // --- 2. ASIGNACIONES MENSUALES ---
+    let mov = (jornada === 'full') ? (anios < 3 ? 51000 : 73000) : 2000;
+    let col = (jornada === 'full') ? 52431 : 2200;
+    let pres = (jornada === 'full') ? (anios < 3 ? 35000 : 50000) : 20500;
+
+    document.getElementById('resMov').innerText = "$" + Math.round(mov * R).toLocaleString('es-CL') + (jornada!=='full'?'/d':'');
+    document.getElementById('resCol').innerText = "$" + Math.round(col * R).toLocaleString('es-CL') + (jornada!=='full'?'/d':'');
+    document.getElementById('resPres').innerText = "$" + Math.round(pres * R).toLocaleString('es-CL');
+
+    // --- 3. AGUINALDOS (TABLA 4) ---
+    let aSept = 0; let aDic = 0;
+    if (tipoAgu === '25') {
+        aSept = sBase * 0.25; aDic = sBase * 0.25;
+    } else {
+        if (jornada === 'full') {
+            aSept = (anios < 1) ? 72000 : (anios < 2 ? 106000 : (anios < 3 ? 110000 : 130000));
+            aDic = (anios < 1) ? 72000 : (anios < 2 ? 106000 : (anios < 3 ? 110000 : 130000));
+        } else { aSept = 34000; aDic = 42000; }
+        aSept *= R; aDic *= R;
+    }
+    document.getElementById('resSept').innerText = "$" + Math.round(aSept).toLocaleString('es-CL');
+    document.getElementById('resDic').innerText = "$" + Math.round(aDic).toLocaleString('es-CL');
+
+    // --- 4. EVENTUALES ---
+    let nup = (jornada === 'full') ? 106000 : 78000;
+    let nat = (jornada === 'full') ? 78000 : 74000;
+    document.getElementById('resNup').innerText = "$" + Math.round(nup * R).toLocaleString('es-CL');
+    document.getElementById('resNat').innerText = "$" + Math.round(nat * R).toLocaleString('es-CL');
+
+    // Quinquenios
+    let anti = 0;
+    if(anios >= 20) anti = 550000; else if(anios >= 10) anti = 290000; else if(anios >= 5) anti = 195000;
+    document.getElementById('resAnti').innerText = "$" + Math.round(anti * R).toLocaleString('es-CL');
+}
+</script>
