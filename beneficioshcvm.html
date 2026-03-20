@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Consulta de Beneficios HCVM</title>
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 20px auto; padding: 20px; background-color: #f4f7f6; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        h2 { color: #0056b3; border-bottom: 2px solid #0056b3; padding-bottom: 10px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; }
+        select, input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; }
+        button { background: #0056b3; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
+        button:hover { background: #004494; }
+        .result-item { background: #e9f2ff; border-left: 5px solid #0056b3; padding: 15px; margin-bottom: 10px; border-radius: 4px; }
+        .tag { font-size: 12px; font-weight: bold; text-transform: uppercase; padding: 2px 6px; border-radius: 3px; margin-right: 5px; }
+        .sindical { background: #ffd700; color: #333; }
+        .general { background: #28a745; color: white; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Consultor de Beneficios HCVM 2025-2026</h2>
+    <p>Ingresa tus datos para ver a qué beneficios tienes derecho según el convenio vigente.</p>
+    
+    <div class="form-group">
+        <label>¿Eres socio del Sindicato?</label>
+        <select id="sindicato">
+            <option value="si">Sí, soy sindicalizado</option>
+            <option value="no">No soy sindicalizado</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Antigüedad en la empresa (años completos):</label>
+        <input type="number" id="antiguedad" value="0" min="0">
+    </div>
+
+    <div class="form-group">
+        <label>Tu Cargo / Estamento:</label>
+        <select id="cargo">
+            <option value="ADMINISTRATIVOS">Administrativo</option>
+            <option value="TECNICO PARAMEDICO">Técnico Paramédico</option>
+            <option value="ENFERMERA">Enfermera(o)</option>
+            <option value="AUXILIAR DE SERVICIOS">Auxiliar de Servicios</option>
+            <option value="MEDICO">Médico</option>
+            <option value="MATRONA">Matrona</option>
+            <option value="KINESIOLOGO">Kinesiólogo</option>
+            <option value="OTROS">Otros Profesionales/Jefaturas</option>
+        </select>
+    </div>
+
+    <button onclick="consultarBeneficios()">Consultar mis beneficios</button>
+</div>
+
+<div id="resultados"></div>
+
+<script>
+function consultarBeneficios() {
+    const esSindicalizado = document.getElementById('sindicato').value === 'si';
+    const años = parseInt(document.getElementById('antiguedad').value);
+    const cargo = document.getElementById('cargo').value;
+    const resDiv = document.getElementById('resultados');
+    resDiv.innerHTML = "<h3>Beneficios detectados:</h3>";
+
+    // Lógica de beneficios basada en el documento
+    const beneficios = [
+        {
+            titulo: "Reajuste Salarial 2026",
+            desc: "Incremento anual por IPC sin tope + 2%.",
+            aplica: () => true,
+            tipo: "General"
+        },
+        {
+            titulo: "Bono de Vacaciones",
+            desc: () => {
+                if (años < 2) return "$68.000";
+                if (años < 5) return "$85.000";
+                if (años < 7) return "$100.000";
+                return "$120.000";
+            },
+            aplica: () => true,
+            tipo: "General"
+        },
+        {
+            titulo: "Gift Card Fiestas Patrias y Navidad",
+            desc: "$35.000 líquidos cada una (10 de Septiembre y Diciembre).",
+            aplica: () => esSindicalizado,
+            tipo: "Sindical"
+        },
+        {
+            titulo: "Aguinaldos (Septiembre y Diciembre)",
+            desc: () => {
+                if (años < 1) return "$77.094 (si tienes 6-11 meses)";
+                return "$110.134";
+            },
+            aplica: () => esSindicalizado,
+            tipo: "Sindical"
+        },
+        {
+            titulo: "Bono de Antigüedad",
+            desc: "Bono mensual fijo e imponible según estamento por cada día trabajado.",
+            aplica: () => esSindicalizado && años >= 3,
+            tipo: "Sindical"
+        },
+        {
+            titulo: "Días Administrativos",
+            desc: () => {
+                if (años == 1) return "1 día";
+                if (años == 2) return "2 días";
+                if (años < 5) return "4 días";
+                if (años < 7) return "5 días";
+                if (años < 12) return "6 días";
+                return "7 días";
+            },
+            aplica: () => esSindicalizado,
+            tipo: "Sindical"
+        },
+        {
+            titulo: "Urgencia Pediátrica HCVM",
+            desc: "Copago $0 para hijos menores de 15 años.",
+            aplica: () => true,
+            tipo: "General"
+        },
+        {
+            titulo: "Exámenes de Salud Preventivos",
+            desc: "Copago $0 en batería de exámenes anuales para ti y familia directa.",
+            aplica: () => true,
+            tipo: "General"
+        },
+        {
+            titulo: "Bono Marzo",
+            desc: "$33.040 pagados junto a remuneración de marzo.",
+            aplica: () => esSindicalizado,
+            tipo: "Sindical"
+        }
+    ];
+
+    beneficios.forEach(b => {
+        if (b.aplica()) {
+            const descripcion = typeof b.desc === 'function' ? b.desc() : b.desc;
+            resDiv.innerHTML += `
+                <div class="result-item">
+                    <span class="tag ${b.tipo === 'Sindical' ? 'sindical' : 'general'}">${b.tipo}</span>
+                    <strong>${b.titulo}</strong><br>
+                    ${descripcion}
+                </div>`;
+        }
+    });
+}
+</script>
+
+</body>
+</html>
